@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for extended setup module</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="password_too_short">The password is too short! Please use at least %s characters.</label>
+			<label index="password_no_convention">%s password convention was ignored!</label>
+			<label index="password_no_conventions">%s password conventions were ignored!</label>
+			<label index="additional_text_single"> Not used convention is </label>
+			<label index="additional_text_multi"> Not used conventions are </label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="password_too_short">Ihr Passwort ist zu kurz! Bitte geben Sie mehr als %s Zeichen ein.</label>
+			<label index="password_no_convention">%s Passwortvorgabe wurde ignoriert!</label>
+			<label index="password_no_conventions">%s Passwortvorgaben wurden ignoriert!</label>
+			<label index="additional_text_single"> Nicht genutzte Vorgabe ist </label>
+			<label index="additional_text_multi"> Nicht genutzte Vorgaben sind </label>
+		</languageKey>
+	</data>
+</T3locallang>

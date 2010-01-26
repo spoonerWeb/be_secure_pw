@@ -1,0 +1,17 @@
+2010-01-17 Thomas Loeffler  <typo3@tomalo.de>
+
+	* added support for t3sec_saltedpw and saltedpasswords (make sure to install these ext before be_secure_pw)
+	* fixed: error message wrong if password too short
+	
+
+2010-01-14 Thomas Loeffler  <typo3@tomalo.de>
+
+	* added better error message and set old password if password conventions not fitted
+
+2010-01-04 Thomas Loeffler  <typo3@tomalo.de>
+
+	* fixed bug: password was md5-hashed again if password wasn't changed
+
+2009-12-10 Thomas Loeffler  <typo3@tomalo.de>
+
+	* initial code generated with kickstarter
