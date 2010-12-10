@@ -3,39 +3,15 @@
   <component name="DependencyValidationManager">
     <option name="SKIP_IMPORT_STATEMENTS" value="false" />
   </component>
+  <component name="Git.Settings">
+    <option name="CHECKOUT_INCLUDE_TAGS" value="false" />
+    <option name="UPDATE_CHANGES_POLICY" value="STASH" />
+  </component>
+  <component name="ProjectResources">
+    <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
+  </component>
   <component name="ProjectRootManager" version="2" />
   <component name="SvnBranchConfigurationManager">
-    <option name="myConfigurationMap">
-      <map>
-        <entry key="$PROJECT_DIR$">
-          <value>
-            <SvnBranchConfiguration>
-              <option name="branchMap">
-                <map>
-                  <entry key="https://svn.typo3.org/TYPO3v4/Extensions/be_secure_pw/branches">
-                    <value>
-                      <list />
-                    </value>
-                  </entry>
-                  <entry key="https://svn.typo3.org/TYPO3v4/Extensions/be_secure_pw/tags">
-                    <value>
-                      <list />
-                    </value>
-                  </entry>
-                </map>
-              </option>
-              <option name="branchUrls">
-                <list>
-                  <option value="https://svn.typo3.org/TYPO3v4/Extensions/be_secure_pw/branches" />
-                  <option value="https://svn.typo3.org/TYPO3v4/Extensions/be_secure_pw/tags" />
-                </list>
-              </option>
-              <option name="trunkUrl" value="https://svn.typo3.org/TYPO3v4/Extensions/be_secure_pw/trunk" />
-            </SvnBranchConfiguration>
-          </value>
-        </entry>
-      </map>
-    </option>
     <option name="mySupportsUserInfoFilter" value="true" />
   </component>
 </project>

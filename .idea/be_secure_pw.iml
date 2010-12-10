@@ -4,6 +4,14 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="PHP 5.3.2">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../../../../bin/php5.3/lib/php" />
+        </CLASSES>
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
 
