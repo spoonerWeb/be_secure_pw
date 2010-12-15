@@ -340,5 +340,8 @@ class ux_SC_mod_user_setup_index extends SC_mod_user_setup_index {
 
 }
 
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/be_secure_pw/v4.4/class.ux_SC_mod_user_setup_index.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/be_secure_pw/v4.4/class.ux_SC_mod_user_setup_index.php']);
+}
 
 ?>
