@@ -50,7 +50,7 @@ class user_usersetup_hook {
      * @param  SC_mod_user_setup_index $parentObj
      * @return void
      */
-    public function flashMessagesPreProcess($params, &$parentObj) {
+    public function additionalFlashMessages($params, &$parentObj) {
         $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw']);
         $params['lang']->includeLLFile('EXT:be_secure_pw/res/lang/locallang.xml');
 
@@ -69,19 +69,6 @@ class user_usersetup_hook {
             t3lib_FlashMessage::INFO
         );
 		$parentObj->content .= $flashMessage->render();
-    }
-
-
-    /**
-     * Hook function: add flash messages at the end
-     * called in index.php:SC_mod_user_setup_index->main
-     *
-     * @param  array $params
-     * @param  SC_mod_user_setup_index $parentObj
-     * @return void
-     */
-    public function flashMessagesPostProcess($params, $parentObj) {
-
     }
 
 }
