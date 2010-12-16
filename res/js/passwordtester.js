@@ -30,12 +30,17 @@ var PasswordTester;
 PasswordTester = Class.create({
     passwordStatus: 0,
     passwordField: null,
+    saveButton: null,
     colorRGB: 'white',
     message: '',
 
     initialize: function () {
         Ext.onReady(function () {
             this.passwordField = Ext.get('field_password');
+
+            this.saveButton = Ext.select('input[name="data[save]"]');
+
+            this.passwordSecure = false;
 
             this.passwordField.on('keyup', function () {
                 var password = this.passwordField.getValue();
@@ -46,7 +51,7 @@ PasswordTester = Class.create({
                 // calculates the strength of the password
                 this.calculateStrength(password);
 
-                // generates the field with the color
+                // generates the field with the image
                 this.generateImage();
 
             }, this);
@@ -77,25 +82,31 @@ PasswordTester = Class.create({
         if (this.passwordSecure == true) {
             Ext.DomHelper.insertAfter(
                     this.passwordField,
-            {
-                tag: 'img',
-                src: '../../../../typo3conf/ext/be_secure_pw/res/img/accept.png',
-                id: 'password_strength',
-                style: 'margin: 2px 0 0 5px;'
-            },
-            false
+                {
+                    tag: 'img',
+                    src: '../../../../typo3conf/ext/be_secure_pw/res/img/accept.png',
+                    id: 'password_strength',
+                    style: 'margin: 2px 0 0 5px;'
+                },
+                false
             );
+            this.saveButton.set({
+                disabled: ''
+            });
         } else {
             Ext.DomHelper.insertAfter(
                     this.passwordField,
-            {
-                tag: 'img',
-                src: '../../../../typo3conf/ext/be_secure_pw/res/img/cancel.png',
-                id: 'password_strength',
-                style: 'margin: 2px 0 0 5px;'
-            },
-            false
+                {
+                    tag: 'img',
+                    src: '../../../../typo3conf/ext/be_secure_pw/res/img/cancel.png',
+                    id: 'password_strength',
+                    style: 'margin: 2px 0 0 5px;'
+                },
+                false
             );
+            this.saveButton.set({
+                disabled: 'disabled'
+            });
         }
     }
 });

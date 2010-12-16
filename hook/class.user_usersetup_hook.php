@@ -29,7 +29,7 @@ class user_usersetup_hook {
 
 	/**
 	 * Hook-function: inject additional HTML code
-	 * called in index.php:SC_mod_user_setup_index->main
+	 * called in index.php:SC_mod_user_setup_index->init
 	 *
 	 * @param array $params
 	 * @param SC_mod_user_setup_index $parentObj
@@ -40,6 +40,48 @@ class user_usersetup_hook {
 
         #t3lib_div::debug($parentObj->doc->endOfPageJsBlock);
         $parentObj->doc->JScode .= '<script type="text/javascript" src="'.$parentObj->doc->backPath.'../typo3conf/ext/be_secure_pw/res/js/passwordtester.js"></script>';
+    }
+
+    /**
+     * Hook function: add flash messages at the beginning
+     * called in index.php:SC_mod_user_setup_index->main
+     *
+     * @param  array $params
+     * @param  SC_mod_user_setup_index $parentObj
+     * @return void
+     */
+    public function flashMessagesPreProcess($params, &$parentObj) {
+        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw']);
+        $params['lang']->includeLLFile('EXT:be_secure_pw/res/lang/locallang.xml');
+
+        $toCheckParams = array('lowercaseChar', 'capitalChar', 'digit', 'specialChar');
+        $checkParameter = array();
+        foreach ($toCheckParams as $parameter) {
+            if ($extConf[$parameter] == 1) {
+                $checkParameter[] = $params['lang']->getLL($parameter);
+            }
+        }
+
+        $flashMessage = t3lib_div::makeInstance(
+            't3lib_FlashMessage',
+            sprintf($params['lang']->getLL('beSecurePw.description'), $extConf['passwordLength'], implode(', ', $checkParameter), $extConf['patterns']),
+            $params['lang']->getLL('beSecurePw.header'),
+            t3lib_FlashMessage::INFO
+        );
+		$parentObj->content .= $flashMessage->render();
+    }
+
+
+    /**
+     * Hook function: add flash messages at the end
+     * called in index.php:SC_mod_user_setup_index->main
+     *
+     * @param  array $params
+     * @param  SC_mod_user_setup_index $parentObj
+     * @return void
+     */
+    public function flashMessagesPostProcess($params, $parentObj) {
+
     }
 
 }

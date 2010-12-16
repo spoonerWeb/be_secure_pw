@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<description>CSH of labels in the User &gt; Setup module</description>
+		<type>CSH</type>
+		<csh_table>_MOD_user_setup</csh_table>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+            <label index="option_newPassword.description">Enter a new and secure password for your backend account:</label>
+		</languageKey>
+        <languageKey index="de" type="array">
+            <label index="option_newPassword.description">Geben Sie ein neues und sicheres Passwort für Ihren Backend Zugang ein:</label>
+        </languageKey>
+	</data>
+</T3locallang>

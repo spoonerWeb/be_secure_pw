@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<description>Labels for the User &gt; Setup backend module.</description>
+		<type>module</type>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+            <label index="beSecurePw.header">Password settings</label>
+            <label index="beSecurePw.description">There are the following parameters set for setting a new password:&lt;br /&gt;
+- Password length have to be minimal &lt;b&gt;%s&lt;/b&gt; chars&lt;br /&gt;
+- Active checks in password: &lt;b&gt;%s&lt;/b&gt;&lt;br /&gt;
+- Amount of checks which have to be successful: &lt;b&gt;%s&lt;/b&gt;&lt;br /&gt;
+            </label>
+            <label index="lowercaseChar">lowercase chars</label>
+            <label index="capitalChar">capital chars</label>
+            <label index="digit">digits</label>
+            <label index="specialChar">special chars</label>
+		</languageKey>
+        <languageKey index="de" type="array">
+            <label index="beSecurePw.header">Einstellungen für das Passwort</label>
+            <label index="beSecurePw.description">Es gibt folgende Vorgaben für das Passwort:&lt;br /&gt;
+- Das Passwort muss mindestens &lt;b&gt;%s&lt;/b&gt; Zeichen haben&lt;br /&gt;
+- Aktive Prüfungen für das Passwort: &lt;b&gt;%s&lt;/b&gt;&lt;br /&gt;
+- Anzahl der Prüfungen, die erfolgreich sein müssen: &lt;b&gt;%s&lt;/b&gt;&lt;br /&gt;
+            </label>
+            <label index="lowercaseChar">Kleinbuchstaben</label>
+            <label index="capitalChar">Großbuchstaben</label>
+            <label index="digit">Zahlen</label>
+            <label index="specialChar">Sonderzeichen</label>
+        </languageKey>
+	</data>
+</T3locallang>

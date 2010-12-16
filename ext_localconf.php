@@ -3,7 +3,7 @@ if (!defined ("TYPO3_MODE")) die ("Access denied.");
 
 // here we register "tx_besecurepw_secure"
 // for editing per tca form
-$TYPO3_CONF_VARS['SC_OPTIONS']['tce']['formevals']['tx_besecurepw_secure'] = 'EXT:be_secure_pw/class.tx_besecurepw_secure.php';
+$TYPO3_CONF_VARS['SC_OPTIONS']['tce']['formevals']['tx_besecurepw_secure'] = 'EXT:be_secure_pw/lib/class.tx_besecurepw_secure.php';
 
 // for editing per "user settings"
 if (t3lib_div::int_from_ver(TYPO3_version) >= 4002000 and t3lib_div::int_from_ver(TYPO3_version) < 4003000) {
@@ -16,6 +16,8 @@ if (t3lib_div::int_from_ver(TYPO3_version) >= 4002000 and t3lib_div::int_from_ve
 
 if (t3lib_div::int_from_ver(TYPO3_version) >= 4005000) {
     $TYPO3_CONF_VARS['SC_OPTIONS']['ext/setup/mod/index.php']['initSettingsForm'][] = 'EXT:be_secure_pw/hook/class.user_usersetup_hook.php:&user_usersetup_hook->initSettingsForm';
+    $TYPO3_CONF_VARS['SC_OPTIONS']['ext/setup/mod/index.php']['flashMessagesPreProcess'][] = 'EXT:be_secure_pw/hook/class.user_usersetup_hook.php:&user_usersetup_hook->flashMessagesPreProcess';
+    $TYPO3_CONF_VARS['SC_OPTIONS']['ext/setup/mod/index.php']['flashMessagesPostProcess'][] = 'EXT:be_secure_pw/hook/class.user_usersetup_hook.php:&user_usersetup_hook->flashMessagesPostProcess';
 }
 
 ?>
