@@ -128,10 +128,6 @@ class tx_besecurepw_secure {
 		return $GLOBALS['BE_USER']->user['password'];
 	}
 
-    function localize($llKey) {
-        return ;
-    }
-
 }
 
 ?>

@@ -8,7 +8,7 @@
 		<languageKey index="default" type="array">
             <label index="beSecurePw.header">Password settings</label>
             <label index="beSecurePw.description">There are the following parameters set for setting a new password:&lt;br /&gt;
-- Password length have to be minimal &lt;b&gt;%s&lt;/b&gt; chars&lt;br /&gt;
+- Password length must be a minimum of &lt;b&gt;%s&lt;/b&gt; chars&lt;br /&gt;
 - Active checks in password: &lt;b&gt;%s&lt;/b&gt;&lt;br /&gt;
 - Amount of checks which have to be successful: &lt;b&gt;%s&lt;/b&gt;&lt;br /&gt;
             </label>

@@ -44,6 +44,7 @@ PasswordTester = Class.create({
 
             this.passwordField.on('keyup', function () {
                 var password = this.passwordField.getValue();
+
                 // set status to zero on each keyup
                 this.passwordStatus = 0;
                 this.passwordSecure = false;
@@ -53,6 +54,13 @@ PasswordTester = Class.create({
 
                 // generates the field with the image
                 this.generateImage();
+
+                if (password.length == 0) {
+                    this.saveButton.set({
+                        disabled: ''
+                    });
+                    Ext.destroy(Ext.get('password_strength'));
+                }
 
             }, this);
         }, this);

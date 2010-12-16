@@ -215,22 +215,8 @@ class ux_SC_mod_user_setup_index extends SC_mod_user_setup_index {
 			// Load Ext JS:
 		$this->doc->getPageRenderer()->loadExtJS();
 
-			// CHANGED: Added Ext JS Password Strength Tester:
-		$this->doc->loadJavascriptLib(t3lib_extMgm::extRelPath('be_secure_pw'). 'res/js/passwordtester.js');
-
 			// use a wrapper div
 		$this->content .= '<div id="user-setup-wrapper">';
-
-            // CHANGED: added configuration for javascript check
-            // BEGIN
-            // get configuration for be_secure_pw
-        $configuration_security = $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw'];
-
-            // put be_secure_pw config into js
-        $this->content .= '<script type="text/javascript">
-            var beSecurePwConf = '.json_encode(unserialize($configuration_security)).';
-        </script>';
-            // END
 
 			// Load available backend modules
 		$this->loadModules = t3lib_div::makeInstance('t3lib_loadModules');
