@@ -16,7 +16,6 @@ if (t3lib_div::int_from_ver(TYPO3_version) >= 4002000 and t3lib_div::int_from_ve
 
 if (t3lib_div::int_from_ver(TYPO3_version) >= 4005000) {
     $TYPO3_CONF_VARS['SC_OPTIONS']['ext/setup/mod/index.php']['initSettingsForm'][] = 'EXT:be_secure_pw/hook/class.user_usersetup_hook.php:&user_usersetup_hook->initSettingsForm';
-    $TYPO3_CONF_VARS['SC_OPTIONS']['ext/setup/mod/index.php']['additionalFlashMessages'][] = 'EXT:be_secure_pw/hook/class.user_usersetup_hook.php:&user_usersetup_hook->additionalFlashMessages';
 }
 
 ?>
