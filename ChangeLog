@@ -1,3 +1,8 @@
+2011-01-12 Thomas Loeffler  <typo3@tomalo.de>
+
+	* added hook for TYPO3 version 4.5 and higher
+	* pure js validation in user setup module
+
 2010-10-16 Thomas Loeffler  <typo3@tomalo.de>
 
 	* added ext config into JS for checking password in User Setup
