@@ -28,95 +28,95 @@
 
 var PasswordTester;
 PasswordTester = Class.create({
-    passwordStatus: 0,
-    passwordField: null,
-    saveButton: null,
-    colorRGB: 'white',
-    message: '',
+	passwordStatus: 0,
+	passwordField: null,
+	saveButton: null,
+	colorRGB: 'white',
+	message: '',
 
-    initialize: function () {
-        Ext.onReady(function () {
-            this.passwordField = Ext.get('field_password');
+	initialize: function () {
+		Ext.onReady(function () {
+			this.passwordField = Ext.get('field_password');
 
-            this.saveButton = Ext.select('input[name="data[save]"]');
+			this.saveButton = Ext.select('input[name="data[save]"]');
 
-            this.passwordSecure = false;
+			this.passwordSecure = false;
 
-            this.passwordField.on('keyup', function () {
-                var password = this.passwordField.getValue();
+			this.passwordField.on('keyup', function () {
+				var password = this.passwordField.getValue();
 
-                // set status to zero on each keyup
-                this.passwordStatus = 0;
-                this.passwordSecure = false;
+					// set status to zero on each keyup
+				this.passwordStatus = 0;
+				this.passwordSecure = false;
 
-                // calculates the strength of the password
-                this.calculateStrength(password);
+					// calculates the strength of the password
+				this.calculateStrength(password);
 
-                // generates the field with the image
-                this.generateImage();
+					// generates the field with the image
+				this.generateImage();
 
-                if (password.length == 0) {
-                    this.saveButton.set({
-                        disabled: ''
-                    });
-                    Ext.destroy(Ext.get('password_strength'));
-                }
+				if (password.length == 0) {
+					this.saveButton.set({
+						disabled: null
+					}, false);
+					Ext.destroy(Ext.get('password_strength'));
+				}
 
-            }, this);
-        }, this);
-    },
+			}, this);
+		}, this);
+	},
 
-    calculateStrength: function (passwordString) {
-        if (beSecurePwConf.lowercaseChar == 1 && passwordString.search(/[a-z]/) != -1) {
-            this.passwordStatus++;
-        }
-        if (beSecurePwConf.capitalChar == 1 && passwordString.search(/[A-Z]/) != -1) {
-            this.passwordStatus++;
-        }
-        if (beSecurePwConf.digit == 1 && passwordString.search(/[0-9]/) != -1) {
-            this.passwordStatus++;
-        }
-        if (beSecurePwConf.specialChar == 1 && passwordString.search(/[^0-9a-z]/i) != -1) {
-            this.passwordStatus++;
-        }
-        if (this.passwordStatus >= beSecurePwConf.patterns && passwordString.length >= beSecurePwConf.passwordLength) {
-            this.passwordSecure = true;
-        }
-    },
+	calculateStrength: function (passwordString) {
+		if (beSecurePwConf.lowercaseChar == 1 && passwordString.search(/[a-z]/) != -1) {
+			this.passwordStatus++;
+		}
+		if (beSecurePwConf.capitalChar == 1 && passwordString.search(/[A-Z]/) != -1) {
+			this.passwordStatus++;
+		}
+		if (beSecurePwConf.digit == 1 && passwordString.search(/[0-9]/) != -1) {
+			this.passwordStatus++;
+		}
+		if (beSecurePwConf.specialChar == 1 && passwordString.search(/[^0-9a-z]/i) != -1) {
+			this.passwordStatus++;
+		}
+		if (this.passwordStatus >= beSecurePwConf.patterns && passwordString.length >= beSecurePwConf.passwordLength) {
+			this.passwordSecure = true;
+		}
+	},
 
-    generateImage: function() {
-        Ext.destroy(Ext.get('password_strength'));
-        this.passwordField.setStyle('float', 'left');
-        if (this.passwordSecure == true) {
-            Ext.DomHelper.insertAfter(
-                    this.passwordField,
-                {
-                    tag: 'img',
-                    src: '../../../../typo3conf/ext/be_secure_pw/res/img/accept.png',
-                    id: 'password_strength',
-                    style: 'margin: 2px 0 0 5px;'
-                },
-                false
-            );
-            this.saveButton.set({
-                disabled: ''
-            });
-        } else {
-            Ext.DomHelper.insertAfter(
-                    this.passwordField,
-                {
-                    tag: 'img',
-                    src: '../../../../typo3conf/ext/be_secure_pw/res/img/cancel.png',
-                    id: 'password_strength',
-                    style: 'margin: 2px 0 0 5px;'
-                },
-                false
-            );
-            this.saveButton.set({
-                disabled: 'disabled'
-            });
-        }
-    }
+	generateImage: function() {
+		Ext.destroy(Ext.get('password_strength'));
+		this.passwordField.setStyle('float', 'left');
+		if (this.passwordSecure == true) {
+			Ext.DomHelper.insertAfter(
+				this.passwordField,
+			{
+				tag: 'img',
+				src: '../../../../typo3conf/ext/be_secure_pw/res/img/accept.png',
+				id: 'password_strength',
+				style: 'margin: 2px 0 0 5px;'
+			},
+				false
+			);
+			this.saveButton.set({
+				disabled: false
+			}, false);
+		} else {
+			Ext.DomHelper.insertAfter(
+				this.passwordField,
+			{
+				tag: 'img',
+				src: '../../../../typo3conf/ext/be_secure_pw/res/img/cancel.png',
+				id: 'password_strength',
+				style: 'margin: 2px 0 0 5px;'
+			},
+				false
+			);
+			this.saveButton.set({
+				disabled: 'disabled'
+			});
+		}
+	}
 });
 
 var TYPO3BackendPasswordTester = new PasswordTester();
