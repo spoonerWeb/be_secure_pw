@@ -40,7 +40,15 @@ class tx_besecurepw_secure {
 				$exit = TRUE;	
 			}
 		}
-		
+
+			// create tce object for logging
+		$tce = t3lib_div::makeInstance('t3lib_tcemain');
+		$tce->BE_USER = $GLOBALS['BE_USER'];
+			// get the languages from ext
+		$LANG = t3lib_div::makeInstance('language');
+		$LANG->init($tce->BE_USER->uc['lang']);
+		$LANG->includeLLFile('EXT:be_secure_pw/res/lang/locallang.xml');
+
 		if (!$exit) {
 			$counter = 0;
 			$notUsed = array();
@@ -50,7 +58,7 @@ class tx_besecurepw_secure {
 				if (preg_match("/[a-z]/", $value) > 0) {
 					$counter++;
 				} else {
-					$notUsed[] = 'lowercase character';
+					$notUsed[] = $LANG->getLL('lowercaseChar');
 				}
 			}
 
@@ -59,7 +67,7 @@ class tx_besecurepw_secure {
 				if (preg_match("/[A-Z]/", $value) > 0) {
 					$counter++;
 				} else {
-					$notUsed[] = 'capital character';
+					$notUsed[] = $LANG->getLL('capitalChar');
 				}
 			}
 			
@@ -68,7 +76,7 @@ class tx_besecurepw_secure {
 				if (preg_match("/[0-9]/", $value) > 0) {
 					$counter++;
 				} else {
-					$notUsed[] = 'digit';
+					$notUsed[] = $LANG->getLL('digit');
 				}
 			}
 
@@ -77,18 +85,13 @@ class tx_besecurepw_secure {
                 if (preg_match("/[^0-9a-z]/i", $value) > 0) {
                     $counter++;
 				} else {
-					$notUsed[] = 'special character';
+					$notUsed[] = $LANG->getLL('specialChar');
 				}
 			}
 		}
-		
-		// create tce object for logging
-		$tce = t3lib_div::makeInstance('t3lib_tcemain');
-		$tce->BE_USER = $GLOBALS['BE_USER'];
-        
 
 		if ($exit) { // password too short
-			$tce->log('be_users',0,5,0,1,"Attempt to modify password. The password is too short! Please use at least %s characters.", FALSE, array($passwordLength));
+			$tce->log('be_users',0,5,0,1, $LANG->getLL('shortPassword'), FALSE, array($passwordLength));
 			if ($onlyCheck) {
 				return array('errorMessage' => 'password_too_short', 'errorValue' => $passwordLength, 'notUsed' => array());
 			}
@@ -99,19 +102,19 @@ class tx_besecurepw_secure {
 			if (is_array($notUsed) and sizeof($notUsed) > 0) {
 
 				if (sizeof($notUsed) > 1) {
-					$additional = ' Not used conventions are '.implode(', ', $notUsed).'!';
+					$additional = sprintf($LANG->getLL('notUsedConventions'), implode(', ', $notUsed));
 				} else {
-					$additional = ' Not used convention is '.$notUsed[0].'!';
+					$additional = sprintf($LANG->getLL('notUsedConvention'), array_pop($notUsed));
 				}
 			}
 			
 			if ($ignoredPatterns == '1') {
-				$tce->log('be_users',0,5,0,1,"Attempt to modify password. %s password convention was ignored!".$additional, FALSE, array($ignoredPatterns));
+				$tce->log('be_users',0,5,0,1, $LANG->getLL('passwordConvention') . $additional, FALSE, array($ignoredPatterns));
 				if ($onlyCheck) {
 					return array('errorMessage' => 'password_no_convention', 'errorValue' => $ignoredPatterns, 'notUsed' => $notUsed);
 				}
 			} elseif ($ignoredPatterns > 1) {
-				$tce->log('be_users',0,5,0,1,"Attempt to modify password. %s password conventions were ignored!".$additional, FALSE, array($ignoredPatterns));
+				$tce->log('be_users',0,5,0,1, $LANG->getLL('passwordConvention') . $additional, FALSE, array($ignoredPatterns));
 				if ($onlyCheck) {
 					return array('errorMessage' => 'password_no_conventions', 'errorValue' => $ignoredPatterns, 'notUsed' => $notUsed);
 				}

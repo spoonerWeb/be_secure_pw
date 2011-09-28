@@ -16,6 +16,10 @@
             <label index="capitalChar">capital chars</label>
             <label index="digit">digits</label>
             <label index="specialChar">special chars</label>
+			<label index="shortPassword">Attempt to modify password. The password is too short! Please use at least %s characters.</label>
+			<label index="passwordConvention">Attempt to modify password!!! %s password convention was ignored!</label>
+			<label index="notUsedConvention"> Not used convention is %s</label>
+			<label index="notUsedConventions"> Not used conventions are %s</label>
 		</languageKey>
         <languageKey index="de" type="array">
             <label index="beSecurePw.header">Einstellungen für das Passwort</label>
@@ -28,6 +32,10 @@
             <label index="capitalChar">Großbuchstaben</label>
             <label index="digit">Zahlen</label>
             <label index="specialChar">Sonderzeichen</label>
+			<label index="shortPassword">Bitte überprüfen Sie Ihre Passworteingabe. Das Passwort ist zu kurz, bitte verwenden Sie mindestens %s Zeichen.</label>
+			<label index="passwordConvention">Bitte überprüfen Sie Ihre Passworteingabe. %s Passwort Konventionen wurden nicht eingehalten!</label>
+			<label index="notUsedConvention"> Die Konvention für %s wurde nicht berücksichtigt!</label>
+			<label index="notUsedConventions"> Die folgenden Konventionen wurden nicht berücksichtigt %s!</label>
         </languageKey>
 	</data>
 </T3locallang>
