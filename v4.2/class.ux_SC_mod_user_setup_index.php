@@ -17,7 +17,7 @@ class ux_SC_mod_user_setup_index extends SC_mod_user_setup_index {
 	 * @return	void
 	 */
 	function storeIncomingData()	{
-		global $BE_USER;
+		global $BE_USER, $LANG;
 
 
 			// First check if something is submittet in the data-array from POST vars
@@ -178,7 +178,7 @@ class ux_SC_mod_user_setup_index extends SC_mod_user_setup_index {
 				if (sizeof($this->PASSWORD_UPDATED['notUsed']) > 1) {
 					$this->content .= $this->doc->section($LANG->getLL('newPassword').':',sprintf($LANG->getLL($this->PASSWORD_UPDATED['errorMessage']), $this->PASSWORD_UPDATED['errorValue']).$LANG->getLL('additional_text_multi').implode(', ', $this->PASSWORD_UPDATED['notUsed']).'!', 1, 0, 2);
 				} elseif (sizeof($this->PASSWORD_UPDATED['notUsed']) == 1) {
-					$this->content .= $this->doc->section($LANG->getLL('newPassword').':',sprintf($LANG->getLL($this->PASSWORD_UPDATED['errorMessage']), $this->PASSWORD_UPDATED['errorValue']).$LANG->getLL('additional_text_single').$this->PASSWORD_UPDATED[0].'!', 1, 0, 2);
+					$this->content .= $this->doc->section($LANG->getLL('newPassword').':',sprintf($LANG->getLL($this->PASSWORD_UPDATED['errorMessage']), $this->PASSWORD_UPDATED['errorValue']).$LANG->getLL('additional_text_single').$this->PASSWORD_UPDATED['notUsed'][0].'!', 1, 0, 2);
 				} else {
 					$this->content .= $this->doc->section($LANG->getLL('newPassword').':',sprintf($LANG->getLL($this->PASSWORD_UPDATED['errorMessage']), $this->PASSWORD_UPDATED['errorValue']), 1, 0, 2);
 				}

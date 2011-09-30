@@ -14,6 +14,7 @@ class tx_besecurepw_secure {
 	}
 	
 	function evaluateFieldValue($value, $is_in, $set, $onlyCheck=FALSE) {
+		global $LANG;
 		$confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw']);
 		$exit = FALSE;
 		$noMD5 = FALSE;
@@ -104,7 +105,7 @@ class tx_besecurepw_secure {
 				if (sizeof($notUsed) > 1) {
 					$additional = sprintf($LANG->getLL('notUsedConventions'), implode(', ', $notUsed));
 				} else {
-					$additional = sprintf($LANG->getLL('notUsedConvention'), array_pop($notUsed));
+					$additional = sprintf($LANG->getLL('notUsedConvention'), $notUsed[0]);
 				}
 			}
 			
