@@ -13,7 +13,7 @@
 			<label index="additional_text_multi"> Not used conventions are </label>
 		</languageKey>
 		<languageKey index="de" type="array">
-			<label index="password_too_short">Ihr Passwort ist zu kurz! Bitte geben Sie mehr als %s Zeichen ein.</label>
+			<label index="password_too_short">Ihr Passwort ist zu kurz! Bitte geben Sie mindestens %s Zeichen ein.</label>
 			<label index="password_no_convention">%s Passwortvorgabe wurde ignoriert!</label>
 			<label index="password_no_conventions">%s Passwortvorgaben wurden ignoriert!</label>
 			<label index="additional_text_single"> Nicht genutzte Vorgabe ist </label>
