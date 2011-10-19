@@ -1,6 +1,7 @@
 <?php 
 
 require_once(PATH_typo3conf.'ext/be_secure_pw/lib/class.tx_besecurepw_secure.php'); /* CHANGED: add evaluation class */
+require_once(PATH_typo3.'sysext/lang/lang.php');
 
 class ux_SC_mod_user_setup_index extends SC_mod_user_setup_index {
 	
