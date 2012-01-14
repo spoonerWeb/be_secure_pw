@@ -27,6 +27,57 @@
 
 class user_usersetup_hook {
 
+	/**
+	 * Add flash message with instructions for user.
+	 *
+	 * @param &$params
+	 * @param &$parentObj
+	 */
+	public function moduleBodyPostProcess(&$params, &$parentObj) {
+			// execute only in user setup module
+		if ($parentObj->scriptID == 'ext/setup/mod/index.php') {
+				// don't override existing flash messages
+			if (!array_key_exists('FLASHMESSAGES', $params['markers'])) {
+					// get configuration of a secure password
+				$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw']);
+
+					// get the languages from ext
+				if (empty($GLOBALS['LANG'])) {
+					$GLOBALS['LANG'] = t3lib_div::makeInstance('language');
+					$GLOBALS['LANG']->init($GLOBALS['BE_USER']->uc['lang']);
+				}
+				$GLOBALS['LANG']->includeLLFile('EXT:be_secure_pw/res/lang/locallang.xml');
+					// how many parameters have to be checked
+				$toCheckParams = array('lowercaseChar', 'capitalChar', 'digit', 'specialChar');
+				$checkParameter = array();
+				foreach ($toCheckParams as $parameter) {
+					if ($extConf[$parameter] == 1) {
+						$checkParameter[] = $GLOBALS['LANG']->getLL($parameter);
+					}
+				}
+
+					// flash message with instructions for the user
+				$flashMessage = t3lib_div::makeInstance(
+					't3lib_FlashMessage',
+					sprintf($GLOBALS['LANG']->getLL('beSecurePw.description'), $extConf['passwordLength'], implode(', ', $checkParameter), $extConf['patterns']),
+					$GLOBALS['LANG']->getLL('beSecurePw.header'),
+					t3lib_FlashMessage::INFO,
+					TRUE
+				);
+				$params['markers']['FLASHMESSAGES'] = '<div id="typo3-messages">' . $flashMessage->render() . '</div>';
+
+					// put flash message in front of content
+				if (strpos($params['moduleBody'], '###FLASHMESSAGES###') === FALSE) {
+					$params['moduleBody'] = str_replace(
+						'###CONTENT###',
+						'###FLASHMESSAGES######CONTENT###',
+						$params['moduleBody']
+					);
+				}
+			}
+		}
+	}
+
 		/**
 		 * Hook-function: inject additional JS code and a flash message
 		 * called in typo3/template.php:template->startPage
@@ -46,31 +97,6 @@ class user_usersetup_hook {
 				// add JS code for password validation
 			$parentObj->JScode .= '<script type="text/javascript" src="'.$parentObj->backPath.'../typo3conf/ext/be_secure_pw/res/js/passwordtester.js"></script>';
 
-				// get the languages from ext
-			if (empty($GLOBALS['LANG'])) {
-				$GLOBALS['LANG'] = t3lib_div::makeInstance('language');
-				$GLOBALS['LANG']->init($GLOBALS['BE_USER']->uc['lang']);
-			}
-			$GLOBALS['LANG']->includeLLFile('EXT:be_secure_pw/res/lang/locallang.xml');
-
-				// how many parameters have to be checked
-			$toCheckParams = array('lowercaseChar', 'capitalChar', 'digit', 'specialChar');
-			$checkParameter = array();
-			foreach ($toCheckParams as $parameter) {
-				if ($extConf[$parameter] == 1) {
-					$checkParameter[] = $GLOBALS['LANG']->getLL($parameter);
-				}
-			}
-
-				// flash message with instructions for the user
-			$flashMessage = t3lib_div::makeInstance(
-				't3lib_FlashMessage',
-				sprintf($GLOBALS['LANG']->getLL('beSecurePw.description'), $extConf['passwordLength'], implode(', ', $checkParameter), $extConf['patterns']),
-				$GLOBALS['LANG']->getLL('beSecurePw.header'),
-				t3lib_FlashMessage::INFO,
-				TRUE
-			);
-			t3lib_FlashMessageQueue::addMessage($flashMessage);
 		}
 	}
 
