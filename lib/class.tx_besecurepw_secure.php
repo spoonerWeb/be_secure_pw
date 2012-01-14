@@ -132,6 +132,15 @@ class tx_besecurepw_secure {
 		return $GLOBALS['BE_USER']->user['password'];
 	}
 
+	/**
+	 * Method to call evaluation of password for old TYPO3v4.2
+	 * @param array $_params
+	 * @return string
+	 */
+	function deevaluateFieldValue($_params) {
+		return $this->evaluateFieldValue($_params['value'], 1, 1, 1);
+	}
+
 }
 
 ?>
