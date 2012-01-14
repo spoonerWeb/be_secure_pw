@@ -16,6 +16,7 @@ if (t3lib_div::int_from_ver(TYPO3_version) >= 4002000 and t3lib_div::int_from_ve
 
 if (t3lib_div::int_from_ver(TYPO3_version) >= 4005000) {
 	$TYPO3_CONF_VARS['SC_OPTIONS']['typo3/template.php']['preStartPageHook'][] = 'EXT:be_secure_pw/hook/class.user_usersetup_hook.php:&user_usersetup_hook->preStartPageHook';
+	$TYPO3_CONF_VARS['SC_OPTIONS']['typo3/template.php']['moduleBodyPostProcess'][] = 'EXT:be_secure_pw/hook/class.user_usersetup_hook.php:&user_usersetup_hook->moduleBodyPostProcess';
 }
 
 ?>
