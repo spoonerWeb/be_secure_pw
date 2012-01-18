@@ -6,38 +6,40 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-            <label index="beSecurePw.header">Password settings</label>
-            <label index="beSecurePw.description">There are the following parameters set for setting a new password:&lt;br /&gt;
+			<label index="beSecurePw.header">Password settings</label>
+			<label index="beSecurePw.description">There are the following parameters set for setting a new password:&lt;br /&gt;
 - Password length must be a minimum of &lt;b&gt;%s&lt;/b&gt; chars&lt;br /&gt;
 - Active checks in password: &lt;b&gt;%s&lt;/b&gt;&lt;br /&gt;
 - Amount of checks which have to be successful: &lt;b&gt;%s&lt;/b&gt;&lt;br /&gt;
-            </label>
-            <label index="lowercaseChar">lowercase chars</label>
-            <label index="capitalChar">capital chars</label>
-            <label index="digit">digits</label>
-            <label index="specialChar">special chars</label>
+			</label>
+			<label index="lowercaseChar">lowercase chars</label>
+			<label index="capitalChar">capital chars</label>
+			<label index="digit">digits</label>
+			<label index="specialChar">special chars</label>
 			<label index="shortPassword">Attempt to modify password. The password is too short! Please use at least %s characters.</label>
 			<label index="passwordConvention">Attempt to modify password. %s password convention was ignored!</label>
 			<label index="passwordConventions">Attempt to modify password. %s password conventions were ignored!</label>
 			<label index="notUsedConvention"> Not used convention is %s</label>
 			<label index="notUsedConventions"> Not used conventions are %s</label>
+			<label index="be_users.tx_besecurepw_lastpwchange">Last password change</label>
 		</languageKey>
-        <languageKey index="de" type="array">
-            <label index="beSecurePw.header">Einstellungen für das Passwort</label>
-            <label index="beSecurePw.description">Es gibt folgende Vorgaben für das Passwort:&lt;br /&gt;
+		<languageKey index="de" type="array">
+			<label index="beSecurePw.header">Einstellungen für das Passwort</label>
+			<label index="beSecurePw.description">Es gibt folgende Vorgaben für das Passwort:&lt;br /&gt;
 - Das Passwort muss mindestens &lt;b&gt;%s&lt;/b&gt; Zeichen haben&lt;br /&gt;
 - Aktive Prüfungen für das Passwort: &lt;b&gt;%s&lt;/b&gt;&lt;br /&gt;
 - Anzahl der Prüfungen, die erfolgreich sein müssen: &lt;b&gt;%s&lt;/b&gt;&lt;br /&gt;
-            </label>
-            <label index="lowercaseChar">Kleinbuchstaben</label>
-            <label index="capitalChar">Großbuchstaben</label>
-            <label index="digit">Zahlen</label>
-            <label index="specialChar">Sonderzeichen</label>
+			</label>
+			<label index="lowercaseChar">Kleinbuchstaben</label>
+			<label index="capitalChar">Großbuchstaben</label>
+			<label index="digit">Zahlen</label>
+			<label index="specialChar">Sonderzeichen</label>
 			<label index="shortPassword">Bitte überprüfen Sie Ihre Passworteingabe. Das Passwort ist zu kurz, bitte verwenden Sie mindestens %s Zeichen.</label>
 			<label index="passwordConvention">Bitte überprüfen Sie Ihre Passworteingabe. %s Passwort Konvention wurde nicht eingehalten!</label>
 			<label index="passwordConventions">Bitte überprüfen Sie Ihre Passworteingabe. %s Passwort Konventionen wurden nicht eingehalten!</label>
 			<label index="notUsedConvention"> Die Konvention für %s wurde nicht berücksichtigt!</label>
 			<label index="notUsedConventions"> Die folgenden Konventionen wurden nicht berücksichtigt %s!</label>
-        </languageKey>
+			<label index="be_users.tx_besecurepw_lastpwchange">Letzte Passwort-Änderung</label>
+		</languageKey>
 	</data>
 </T3locallang>
