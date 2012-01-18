@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<description>Labels for the Password Reminder JS Window.</description>
+		<type>module</type>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="passwordReminderWindow_title">Password reminder</label>
+			<label index="passwordReminderWindow_message">It is time to change your password. For security reasons it is important to change your password in a fixed period.</label>
+			<label index="passwordReminderWindow_button_changePassword">Go to user settings</label>
+			<label index="passwordReminderWindow_button_postpone">Remind me on next login</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="passwordReminderWindow_title">Passwort-Erinnerung</label>
+			<label index="passwordReminderWindow_message">Es ist Zeit, Ihr Passwort zu ändern. Um die Sicherheit des Systems zu gewährleisten, sollten Sie innerhalb eines bestimmten Zeitraums Ihr Passwort ändern.</label>
+			<label index="passwordReminderWindow_button_changePassword">Zu den Benutzereinstellungen</label>
+			<label index="passwordReminderWindow_button_postpone">Erinnere mich beim nächsten Login</label>
+		</languageKey>
+	</data>
+</T3locallang>
