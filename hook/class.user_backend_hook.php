@@ -48,6 +48,7 @@ class user_backend_hook {
 
 		$validUntilConfiguration = trim($extConf['validUntil']);
 
+		$validUntil = 0;
 		if ($validUntilConfiguration != '') {
 			$validUntil = strtotime('- '.$validUntilConfiguration);
 		}
@@ -83,7 +84,7 @@ class user_backend_hook {
 	 */
 	public function processDatamap_preProcessFieldArray(&$incomingFieldArray, $table, $id, &$parentObj) {
 		if ($table == 'be_users' and $incomingFieldArray['password'] != '') {
-			$incomingFieldArray['tx_besecurepw_lastpwchange'] = time();
+			$incomingFieldArray['tx_besecurepw_lastpwchange'] = time() + date('Z');
 		}
 	}
 }
