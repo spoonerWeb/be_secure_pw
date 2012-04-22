@@ -4,7 +4,7 @@ if (!defined ("TYPO3_MODE")) die ("Access denied.");
 
 $tempColumns = array(
 	'tx_besecurepw_lastpwchange' => array(
-		'exclude' => 1,
+		'exclude' => 0,
 		'label' => 'LLL:EXT:be_secure_pw/res/lang/locallang.xml:be_users.tx_besecurepw_lastpwchange',
 		'config' => array(
 			'type' => 'input',
