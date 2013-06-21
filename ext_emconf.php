@@ -28,13 +28,13 @@ $EM_CONF[$_EXTKEY] = array(
 	'clearcacheonload' => 0,
 	'lockType' => '',
 	'author' => 'Thomas Loeffler',
-	'author_email' => 'typo3@tomalo.de',
+	'author_email' => 'loeffler@spooner-web.de',
 	'author_company' => '',
 	'CGLcompliance' => '',
 	'CGLcompliance_note' => '',
 	'constraints' => array(
 		'depends' => array(
-			'typo3' => '4.2.7-0.0.0',
+			'typo3' => '4.5.0-6.1.99',
 		),
 		'conflicts' => array(
 		),
