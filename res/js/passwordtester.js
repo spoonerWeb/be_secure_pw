@@ -45,14 +45,14 @@ PasswordTester = Class.create({
 			this.passwordField.on('keyup', function () {
 				var password = this.passwordField.getValue();
 
-					// set status to zero on each keyup
+				// set status to zero on each keyup
 				this.passwordStatus = 0;
 				this.passwordSecure = false;
 
-					// calculates the strength of the password
+				// calculates the strength of the password
 				this.calculateStrength(password);
 
-					// generates the field with the image
+				// generates the field with the image
 				this.generateImage();
 
 				if (password.length == 0) {
@@ -84,18 +84,18 @@ PasswordTester = Class.create({
 		}
 	},
 
-	generateImage: function() {
+	generateImage: function () {
 		Ext.destroy(Ext.get('password_strength'));
 		this.passwordField.setStyle('float', 'left');
 		if (this.passwordSecure == true) {
 			Ext.DomHelper.insertAfter(
 				this.passwordField,
-			{
-				tag: 'img',
-				src: '../../../../typo3conf/ext/be_secure_pw/res/img/accept.png',
-				id: 'password_strength',
-				style: 'margin: 2px 0 0 5px;'
-			},
+				{
+					tag: 'img',
+					src: '../../../../typo3conf/ext/be_secure_pw/res/img/accept.png',
+					id: 'password_strength',
+					style: 'margin: 2px 0 0 5px;'
+				},
 				false
 			);
 			this.saveButton.set({
@@ -104,12 +104,12 @@ PasswordTester = Class.create({
 		} else {
 			Ext.DomHelper.insertAfter(
 				this.passwordField,
-			{
-				tag: 'img',
-				src: '../../../../typo3conf/ext/be_secure_pw/res/img/cancel.png',
-				id: 'password_strength',
-				style: 'margin: 2px 0 0 5px;'
-			},
+				{
+					tag: 'img',
+					src: '../../../../typo3conf/ext/be_secure_pw/res/img/cancel.png',
+					id: 'password_strength',
+					style: 'margin: 2px 0 0 5px;'
+				},
 				false
 			);
 			this.saveButton.set({
