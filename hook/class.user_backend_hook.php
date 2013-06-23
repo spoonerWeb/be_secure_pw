@@ -72,7 +72,7 @@
 				$labelsForJS = 'TYPO3.LLL.beSecurePw = ' . json_encode($generatedLabels) . ';';
 
 				$backendReference->addJavascript($labelsForJS);
-				$backendReference->addJavascriptFile('../' . t3lib_extMgm::siteRelPath('be_secure_pw') . 'res/js/passwordreminder.js');
+				$backendReference->addJavascriptFile($GLOBALS['BACK_PATH'] . '../' . t3lib_extMgm::siteRelPath('be_secure_pw') . 'res/js/passwordreminder.js');
 			}
 		}
 

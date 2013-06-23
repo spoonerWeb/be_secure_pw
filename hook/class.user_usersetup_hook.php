@@ -95,7 +95,7 @@
 				$parentObj->JScodeArray['be_secure_pw_inline'] = 'var beSecurePwConf = ' . json_encode($extConf);
 
 				// add JS code for password validation
-				$parentObj->JScode .= '<script type="text/javascript" src="/' . t3lib_extMgm::siteRelPath('be_secure_pw') . 'res/js/passwordtester.js"></script>';
+				$parentObj->JScode .= '<script type="text/javascript" src="' . $GLOBALS['BACK_PATH'] . '../' . t3lib_extMgm::siteRelPath('be_secure_pw') . 'res/js/passwordtester.js"></script>';
 
 			}
 		}
