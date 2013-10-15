@@ -1,7 +1,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2010 Thomas Loeffler <typo3@tomalo.de>
+ *  (c) 2010 Thomas Loeffler <loeffler@spooner-web.de>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -92,7 +92,7 @@ PasswordTester = Class.create({
 				this.passwordField,
 				{
 					tag: 'img',
-					src: '../../../../typo3conf/ext/be_secure_pw/res/img/accept.png',
+					src: '../../../../typo3conf/ext/be_secure_pw/Resources/Public/Images/accept.png',
 					id: 'password_strength',
 					style: 'margin: 2px 0 0 5px;'
 				},
@@ -106,7 +106,7 @@ PasswordTester = Class.create({
 				this.passwordField,
 				{
 					tag: 'img',
-					src: '../../../../typo3conf/ext/be_secure_pw/res/img/cancel.png',
+					src: '../../../../typo3conf/ext/be_secure_pw/Resources/Public/Images/cancel.png',
 					id: 'password_strength',
 					style: 'margin: 2px 0 0 5px;'
 				},
