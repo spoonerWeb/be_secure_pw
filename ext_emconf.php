@@ -1,14 +1,14 @@
 <?php
 
-########################################################################
-# Extension Manager/Repository config file for ext "be_secure_pw".
-#
-# Auto generated 02-05-2012 20:49
-#
-# Manual updates:
-# Only the data in the array - everything else is removed by next
-# writing. "version" and "dependencies" must not be touched!
-########################################################################
+/**
+ * Extension Manager/Repository config file for ext "be_secure_pw".
+ *
+ * Auto generated 02-05-2012 20:49
+ *
+ * Manual updates:
+ * Only the data in the array - everything else is removed by next
+ * writing. "version" and "dependencies" must not be touched!
+ */
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'Make BE user password really secure',
