@@ -5,7 +5,7 @@ if (!defined('TYPO3_MODE')) {
 
 // here we register "PasswordEvaluator"
 // for editing by tca form
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']['PasswordEvaluator'] = 'EXT:be_secure_pw/Classes/Evaluation/PasswordEvaluator.php';
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']['SpoonerWeb\\BeSecurePw\\Evaluation\\PasswordEvaluator'] = 'EXT:be_secure_pw/Classes/Evaluation/PasswordEvaluator.php';
 
 // for editing per "user settings"
 $TYPO3_CONF_VARS['SC_OPTIONS']['typo3/template.php']['preStartPageHook'][] = 'SpoonerWeb\\BeSecurePw\\Hook\\UserSetupHook->preStartPageHook';

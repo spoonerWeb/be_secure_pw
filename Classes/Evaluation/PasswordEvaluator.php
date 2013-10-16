@@ -1,5 +1,5 @@
 <?php
-namespace SpoonerWeb\BeSecurePw\Classes\Evaluation;
+namespace SpoonerWeb\BeSecurePw\Evaluation;
 
 use TYPO3\CMS\Core\Utility;
 use TYPO3\CMS\Saltedpasswords\Utility\SaltedPasswordsUtility;
