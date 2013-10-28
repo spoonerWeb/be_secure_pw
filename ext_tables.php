@@ -18,11 +18,11 @@ $tempColumns = array(
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('be_users', $tempColumns, 1);
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('be_users', 'tx_besecurepw_lastpwchange;;;;1-1-1');
 
-$TCA['be_users']['columns']['password']['config']['eval'] = 'trim,required,PasswordEvaluator,password';
+$TCA['be_users']['columns']['password']['config']['eval'] = 'trim,required,SpoonerWeb\\BeSecurePw\\Evaluation\\PasswordEvaluator,password';
 if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('saltedpasswords')) {
 	if (\TYPO3\CMS\Saltedpasswords\Utility\SaltedPasswordsUtility::isUsageEnabled('BE')) {
 		$TCA['be_users']['columns']['password']['config']['eval'] =
-			'trim,required,PasswordEvaluator,tx_saltedpasswords_eval_be,password';
+			'trim,required,SpoonerWeb\\BeSecurePw\\Evaluation\\PasswordEvaluator,tx_saltedpasswords_eval_be,password';
 	}
 }
 

@@ -57,7 +57,6 @@ class PasswordEvaluator {
 	 * @return string The new value of the field
 	 */
 	public function evaluateFieldValue($value, $is_in, &$set, $onlyCheck = FALSE) {
-		Utility\DebugUtility::debug($value);
 		$confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw']);
 		$exit = FALSE;
 		$noMD5 = FALSE;
@@ -83,11 +82,13 @@ class PasswordEvaluator {
 		}
 
 		// create tce object for logging
-		$tce = Utility\GeneralUtility::makeInstance('t3lib_tcemain');
+		/** @var \TYPO3\CMS\Core\DataHandling\DataHandler $tce */
+		$tce = Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\DataHandling\\DataHandler');
 		$tce->BE_USER = $GLOBALS['BE_USER'];
 
 		// get the languages from ext
-		$LANG = Utility\GeneralUtility::makeInstance('language');
+		/** @var \TYPO3\CMS\Lang\LanguageService $LANG */
+		$LANG = Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Lang\\LanguageService');
 		$LANG->init($tce->BE_USER->uc['lang']);
 		$LANG->includeLLFile('EXT:be_secure_pw/Resources/Private/Language/locallang.xml');
 
@@ -147,6 +148,7 @@ class PasswordEvaluator {
 			$ignoredPatterns = $confArr['patterns'] - $counter;
 
 			$additional = '';
+			$set = FALSE;
 			if (is_array($notUsed) && sizeof($notUsed) > 0) {
 
 				if (sizeof($notUsed) > 1) {
@@ -175,7 +177,6 @@ class PasswordEvaluator {
 					);
 				}
 			}
-			$set = FALSE;
 		} else {
 			/* no problems */
 			if ($onlyCheck || $noMD5) {
