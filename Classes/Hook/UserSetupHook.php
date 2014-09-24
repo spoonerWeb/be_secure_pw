@@ -14,8 +14,9 @@ namespace SpoonerWeb\BeSecurePw\Hook;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Utility;
+use SpoonerWeb\BeSecurePw\Utilities\PasswordExpirationUtility;
 use TYPO3\CMS\Core\Messaging;
+use TYPO3\CMS\Core\Utility;
 
 /**
  * Class UserSetupHook
@@ -60,6 +61,18 @@ class UserSetupHook
         }
     }
 
+    /**
+     * @return void
+     */
+    private function getLanguageLabels()
+    {
+        // get the languages from ext
+        if (empty($GLOBALS['LANG'])) {
+            $GLOBALS['LANG'] = Utility\GeneralUtility::makeInstance('language');
+            $GLOBALS['LANG']->init($GLOBALS['BE_USER']->uc['lang']);
+        }
+        $GLOBALS['LANG']->includeLLFile('EXT:be_secure_pw/Resources/Private/Language/locallang.xml');
+    }
 
     /**
      * Add flash message with instructions for user.
@@ -91,6 +104,15 @@ class UserSetupHook
                     }
                 }
 
+                $passwordExpiredNotice = null;
+                if ($extConf['forcePasswordChange'] && PasswordExpirationUtility::isBeUserPasswordExpired()) {
+                    $passwordExpiredNotice = Utility\GeneralUtility::makeInstance('\\TYPO3\\CMS\\Core\\Messaging\\FlashMessage',
+                        $GLOBALS['LANG']->getLL('beSecurePw.passwordExpiredBody'),
+                        $GLOBALS['LANG']->getLL('beSecurePw.passwordExpiredHeader'),
+                        Messaging\FlashMessage::ERROR
+                    );
+                }
+
                 // flash message with instructions for the user
                 $flashMessage = Utility\GeneralUtility::makeInstance(
                     'TYPO3\CMS\Core\Messaging\FlashMessage',
@@ -104,7 +126,7 @@ class UserSetupHook
                     Messaging\FlashMessage::INFO,
                     true
                 );
-                $params['markers']['FLASHMESSAGES'] = '<div id="typo3-messages">' . $flashMessage->render() . '</div>';
+                $params['markers']['FLASHMESSAGES'] = '<div id="typo3-messages">' . ($passwordExpiredNotice ? $passwordExpiredNotice->render() : '') . $flashMessage->render() . '</div>';
 
                 // put flash message in front of content
                 if (strpos($params['moduleBody'], '###FLASHMESSAGES###') === false) {
@@ -142,18 +164,5 @@ class UserSetupHook
                 . 'Resources/Public/JavaScript/passwordtester.js"></script>';
 
         }
-    }
-
-    /**
-     * @return void
-     */
-    private function getLanguageLabels()
-    {
-        // get the languages from ext
-        if (empty($GLOBALS['LANG'])) {
-            $GLOBALS['LANG'] = Utility\GeneralUtility::makeInstance('language');
-            $GLOBALS['LANG']->init($GLOBALS['BE_USER']->uc['lang']);
-        }
-        $GLOBALS['LANG']->includeLLFile('EXT:be_secure_pw/Resources/Private/Language/locallang.xml');
     }
 }

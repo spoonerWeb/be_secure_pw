@@ -1,6 +1,12 @@
 	# cat=basic/enable/60; type=string; label= Period to remind the user (after login) for setting a new password. Please use english (e.g. "14 days")
 validUntil = 14 days
 
+	# cat=basic/enable/60; type=boolean; label= Force changing the password: This disables all modules except user_setup to force a change of the password when the validUntil period is over or the checkbox in the be_user record  is set
+forcePasswordChange = 0
+
+	# cat=basic/enable/60; type=boolean; label= Change password on first login: When a new user is created, force the password change on first login.
+changePasswordOnFirstLogin = 0
+
 	# cat=basic/enable/60; type=int [5-20]; label= Length of the password: Here you can set the minimal length of the BE user password. If nothing is set, default is 8.
 passwordLength = 8
 

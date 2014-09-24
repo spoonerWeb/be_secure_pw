@@ -12,6 +12,11 @@
 - Active checks in password: &lt;b&gt;%s&lt;/b&gt;&lt;br /&gt;
 - Amount of checks which have to be successful: &lt;b&gt;%s&lt;/b&gt;&lt;br /&gt;
 			</label>
+			<label index="beSecurePw.passwordExpiredHeader">Your password is expired</label>
+			<label index="beSecurePw.passwordExpiredBody">Please enter a new password according to the requirements below.&lt;br /&gt;
+			After changing your password, the backend will be reloaded to grant access to other modules.
+			</label>
+			<label index="beSecurePw.backendNeedsToReload">The backend needs to be reloaded to restore access to other modules</label>
 			<label index="lowercaseChar">lowercase chars</label>
 			<label index="capitalChar">capital chars</label>
 			<label index="digit">digits</label>
@@ -32,6 +37,11 @@
 - Aktive Prüfungen für das Passwort: &lt;b&gt;%s&lt;/b&gt;&lt;br /&gt;
 - Anzahl der Prüfungen, die erfolgreich sein müssen: &lt;b&gt;%s&lt;/b&gt;&lt;br /&gt;
 			</label>
+			<label index="beSecurePw.passwordExpiredHeader">Ihr Passwort ist abgelaufen</label>
+			<label index="beSecurePw.passwordExpiredBody">Bitte geben Sie ein neues Passwort gemäß den untenstehenden Vorgaben ein.&lt;br /&gt;
+				Nach erfolgreicher Änderung ihres Passwortes, wird das Backend neu geladen.
+			</label>
+			<label index="beSecurePw.backendNeedsToReload">Das Backend muss neu geladen werden, um den Zugriff auf andere Module wieder herzustellen</label>
 			<label index="lowercaseChar">Kleinbuchstaben</label>
 			<label index="capitalChar">Großbuchstaben</label>
 			<label index="digit">Zahlen</label>
