@@ -16,6 +16,7 @@ namespace SpoonerWeb\BeSecurePw\Hook;
 
 use SpoonerWeb\BeSecurePw\Utilities\PasswordExpirationUtility;
 use TYPO3\CMS\Core\Messaging;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility;
 
 /**
@@ -27,37 +28,48 @@ use TYPO3\CMS\Core\Utility;
 class UserSetupHook
 {
 
-    public function modifyUserDataBeforeSave(&$params, &$parentObject)
+    /**
+     * checks if the password is not the same as the previous one
+     *
+     * @param array $newSetup
+     * @param \TYPO3\CMS\Setup\Controller\SetupModuleController $parentObj
+     */
+    public function modifyUserDataBeforeSave(&$newSetup, &$parentObj)
     {
-        // Check if password is valid
-        $passwordEvaluator = new \SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator();
-        $set = false;
-        $password = $passwordEvaluator->evaluateFieldValue($params['be_user_data']['password'], '', $set);
+        if ($newSetup['be_user_data']['password'] == '')
+            return;
 
-        // Prevent same password as before
-        if ($params['be_user_data']['password'] === $params['be_user_data']['passwordCurrent']) {
-            $params['be_user_data']['password'] = '';
-            $params['be_user_data']['password2'] = '';
-            $this->getLanguageLabels();
-            /** @var \TYPO3\CMS\Core\Messaging\FlashMessageQueue $messageQueue */
-            $messageQueue = Utility\GeneralUtility::makeInstance(
-                Messaging\FlashMessageQueue::class,
-                'core.template.flashMessages'
-            );
-            $messageQueue->addMessage(
-                new Messaging\FlashMessage(
-                    $GLOBALS['LANG']->getLL('samePassword'),
-                    '',
-                    Messaging\FlashMessage::WARNING,
-                    true
-                )
-            );
-        }
+        // only do that, if the record was edited from the user himself
+        if ($GLOBALS['BE_USER']->user['ses_backuserid'])
+            return;
 
-        // Password is not valid, so reset the new passwords to prevent save
-        if ($password === '' && $set === false) {
-            $params['be_user_data']['password'] = '';
-            $params['be_user_data']['password2'] = '';
+        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw']);
+
+        if (!$extConf['forcePasswordChange'] || !$extConf['forbidSamePassword'])
+            return;
+
+        if (!PasswordExpirationUtility::isBeUserPasswordExpired())
+            return;
+
+        $beUserOld = BackendUtility::getRecord('be_users', $GLOBALS['BE_USER']->user['uid']);
+
+        $serviceChain = '';
+        $subType = 'authUserBE';
+        while (is_object($serviceObj = Utility\GeneralUtility::makeInstanceService('auth', $subType, $serviceChain))) {
+            $serviceChain .= ',' . $serviceObj->getServiceKey();
+            $serviceObj->initAuth('authGroupsBE', array(), array(), $GLOBALS['BE_USER']);
+            syslog(1, get_class($serviceObj));
+
+            if ($serviceObj->compareUident($beUserOld, array(
+                    'uident_text' => $newSetup['be_user_data']['password'])
+            )
+            ) {
+                // Password is the same.  Add flash message...
+                $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['be_secure_pw']['showPasswordNotChangedMessage'] = true;
+                unset($newSetup['be_user_data']['password']);
+                unset($newSetup['be_user_data']['password2']);
+                return;
+            }
         }
     }
 
@@ -126,7 +138,21 @@ class UserSetupHook
                     Messaging\FlashMessage::INFO,
                     true
                 );
-                $params['markers']['FLASHMESSAGES'] = '<div id="typo3-messages">' . ($passwordExpiredNotice ? $passwordExpiredNotice->render() : '') . $flashMessage->render() . '</div>';
+
+                $passwordEqualNotice = null;
+                if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['be_secure_pw']['showPasswordNotChangedMessage']) {
+                    $passwordEqualNotice = Utility\GeneralUtility::makeInstance('\\TYPO3\\CMS\\Core\\Messaging\\FlashMessage',
+                        $GLOBALS['LANG']->getLL('beSecurePw.passwordNotChangedBody'),
+                        $GLOBALS['LANG']->getLL('beSecurePw.passwordNotChangedHeader'),
+                        Messaging\FlashMessage::ERROR
+                    );
+                }
+
+                $params['markers']['FLASHMESSAGES'] = '<div id="typo3-messages">' .
+                    ($passwordExpiredNotice ? $passwordExpiredNotice->render() : '') .
+                    $flashMessage->render() .
+                    ($passwordEqualNotice ? $passwordEqualNotice->render() : '') .
+                    '</div>';
 
                 // put flash message in front of content
                 if (strpos($params['moduleBody'], '###FLASHMESSAGES###') === false) {

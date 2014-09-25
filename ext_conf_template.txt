@@ -7,6 +7,9 @@ forcePasswordChange = 0
 	# cat=basic/enable/60; type=boolean; label= Change password on first login: When a new user is created, force the password change on first login.
 changePasswordOnFirstLogin = 0
 
+	# cat=basic/enable/61; type=boolean; label= Forbid setting same password again: If "Force changing the password" is set together with this flag, the user can not choose the same password again.
+forbidSamePassword = 0
+
 	# cat=basic/enable/60; type=int [5-20]; label= Length of the password: Here you can set the minimal length of the BE user password. If nothing is set, default is 8.
 passwordLength = 8
 

@@ -16,6 +16,8 @@
 			<label index="beSecurePw.passwordExpiredBody">Please enter a new password according to the requirements below.&lt;br /&gt;
 			After changing your password, the backend will be reloaded to grant access to other modules.
 			</label>
+			<label index="beSecurePw.passwordNotChangedHeader">You entered the same password again!</label>
+			<label index="beSecurePw.passwordNotChangedBody">You need to specify a different password than last time.</label>
 			<label index="beSecurePw.backendNeedsToReload">The backend needs to be reloaded to restore access to other modules</label>
 			<label index="lowercaseChar">lowercase chars</label>
 			<label index="capitalChar">capital chars</label>
@@ -41,6 +43,8 @@
 			<label index="beSecurePw.passwordExpiredBody">Bitte geben Sie ein neues Passwort gemäß den untenstehenden Vorgaben ein.&lt;br /&gt;
 				Nach erfolgreicher Änderung ihres Passwortes, wird das Backend neu geladen.
 			</label>
+			<label index="beSecurePw.passwordNotChangedHeader">Sie haben das selbe Passwort angegeben!</label>
+			<label index="beSecurePw.passwordNotChangedBody">Das Passwort darf nicht das selbe sein, wie zuvor.</label>
 			<label index="beSecurePw.backendNeedsToReload">Das Backend muss neu geladen werden, um den Zugriff auf andere Module wieder herzustellen</label>
 			<label index="lowercaseChar">Kleinbuchstaben</label>
 			<label index="capitalChar">Großbuchstaben</label>
