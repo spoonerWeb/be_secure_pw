@@ -1,55 +1,45 @@
 <?php
-/***************************************************************
- *  Copyright notice
- *
- *  (c) 2012 Thomas Loeffler <loeffler@spooner-web.de>
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *  A copy is found in the textfile GPL.txt and important notices to the license
- *  from the author is found in LICENSE.txt distributed with these scripts.
- *
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+namespace SpoonerWeb\BeSecurePw\Hook;
 
 /**
- * Class user_backend_hook
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
+
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
+/**
+ * Class BackendHook
  *
  * @package be_secure_pw
  * @author Thomas Loeffler <loeffler@spooner-web.de>
  */
-class user_backend_hook {
+class BackendHook {
 
 	/**
 	 * reference back to the backend
 	 *
-	 * @var TYPO3backend
+	 * @var \TYPO3\CMS\Backend\Controller\BackendController
 	 */
 	protected $backendReference;
 
 	/**
 	 * constructPostProcess
 	 *
-	 * @param              $config
-	 * @param TYPO3backend $backendReference
+	 * @param array $config
+	 * @param \TYPO3\CMS\Backend\Controller\BackendController $backendReference
 	 */
 	public function constructPostProcess($config, &$backendReference) {
 		$lastPwChange = $GLOBALS['BE_USER']->user['tx_besecurepw_lastpwchange'];
 		$lastLogin = $GLOBALS['BE_USER']->user['lastlogin'];
-
 
 		// get configuration of a secure password
 		$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw']);
@@ -64,10 +54,18 @@ class user_backend_hook {
 		if (($validUntilConfiguration != '' && ($lastPwChange == 0 || $lastPwChange < $validUntil)) || $lastLogin == 0) {
 			// let the popup pop up :)
 			$generatedLabels = array(
-				'passwordReminderWindow_title' => $GLOBALS['LANG']->sL('LLL:EXT:be_secure_pw/res/lang/locallang_reminder.xml:passwordReminderWindow_title'),
-				'passwordReminderWindow_message' => $GLOBALS['LANG']->sL('LLL:EXT:be_secure_pw/res/lang/locallang_reminder.xml:passwordReminderWindow_message'),
-				'passwordReminderWindow_button_changePassword' => $GLOBALS['LANG']->sL('LLL:EXT:be_secure_pw/res/lang/locallang_reminder.xml:passwordReminderWindow_button_changePassword'),
-				'passwordReminderWindow_button_postpone' => $GLOBALS['LANG']->sL('LLL:EXT:be_secure_pw/res/lang/locallang_reminder.xml:passwordReminderWindow_button_postpone'),
+				'passwordReminderWindow_title' => $GLOBALS['LANG']->sL(
+					'LLL:EXT:be_secure_pw/Resources/Private/Language/locallang_reminder.xml:passwordReminderWindow_title'
+				),
+				'passwordReminderWindow_message' => $GLOBALS['LANG']->sL(
+					'LLL:EXT:be_secure_pw/Resources/Private/Language/locallang_reminder.xml:passwordReminderWindow_message'
+				),
+				'passwordReminderWindow_button_changePassword' => $GLOBALS['LANG']->sL(
+					'LLL:EXT:be_secure_pw/Resources/Private/Language/locallang_reminder.xml:passwordReminderWindow_button_changePassword'
+				),
+				'passwordReminderWindow_button_postpone' => $GLOBALS['LANG']->sL(
+					'LLL:EXT:be_secure_pw/Resources/Private/Language/locallang_reminder.xml:passwordReminderWindow_button_postpone'
+				),
 			);
 
 			// Convert labels/settings back to UTF-8 since json_encode() only works with UTF-8:
@@ -78,7 +76,18 @@ class user_backend_hook {
 			$labelsForJS = 'TYPO3.LLL.beSecurePw = ' . json_encode($generatedLabels) . ';';
 
 			$backendReference->addJavascript($labelsForJS);
-			$backendReference->addJavascriptFile($GLOBALS['BACK_PATH'] . '../' . t3lib_extMgm::siteRelPath('be_secure_pw') . 'res/js/passwordreminder.js');
+			$version7 = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger('7.0.0');
+			$currentVersion = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+			if ($currentVersion < $version7) {
+				$javaScriptFile = 'passwordreminder.js';
+			} else {
+				$javaScriptFile = 'passwordreminder7.js';
+			}
+			$backendReference->addJavascriptFile(
+				$GLOBALS['BACK_PATH'] . '../'
+				. ExtensionManagementUtility::siteRelPath('be_secure_pw')
+				. 'Resources/Public/JavaScript/' . $javaScriptFile
+			);
 		}
 	}
 

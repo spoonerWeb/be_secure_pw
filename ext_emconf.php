@@ -1,21 +1,21 @@
 <?php
 
-########################################################################
-# Extension Manager/Repository config file for ext "be_secure_pw".
-#
-# Auto generated 02-05-2012 20:49
-#
-# Manual updates:
-# Only the data in the array - everything else is removed by next
-# writing. "version" and "dependencies" must not be touched!
-########################################################################
+/**
+ * Extension Manager/Repository config file for ext "be_secure_pw".
+ *
+ * Auto generated 02-05-2012 20:49
+ *
+ * Manual updates:
+ * Only the data in the array - everything else is removed by next
+ * writing. "version" and "dependencies" must not be touched!
+ */
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'Make BE user password really secure',
 	'description' => 'You can set password conventions to force secure passwords for BE users. Works with rsa auth and salted passwords!',
 	'category' => 'be',
 	'shy' => 0,
-	'version' => '3.1.0',
+	'version' => '7.0.0',
 	'dependencies' => '',
 	'conflicts' => '',
 	'priority' => '',
@@ -34,7 +34,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'CGLcompliance_note' => '',
 	'constraints' => array(
 		'depends' => array(
-			'typo3' => '4.5.0-6.1.99',
+			'typo3' => '6.0.0-7.99.99',
 		),
 		'conflicts' => array(
 		),
