@@ -61,7 +61,7 @@ class UserSetupHook {
 
 				// flash message with instructions for the user
 				$flashMessage = Utility\GeneralUtility::makeInstance(
-					'\\TYPO3\\CMS\\Core\\Messaging\\FlashMessage',
+					'TYPO3\CMS\Core\Messaging\FlashMessage',
 					sprintf(
 						$GLOBALS['LANG']->getLL('beSecurePw.description'),
 						$extConf['passwordLength'],
