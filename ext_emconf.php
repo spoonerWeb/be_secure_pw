@@ -10,7 +10,7 @@
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'Make BE user password really secure',
-	'description' => 'You can set password conventions to force secure passwords for BE users. Works with rsa auth and salted passwords!',
+	'description' => 'You can set password conventions to force secure passwords for BE users.',
 	'category' => 'be',
 	'shy' => 0,
 	'version' => '7.0.2',
