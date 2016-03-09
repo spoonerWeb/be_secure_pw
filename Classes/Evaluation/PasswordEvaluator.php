@@ -15,7 +15,6 @@ namespace SpoonerWeb\BeSecurePw\Evaluation;
  */
 
 use TYPO3\CMS\Core\Utility;
-use TYPO3\CMS\Saltedpasswords\Utility\SaltedPasswordsUtility;
 
 /**
  * Class PasswordEvaluator
@@ -42,8 +41,7 @@ class PasswordEvaluator
      *
      * @param mixed $value The value that has to be checked.
      * @param string $is_in Is-In String
-     * @param integer $set Determines if the field can be set (value correct) or not, e.g. if input is required but the value is
-     *     empty, then $set should be set to FALSE. (PASSED BY REFERENCE!)
+     * @param integer $set Determines if the field can be set (value correct) or not
      * @return string The new value of the field
      */
     public function evaluateFieldValue($value, $is_in, &$set)
@@ -60,20 +58,10 @@ class PasswordEvaluator
         $languageService = Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Lang\\LanguageService');
         $languageService->init($tce->BE_USER->uc['lang']);
         $languageService->includeLLFile('EXT:be_secure_pw/Resources/Private/Language/locallang.xml');
-
-        /** @var boolean $noMD5 return variable as md5 hash if saltedpasswords isn't enabled */
-        $noMD5 = false;
         $set = true;
 
-        if (Utility\ExtensionManagementUtility::isLoaded('saltedpasswords')) {
-            if (SaltedPasswordsUtility::isUsageEnabled('BE')) {
-                $noMD5 = true;
-            }
-        }
-
-        $isMD5 = preg_match('/[0-9abcdef]{32,32}/', $value);
         // if $value is a md5 hash, return the value directly
-        if ($isMD5 && $noMD5) {
+        if (preg_match('/[0-9abcdef]{32,32}/', $value) === true) {
             return $value;
         }
 
@@ -166,10 +154,6 @@ class PasswordEvaluator
 
         /* no problems */
         if ($set) {
-            if ($noMD5) {
-                return $value;
-            }
-
             return md5($value);
         }
 
@@ -177,5 +161,3 @@ class PasswordEvaluator
         return '';
     }
 }
-
-?>
