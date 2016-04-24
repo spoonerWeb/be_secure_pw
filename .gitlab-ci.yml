@@ -7,4 +7,4 @@ stages:
 
 test:
   script:
-  - php vendor/phpunit/phpunit/phpunit
+  - php vendor/phpunit/phpunit/phpunit htdocs/typo3conf/ext/be_secure_pw/Tests/Unit/*
