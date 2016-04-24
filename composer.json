@@ -8,11 +8,17 @@
   ],
   "version": "7.0.2",
   "require": {
-    "typo3/cms-core": ">=6.2.1,<8.0"
+    "typo3/cms": "^7.6"
+  },
+  "extra": {
+    "typo3/cms": {
+      "cms-package-dir": "{$vendor-dir}/typo3/cms",
+      "web-dir": "htdocs"
+    }
   },
   "autoload": {
     "psr-4": {
-      "SpoonerWeb\\BeSecurePw\\": "Classes"
+      "SpoonerWeb\\BeSecurePw\\": "htdocs/typo3conf/ext/be_secure_pw/Classes/"
     }
   }
 }
