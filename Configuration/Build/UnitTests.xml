@@ -1,0 +1,21 @@
+<phpunit
+        backupGlobals="true"
+        backupStaticAttributes="false"
+        bootstrap="../../../../../../vendor/typo3/cms/typo3/sysext/core/Build/UnitTestsBootstrap.php"
+        colors="true"
+        convertErrorsToExceptions="true"
+        convertWarningsToExceptions="true"
+        forceCoversAnnotation="false"
+        processIsolation="false"
+        stopOnError="false"
+        stopOnFailure="false"
+        stopOnIncomplete="false"
+        stopOnSkipped="false"
+        verbose="false"
+>
+    <testsuites>
+        <testsuite name="Base tests">
+            <directory>../*/Tests/Unit/</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
