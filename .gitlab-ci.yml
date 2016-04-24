@@ -1,5 +1,6 @@
 before_script:
   - composer install
+  - composer require phpunit/phpunit
 
 stages:
   - test
