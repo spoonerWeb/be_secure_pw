@@ -1,10 +1,10 @@
 before_script:
+  - apt-get update && apt-get -y install phpunit
   - composer install
-  - composer require phpunit/phpunit
 
 stages:
   - test
 
 test:
   script:
-  - php vendor/phpunit/phpunit/phpunit htdocs/typo3conf/ext/be_secure_pw/Tests/Unit/
+  - phpunit htdocs/typo3conf/ext/be_secure_pw/Tests/Unit/
