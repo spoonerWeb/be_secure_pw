@@ -48,16 +48,24 @@ class PasswordEvaluator
     {
         $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw']);
 
-        // create tce object for logging
         /** @var \TYPO3\CMS\Core\DataHandling\DataHandler $tce */
         $tce = Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\DataHandling\\DataHandler');
         $tce->BE_USER = $GLOBALS['BE_USER'];
+
+        /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+        $logger = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Log\LogManager::class)
+                    ->getLogger(__CLASS__);
 
         // get the languages from ext
         /** @var \TYPO3\CMS\Lang\LanguageService $languageService */
         $languageService = Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Lang\\LanguageService');
         $languageService->init($tce->BE_USER->uc['lang']);
         $languageService->includeLLFile('EXT:be_secure_pw/Resources/Private/Language/locallang.xml');
+        /** @var \TYPO3\CMS\Core\Messaging\FlashMessageQueue $flashMessageQueue */
+        $flashMessageQueue = Utility\GeneralUtility::makeInstance(
+            \TYPO3\CMS\Core\Messaging\FlashMessageQueue::class,
+            'core.template.flashMessages'
+        );
         $set = true;
 
         // if $value is a md5 hash, return the value directly
@@ -65,22 +73,17 @@ class PasswordEvaluator
             return $value;
         }
 
+        $messages = [];
         // check for password length
         $passwordLength = (int)$confArr['passwordLength'];
         if ($confArr['passwordLength'] && $passwordLength) {
             if (strlen($value) < $confArr['passwordLength']) {
-                $set = false;
                 /* password too short */
-                $tce->log(
-                    'be_users',
-                    0,
-                    5,
-                    0,
-                    1,
-                    $languageService->getLL('shortPassword'),
-                    false,
-                    array($passwordLength)
+                $set = false;
+                $logger->error(
+                    sprintf($languageService->getLL('shortPassword'), $passwordLength)
                 );
+                $messages[] = sprintf($languageService->getLL('shortPassword'), $passwordLength);
             }
         }
 
@@ -140,16 +143,10 @@ class PasswordEvaluator
 
             if ($ignoredPatterns >= 1) {
                 $label = $ignoredPatterns > 1 ? 'passwordConventions' : 'passwordConvention';
-                $tce->log(
-                    'be_users',
-                    0,
-                    5,
-                    0,
-                    1,
-                    $languageService->getLL($label) . $additional,
-                    false,
-                    array($ignoredPatterns)
+                $logger->error(
+                    sprintf($languageService->getLL($label) . $additional, $ignoredPatterns)
                 );
+                $messages[] = sprintf($languageService->getLL($label) . $additional, $ignoredPatterns);
             }
         }
 
@@ -157,6 +154,15 @@ class PasswordEvaluator
         if ($set) {
             return md5($value);
         }
+
+        $flashMessageQueue->addMessage(
+            new \TYPO3\CMS\Core\Messaging\FlashMessage(
+                implode(LF, $messages),
+                $languageService->getLL('messageTitle'),
+                \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR,
+                true
+            )
+        );
 
         // if password not valid return empty password
         return '';
