@@ -139,13 +139,14 @@ class PasswordEvaluator
             }
 
             if ($ignoredPatterns >= 1) {
+                $label = $ignoredPatterns > 1 ? 'passwordConventions' : 'passwordConvention';
                 $tce->log(
                     'be_users',
                     0,
                     5,
                     0,
                     1,
-                    $languageService->getLL('passwordConvention') . $additional,
+                    $languageService->getLL($label) . $additional,
                     false,
                     array($ignoredPatterns)
                 );
