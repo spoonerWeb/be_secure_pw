@@ -27,3 +27,11 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/backend.php']['constructPostPro
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass']['be_secure_pw'] =
     'SpoonerWeb\\BeSecurePw\\Hook\\BackendHook';
 
+/* set password evaluation for password field in be_users */
+$evaluation = [
+    'required',
+    \SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator::class,
+    \TYPO3\CMS\Saltedpasswords\Evaluation\BackendEvaluator::class,
+    'password'
+];
+$GLOBALS['TCA']['be_users']['columns']['password']['config']['eval'] = implode(',', $evaluation);
