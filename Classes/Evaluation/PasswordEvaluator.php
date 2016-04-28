@@ -46,6 +46,11 @@ class PasswordEvaluator
      */
     public function evaluateFieldValue($value, $is_in, &$set)
     {
+        // if $value is a md5 hash, return the value directly
+        if ($this->isMd5($value) || $this->isSalted($value)) {
+            return $value;
+        }
+
         $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw']);
 
         /** @var \TYPO3\CMS\Core\DataHandling\DataHandler $tce */
@@ -67,11 +72,6 @@ class PasswordEvaluator
             'core.template.flashMessages'
         );
         $set = true;
-
-        // if $value is a md5 hash, return the value directly
-        if (preg_match('/[0-9abcdef]{32,32}/', $value) === true) {
-            return $value;
-        }
 
         $messages = [];
         // check for password length
@@ -166,5 +166,27 @@ class PasswordEvaluator
 
         // if password not valid return empty password
         return '';
+    }
+
+    /**
+     * @param $password
+     * @return boolean
+     */
+    protected function isMd5($password)
+    {
+        return (boolean)preg_match('/[0-9abcdef]{32,32}/', $password);
+    }
+
+    /**
+     * @param $password
+     * @return boolean
+     */
+    protected function isSalted($password)
+    {
+        if (!\TYPO3\CMS\Saltedpasswords\Utility\SaltedPasswordsUtility::isUsageEnabled('BE')) {
+            return false;
+        }
+
+        return (boolean)substr($password, 0, 1) === '$' || substr($password, 0, 2) === 'M$';
     }
 }
