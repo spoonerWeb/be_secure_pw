@@ -152,7 +152,11 @@ class PasswordEvaluator
 
         /* no problems */
         if ($set) {
-            return md5($value);
+            // If no saltedpasswords are enabled, hash the password to prevent a clean password in DB
+            if (!\TYPO3\CMS\Saltedpasswords\Utility\SaltedPasswordsUtility::isUsageEnabled('BE')) {
+                $value = md5($value);
+            }
+            return $value;
         }
 
         $flashMessageQueue->addMessage(
@@ -187,6 +191,11 @@ class PasswordEvaluator
             return false;
         }
 
-        return (boolean)substr($password, 0, 1) === '$' || substr($password, 0, 2) === 'M$';
+        $saltFactory = \TYPO3\CMS\Saltedpasswords\Salt\SaltFactory::getSaltingInstance($password, 'BE');
+        if (!$saltFactory) {
+            return false;
+        }
+
+        return $saltFactory->isValidSaltedPW($password);
     }
 }
