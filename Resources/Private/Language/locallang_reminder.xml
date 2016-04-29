@@ -8,13 +8,15 @@
 		<languageKey index="default" type="array">
 			<label index="passwordReminderWindow_title">Password reminder</label>
 			<label index="passwordReminderWindow_message">It is time to change your password. For security reasons it is important to change your password in a fixed period.</label>
+			<label index="passwordReminderWindow_confirmation">Do you want to set a new password now?</label>
 			<label index="passwordReminderWindow_button_changePassword">Go to user settings</label>
 			<label index="passwordReminderWindow_button_postpone">Remind me on next login</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="passwordReminderWindow_title">Passwort-Erinnerung</label>
 			<label index="passwordReminderWindow_message">Es ist Zeit, Ihr Passwort zu ändern. Um die Sicherheit des Systems zu gewährleisten, sollten Sie innerhalb eines bestimmten Zeitraums Ihr Passwort ändern.</label>
-			<label index="passwordReminderWindow_button_changePassword">Zu den Benutzereinstellungen</label>
+            <label index="passwordReminderWindow_confirmation">Wollen Sie jetzt Ihr Passwort ändern?</label>
+            <label index="passwordReminderWindow_button_changePassword">Zu den Benutzereinstellungen</label>
 			<label index="passwordReminderWindow_button_postpone">Erinnere mich beim nächsten Login</label>
 		</languageKey>
 	</data>

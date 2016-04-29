@@ -15,6 +15,7 @@ namespace SpoonerWeb\BeSecurePw\Hook;
  */
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * Class BackendHook
@@ -53,20 +54,25 @@ class BackendHook
             $validUntil = strtotime('- ' . $validUntilConfiguration);
         }
 
-        if (($validUntilConfiguration != '' && ($lastPwChange == 0 || $lastPwChange < $validUntil)) || $lastLogin == 0) {
+        if (($validUntilConfiguration != ''
+            && ($lastPwChange == 0 || $lastPwChange < $validUntil)) || $lastLogin == 0) {
             // let the popup pop up :)
+            $ll = 'LLL:EXT:be_secure_pw/Resources/Private/Language/locallang_reminder.xml:';
             $generatedLabels = array(
                 'passwordReminderWindow_title' => $GLOBALS['LANG']->sL(
-                    'LLL:EXT:be_secure_pw/Resources/Private/Language/locallang_reminder.xml:passwordReminderWindow_title'
+                    $ll . 'passwordReminderWindow_title'
                 ),
                 'passwordReminderWindow_message' => $GLOBALS['LANG']->sL(
-                    'LLL:EXT:be_secure_pw/Resources/Private/Language/locallang_reminder.xml:passwordReminderWindow_message'
+                    $ll . 'passwordReminderWindow_message'
+                ),
+                'passwordReminderWindow_confirmation' => $GLOBALS['LANG']->sL(
+                    $ll . 'passwordReminderWindow_confirmation'
                 ),
                 'passwordReminderWindow_button_changePassword' => $GLOBALS['LANG']->sL(
-                    'LLL:EXT:be_secure_pw/Resources/Private/Language/locallang_reminder.xml:passwordReminderWindow_button_changePassword'
+                    $ll . 'passwordReminderWindow_button_changePassword'
                 ),
                 'passwordReminderWindow_button_postpone' => $GLOBALS['LANG']->sL(
-                    'LLL:EXT:be_secure_pw/Resources/Private/Language/locallang_reminder.xml:passwordReminderWindow_button_postpone'
+                    $ll . 'passwordReminderWindow_button_postpone'
                 ),
             );
 
@@ -78,18 +84,18 @@ class BackendHook
             $labelsForJS = 'TYPO3.LLL.beSecurePw = ' . json_encode($generatedLabels) . ';';
 
             $backendReference->addJavascript($labelsForJS);
-            $version7 = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger('7.0.0');
-            $currentVersion = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+            $version7 = VersionNumberUtility::convertVersionNumberToInteger('7.0.0');
+            $currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
             if ($currentVersion < $version7) {
                 $javaScriptFile = 'passwordreminder.js';
+                $backendReference->addJavascriptFile(
+                    $GLOBALS['BACK_PATH'] . '../'
+                    . ExtensionManagementUtility::siteRelPath('be_secure_pw')
+                    . 'Resources/Public/JavaScript/' . $javaScriptFile
+                );
             } else {
-                $javaScriptFile = 'passwordreminder7.js';
+                $backendReference->getPageRenderer()->loadRequireJsModule('TYPO3/CMS/BeSecurePw/Reminder');
             }
-            $backendReference->addJavascriptFile(
-                $GLOBALS['BACK_PATH'] . '../'
-                . ExtensionManagementUtility::siteRelPath('be_secure_pw')
-                . 'Resources/Public/JavaScript/' . $javaScriptFile
-            );
         }
     }
 
