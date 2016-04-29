@@ -109,7 +109,7 @@ class BackendHook
      */
     public function processDatamap_preProcessFieldArray(&$incomingFieldArray, $table, $id, &$parentObj)
     {
-        if ($table == 'be_users' && $incomingFieldArray['password'] != '') {
+        if ($table == 'be_users' && $incomingFieldArray['password'] !== '') {
             $incomingFieldArray['tx_besecurepw_lastpwchange'] = time() + date('Z');
         }
     }

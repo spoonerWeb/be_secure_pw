@@ -22,6 +22,7 @@
 			<label index="messageTitle">Attempt to modify password</label>
 			<label index="notUsedConvention"> Not used convention is %s</label>
 			<label index="notUsedConventions"> Not used conventions are %s</label>
+			<label index="samePassword">Your new password was the same as your old one. Your password was not updated though.</label>
 			<label index="be_users.tx_besecurepw_lastpwchange">Last password change</label>
 		</languageKey>
 		<languageKey index="de" type="array">
@@ -40,7 +41,8 @@
 			<label index="passwordConventions">Bitte überprüfen Sie Ihre Passworteingabe. %s Passwort Konventionen wurden nicht eingehalten!</label>
 			<label index="notUsedConvention"> Die Konvention für %s wurde nicht berücksichtigt!</label>
 			<label index="notUsedConventions"> Die folgenden Konventionen wurden nicht berücksichtigt %s!</label>
-			<label index="be_users.tx_besecurepw_lastpwchange">Letzte Passwort-Änderung</label>
+            <label index="samePassword">Ihr neues Passwort war das selbe wie das alte, daher wurde es nicht gespeichert.</label>
+            <label index="be_users.tx_besecurepw_lastpwchange">Letzte Passwort-Änderung</label>
 		</languageKey>
 	</data>
 </T3locallang>

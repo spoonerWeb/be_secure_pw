@@ -15,7 +15,7 @@ namespace SpoonerWeb\BeSecurePw\Hook;
  */
 
 use TYPO3\CMS\Core\Utility;
-use TYPO3\CMS\Core\Messaging\FlashMessage;
+use TYPO3\CMS\Core\Messaging;
 
 /**
  * Class UserSetupHook
@@ -25,6 +25,41 @@ use TYPO3\CMS\Core\Messaging\FlashMessage;
  */
 class UserSetupHook
 {
+
+    public function modifyUserDataBeforeSave(&$params, &$parentObject)
+    {
+        // Check if password is valid
+        $passwordEvaluator = new \SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator();
+        $set = false;
+        $password = $passwordEvaluator->evaluateFieldValue($params['be_user_data']['password'], '', $set);
+
+        // Prevent same password as before
+        if ($params['be_user_data']['password'] === $params['be_user_data']['passwordCurrent']) {
+            $params['be_user_data']['password'] = '';
+            $params['be_user_data']['password2'] = '';
+            $this->getLanguageLabels();
+            /** @var \TYPO3\CMS\Core\Messaging\FlashMessageQueue $messageQueue */
+            $messageQueue = Utility\GeneralUtility::makeInstance(
+                Messaging\FlashMessageQueue::class,
+                'core.template.flashMessages'
+            );
+            $messageQueue->addMessage(
+                new Messaging\FlashMessage(
+                    $GLOBALS['LANG']->getLL('samePassword'),
+                    '',
+                    Messaging\FlashMessage::WARNING,
+                    true
+                )
+            );
+        }
+
+        // Password is not valid, so reset the new passwords to prevent save
+        if ($password === '' && $set === false) {
+            $params['be_user_data']['password'] = '';
+            $params['be_user_data']['password2'] = '';
+        }
+    }
+
 
     /**
      * Add flash message with instructions for user.
@@ -41,12 +76,7 @@ class UserSetupHook
                 // get configuration of a secure password
                 $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw']);
 
-                // get the languages from ext
-                if (empty($GLOBALS['LANG'])) {
-                    $GLOBALS['LANG'] = Utility\GeneralUtility::makeInstance('language');
-                    $GLOBALS['LANG']->init($GLOBALS['BE_USER']->uc['lang']);
-                }
-                $GLOBALS['LANG']->includeLLFile('EXT:be_secure_pw/Resources/Private/Language/locallang.xml');
+                $this->getLanguageLabels();
                 // how many parameters have to be checked
                 $toCheckParams = array(
                     'lowercaseChar',
@@ -71,7 +101,7 @@ class UserSetupHook
                         $extConf['patterns']
                     ),
                     $GLOBALS['LANG']->getLL('beSecurePw.header'),
-                    FlashMessage::INFO,
+                    Messaging\FlashMessage::INFO,
                     true
                 );
                 $params['markers']['FLASHMESSAGES'] = '<div id="typo3-messages">' . $flashMessage->render() . '</div>';
@@ -115,24 +145,15 @@ class UserSetupHook
     }
 
     /**
-     * @param array $params
-     * @param \TYPO3\CMS\Setup\Controller\SetupModuleController $parentObject
-     * @return string
+     * @return void
      */
-    public function setupScriptHook($params, &$parentObject)
+    private function getLanguageLabels()
     {
-        // add JS code for password validation
-        $parentObject->doc->JScode .= '<script type="text/javascript" src="'
-            . $GLOBALS['BACK_PATH'] . '../'
-            . Utility\ExtensionManagementUtility::siteRelPath('be_secure_pw')
-            . 'Resources/Public/JavaScript/passwordtester7.js"></script>';
-
-        // get configuration of a secure password
-        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw']);
-
-        return '<script type="text/javascript">var beSecurePwConf = ' . json_encode($extConf) . '</script>';
+        // get the languages from ext
+        if (empty($GLOBALS['LANG'])) {
+            $GLOBALS['LANG'] = Utility\GeneralUtility::makeInstance('language');
+            $GLOBALS['LANG']->init($GLOBALS['BE_USER']->uc['lang']);
+        }
+        $GLOBALS['LANG']->includeLLFile('EXT:be_secure_pw/Resources/Private/Language/locallang.xml');
     }
-
 }
-
-?>
