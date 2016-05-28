@@ -18,7 +18,7 @@
   },
   "autoload": {
     "psr-4": {
-      "SpoonerWeb\\BeSecurePw\\": "htdocs/typo3conf/ext/be_secure_pw/Classes/"
+      "SpoonerWeb\\BeSecurePw\\": "Classes/"
     }
   }
 }
