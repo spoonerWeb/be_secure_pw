@@ -1,12 +1,12 @@
 {
-  "name": "spoonerWeb/be_secure_pw",
+  "name": "spooner-web/be_secure_pw",
   "type": "typo3-cms-extension",
   "description": "You can set password conventions to force secure passwords for BE users.",
   "homepage": "http://typo3.org",
   "license": [
     "GPL-2.0+"
   ],
-  "version": "7.0.3",
+  "version": "7.0.5",
   "require": {
     "typo3/cms": "^7.6"
   },
