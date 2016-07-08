@@ -6,15 +6,24 @@
   "license": [
     "GPL-2.0+"
   ],
-  "version": "7.0.5",
-  "require": {
-    "typo3/cms": "^7.6"
-  },
-  "extra": {
-    "typo3/cms": {
-      "cms-package-dir": "{$vendor-dir}/typo3/cms",
-      "web-dir": "htdocs"
+  "keywords": [
+    "TYPO3",
+    "extension",
+    "security",
+    "password",
+    "pattern",
+    "reminder"
+  ],
+  "authors": [
+    {
+      "name": "Thomas Löffler",
+      "email": "loeffler@spooner-web.de",
+      "homepage": "https://spooner-web.de",
+      "role": "Developer"
     }
+  ],
+  "require": {
+    "typo3/cms": ">6.2"
   },
   "autoload": {
     "psr-4": {
