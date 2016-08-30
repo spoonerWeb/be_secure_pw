@@ -79,7 +79,7 @@ PasswordTester = Class.create({
 				this.passwordField,
 				{
 					tag: 'img',
-					src: '../../../../typo3/sysext/t3skin/icons/gfx/ok.png',
+					src: '../../../../typo3/sysext/t3skin/images/icons/status/dialog-ok.png',
 					id: 'password_strength',
 					style: 'margin: 2px 0 0 5px;'
 				},
@@ -93,7 +93,7 @@ PasswordTester = Class.create({
 				this.passwordField,
 				{
 					tag: 'img',
-					src: '../../../../typo3/sysext/t3skin/icons/gfx/required_h.gif',
+					src: '../../../../typo3/sysext/t3skin/images/icons/status/dialog-warning.png',
 					id: 'password_strength',
 					style: 'margin: 2px 0 0 5px;'
 				},
