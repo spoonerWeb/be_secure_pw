@@ -79,7 +79,7 @@ PasswordTester = Class.create({
 				this.passwordField,
 				{
 					tag: 'img',
-					src: '../../../../typo3conf/ext/be_secure_pw/Resources/Public/Images/accept.png',
+					src: '../../../../typo3/sysext/t3skin/icons/gfx/ok.png',
 					id: 'password_strength',
 					style: 'margin: 2px 0 0 5px;'
 				},
