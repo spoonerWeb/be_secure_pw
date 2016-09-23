@@ -42,61 +42,57 @@ class BackendHook
      */
     public function constructPostProcess($config, &$backendReference)
     {
-        $lastPwChange = $GLOBALS['BE_USER']->user['tx_besecurepw_lastpwchange'];
-        $lastLogin = $GLOBALS['BE_USER']->user['lastlogin'];
+        if (!PasswordExpirationUtility::isBeUserPasswordExpired()) {
+            return;
+        }
+
+        // let the popup pop up :)
+        $ll = 'LLL:EXT:be_secure_pw/Resources/Private/Language/locallang_reminder.xml:';
+        $generatedLabels = array(
+            'passwordReminderWindow_title' => $GLOBALS['LANG']->sL(
+                $ll . 'passwordReminderWindow_title'
+            ),
+            'passwordReminderWindow_message' => $GLOBALS['LANG']->sL(
+                $ll . 'passwordReminderWindow_message'
+            ),
+            'passwordReminderWindow_confirmation' => $GLOBALS['LANG']->sL(
+                $ll . 'passwordReminderWindow_confirmation'
+            ),
+            'passwordReminderWindow_button_changePassword' => $GLOBALS['LANG']->sL(
+                $ll . 'passwordReminderWindow_button_changePassword'
+            ),
+            'passwordReminderWindow_button_postpone' => $GLOBALS['LANG']->sL(
+                $ll . 'passwordReminderWindow_button_postpone'
+            ),
+        );
 
         // get configuration of a secure password
         $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw']);
 
-        $validUntilConfiguration = trim($extConf['validUntil']);
-
-        $validUntil = 0;
-        if ($validUntilConfiguration != '') {
-            $validUntil = strtotime('- ' . $validUntilConfiguration);
+        // Convert labels/settings back to UTF-8 since json_encode() only works with UTF-8:
+        if ($GLOBALS['LANG']->charSet !== 'utf-8') {
+            $GLOBALS['LANG']->csConvObj->convArray($generatedLabels, $GLOBALS['LANG']->charSet, 'utf-8');
         }
 
-        if (($validUntilConfiguration != ''
-            && ($lastPwChange == 0 || $lastPwChange < $validUntil)) || $lastLogin == 0) {
-            // let the popup pop up :)
-            $ll = 'LLL:EXT:be_secure_pw/Resources/Private/Language/locallang_reminder.xml:';
-            $generatedLabels = array(
-                'passwordReminderWindow_title' => $GLOBALS['LANG']->sL(
-                    $ll . 'passwordReminderWindow_title'
-                ),
-                'passwordReminderWindow_message' => $GLOBALS['LANG']->sL(
-                    $ll . 'passwordReminderWindow_message'
-                ),
-                'passwordReminderWindow_confirmation' => $GLOBALS['LANG']->sL(
-                    $ll . 'passwordReminderWindow_confirmation'
-                ),
-                'passwordReminderWindow_button_changePassword' => $GLOBALS['LANG']->sL(
-                    $ll . 'passwordReminderWindow_button_changePassword'
-                ),
-                'passwordReminderWindow_button_postpone' => $GLOBALS['LANG']->sL(
-                    $ll . 'passwordReminderWindow_button_postpone'
-                ),
+        $labelsForJS = 'TYPO3.LLL.beSecurePw = ' . json_encode($generatedLabels) . ';';
+
+        $backendReference->addJavascript($labelsForJS);
+        $version7 = VersionNumberUtility::convertVersionNumberToInteger('7.0.0');
+        $currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+        if ($currentVersion < $version7) {
+            $javaScriptFile = 'passwordreminder.js';
+            $backendReference->addJavascriptFile(
+                $GLOBALS['BACK_PATH'] . '../'
+                . ExtensionManagementUtility::siteRelPath('be_secure_pw')
+                . 'Resources/Public/JavaScript/' . $javaScriptFile
             );
-
-            // Convert labels/settings back to UTF-8 since json_encode() only works with UTF-8:
-            if ($GLOBALS['LANG']->charSet !== 'utf-8') {
-                $GLOBALS['LANG']->csConvObj->convArray($generatedLabels, $GLOBALS['LANG']->charSet, 'utf-8');
-            }
-
-            $labelsForJS = 'TYPO3.LLL.beSecurePw = ' . json_encode($generatedLabels) . ';';
-
-            $backendReference->addJavascript($labelsForJS);
-            $version7 = VersionNumberUtility::convertVersionNumberToInteger('7.0.0');
-            $currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
-            if ($currentVersion < $version7) {
-                $javaScriptFile = 'passwordreminder.js';
-                $backendReference->addJavascriptFile(
-                    $GLOBALS['BACK_PATH'] . '../'
-                    . ExtensionManagementUtility::siteRelPath('be_secure_pw')
-                    . 'Resources/Public/JavaScript/' . $javaScriptFile
-                );
-            } else {
-                $backendReference->getPageRenderer()->loadRequireJsModule('TYPO3/CMS/BeSecurePw/Reminder');
-            }
+        } else {
+            $backendReference->getPageRenderer()->loadRequireJsModule(
+                'TYPO3/CMS/BeSecurePw/Reminder',
+                'function(reminder){
+                    reminder.initModal(' . (!empty($extConf['forcePasswordChange']) ? 'true' : 'false') . ');
+                }'
+            );
         }
     }
 
@@ -111,7 +107,7 @@ class BackendHook
      */
     public function processDatamap_preProcessFieldArray(&$incomingFieldArray, $table, $id, &$parentObj)
     {
-        if ($table == 'be_users' && $incomingFieldArray['password'] !== '') {
+        if ($table == 'be_users' && !empty($incomingFieldArray['password'])) {
 
             // only do that, if the record was edited from the user himself
             if ($id == $GLOBALS['BE_USER']->user['uid'] && !$GLOBALS['BE_USER']->user['ses_backuserid']) {

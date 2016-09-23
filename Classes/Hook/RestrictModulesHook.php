@@ -33,7 +33,7 @@ class RestrictModulesHook implements \TYPO3\CMS\Core\SingletonInterface
      * @return string
      */
     public function addRefreshJavaScript(array $params, $pObj)
-    {
+    {exit('...');
         if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['be_secure_pw']['insertModuleRefreshJS']) {
             $pageRenderer = $GLOBALS['TBE_TEMPLATE']->getPageRenderer();
             $label = $GLOBALS['LANG']->sL('LLL:EXT:be_secure_pw/Resources/Private/Language/locallang.xml:beSecurePw.backendNeedsToReload');
@@ -64,13 +64,24 @@ class RestrictModulesHook implements \TYPO3\CMS\Core\SingletonInterface
             $GLOBALS['BE_USER']->user['workspace_perms'] = 3;
 
             // Disable all columns except password
-            $GLOBALS['TYPO3_USER_SETTINGS']['columns'] = array(
-                'password' => $GLOBALS['TYPO3_USER_SETTINGS']['columns']['password'],
-                'password2' => $GLOBALS['TYPO3_USER_SETTINGS']['columns']['password2'],
-            );
+            if (!\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version(7.6)) {
+                $GLOBALS['TYPO3_USER_SETTINGS']['columns'] = array(
+                    'password' => $GLOBALS['TYPO3_USER_SETTINGS']['columns']['password'],
+                    'password2' => $GLOBALS['TYPO3_USER_SETTINGS']['columns']['password2'],
+                );
 
-            // Override showitem to remove tabs and all fields except password
-            $GLOBALS['TYPO3_USER_SETTINGS']['showitem'] = '--div--;LLL:EXT:be_secure_pw/Resources/Private/Language/ux_locallang_csh_mod.xml:option_newPassword.description,password,password2';
+                // Override showitem to remove tabs and all fields except password
+                $GLOBALS['TYPO3_USER_SETTINGS']['showitem'] = '--div--;LLL:EXT:be_secure_pw/Resources/Private/Language/ux_locallang_csh_mod.xml:option_newPassword.description,password,password2';
+            } else {
+                $GLOBALS['TYPO3_USER_SETTINGS']['columns'] = array(
+                    'passwordCurrent' => $GLOBALS['TYPO3_USER_SETTINGS']['columns']['passwordCurrent'],
+                    'password' => $GLOBALS['TYPO3_USER_SETTINGS']['columns']['password'],
+                    'password2' => $GLOBALS['TYPO3_USER_SETTINGS']['columns']['password2'],
+                );
+
+                // Override showitem to remove tabs and all fields except password
+                $GLOBALS['TYPO3_USER_SETTINGS']['showitem'] = '--div--;LLL:EXT:be_secure_pw/Resources/Private/Language/ux_locallang_csh_mod.xml:option_newPassword.description,passwordCurrent,password,password2';
+            }
         }
     }
 }
