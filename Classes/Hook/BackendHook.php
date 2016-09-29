@@ -26,6 +26,10 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
  */
 class BackendHook
 {
+    /**
+     * @var bool
+     */
+    public static $insertModuleRefreshJS = false;
 
     /**
      * reference back to the backend
@@ -112,14 +116,12 @@ class BackendHook
             // only do that, if the record was edited from the user himself
             if ($id == $GLOBALS['BE_USER']->user['uid'] && !$GLOBALS['BE_USER']->user['ses_backuserid']) {
                 $incomingFieldArray['tx_besecurepw_lastpwchange'] = time() + date('Z');
-                $incomingFieldArray['tx_besecurepw_forcepwchange'] = 0;
             }
 
             // trigger reload of the backend, if it was previously locked down
             if (PasswordExpirationUtility::isBeUserPasswordExpired()) {
-                $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['be_secure_pw']['insertModuleRefreshJS'] = true;
+                self::$insertModuleRefreshJS = true;
             }
-
         }
     }
 

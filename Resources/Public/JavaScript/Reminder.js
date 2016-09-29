@@ -31,7 +31,8 @@ define(['jquery', 'TYPO3/CMS/Backend/Modal'], function ($, Modal) {
                     [{
                         text: TYPO3.lang['button.ok'] || 'OK',
                         btnClass: 'btn-warning',
-                        name: 'ok'
+                        name: 'ok',
+                        active: true
                     }]
                 ).on('button.clicked', function () {
                     Modal.currentModal.trigger('modal-dismiss');
