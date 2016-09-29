@@ -59,26 +59,6 @@ class RestrictModulesHook implements \TYPO3\CMS\Core\SingletonInterface
             $GLOBALS['BE_USER']->user['usergroup'] = '';
             // allow access to live and workspace, if the user is currently in a workspace, but the access is removed due to missing usergroup
             $GLOBALS['BE_USER']->user['workspace_perms'] = 3;
-
-            // Disable all columns except password
-            if (!\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version(7.6)) {
-                $GLOBALS['TYPO3_USER_SETTINGS']['columns'] = array(
-                    'password' => $GLOBALS['TYPO3_USER_SETTINGS']['columns']['password'],
-                    'password2' => $GLOBALS['TYPO3_USER_SETTINGS']['columns']['password2'],
-                );
-
-                // Override showitem to remove tabs and all fields except password
-                $GLOBALS['TYPO3_USER_SETTINGS']['showitem'] = '--div--;LLL:EXT:be_secure_pw/Resources/Private/Language/ux_locallang_csh_mod.xml:option_newPassword.description,password,password2';
-            } else {
-                $GLOBALS['TYPO3_USER_SETTINGS']['columns'] = array(
-                    'passwordCurrent' => $GLOBALS['TYPO3_USER_SETTINGS']['columns']['passwordCurrent'],
-                    'password' => $GLOBALS['TYPO3_USER_SETTINGS']['columns']['password'],
-                    'password2' => $GLOBALS['TYPO3_USER_SETTINGS']['columns']['password2'],
-                );
-
-                // Override showitem to remove tabs and all fields except password
-                $GLOBALS['TYPO3_USER_SETTINGS']['showitem'] = '--div--;LLL:EXT:be_secure_pw/Resources/Private/Language/ux_locallang_csh_mod.xml:option_newPassword.description,passwordCurrent,password,password2';
-            }
         }
     }
 }
