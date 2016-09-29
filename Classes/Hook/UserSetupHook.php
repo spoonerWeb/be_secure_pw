@@ -14,6 +14,7 @@ namespace SpoonerWeb\BeSecurePw\Hook;
  * The TYPO3 project - inspiring people to share!
  */
 
+use SpoonerWeb\BeSecurePw\Utilities\PasswordExpirationUtility;
 use TYPO3\CMS\Core\Messaging;
 use TYPO3\CMS\Core\Utility;
 
@@ -34,6 +35,17 @@ class UserSetupHook
      */
     public function modifyUserDataBeforeSave(&$params, &$parentObject)
     {
+        // No new password given then we don't need to preform the checks
+        if (
+            empty($params['be_user_data']['password'])
+            &&
+            empty($params['be_user_data']['password2'])
+            &&
+            !PasswordExpirationUtility::isBeUserPasswordExpired()
+        ) {
+            return;
+        }
+
         // Check if password is valid
         $passwordEvaluator = new \SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator();
         $set = false;
