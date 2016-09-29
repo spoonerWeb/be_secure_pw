@@ -14,6 +14,7 @@ namespace SpoonerWeb\BeSecurePw\Hook;
  * The TYPO3 project - inspiring people to share!
  */
 use SpoonerWeb\BeSecurePw\Utilities\PasswordExpirationUtility;
+use TYPO3\CMS\Core\Page\PageRenderer;
 
 /**
  * Class BackendHook
@@ -28,20 +29,16 @@ class RestrictModulesHook implements \TYPO3\CMS\Core\SingletonInterface
      * Insert JavaScript code to refresh the module menu, if the password was updated and
      * the "force" option was set. The menu then only shows a limited set of available backend modules.
      *
+     * PageRenderer::executePostRenderHook
+     *
      * @param array $params
-     * @param mixed $pObj Reference back to the calling object (called from two different hooks, but we do not need it anyway)
+     * @param PageRenderer $pageRenderer
      * @return string
      */
-    public function addRefreshJavaScript(array $params, $pObj)
-    {exit('...');
-        if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['be_secure_pw']['insertModuleRefreshJS']) {
-            $pageRenderer = $GLOBALS['TBE_TEMPLATE']->getPageRenderer();
-            $label = $GLOBALS['LANG']->sL('LLL:EXT:be_secure_pw/Resources/Private/Language/locallang.xml:beSecurePw.backendNeedsToReload');
-            $pageRenderer->addExtOnReadyCode(
-                'alert("' . $label . '");
-					top.location.reload();
-					'
-            );
+    public function addRefreshJavaScript(array $params, PageRenderer $pageRenderer)
+    {
+        if (BackendHook::$insertModuleRefreshJS) {
+            $params['jsFooterLibs'] .= '<script>top.location.reload();</script>';
         }
     }
 

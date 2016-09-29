@@ -38,8 +38,8 @@ $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$_EXTKEY]);
 // if the backend is set to adminOnly, we can not enforce the change, because the hook removes the admin flag
 if ($extConf['forcePasswordChange'] && TYPO3_MODE === 'BE' && intval($TYPO3_CONF_VARS['BE']['adminOnly']) === 0) {
 
-    // todo: find option for TYPO3 7
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/setup/mod/index.php']['setupScriptHook'][] = 'SpoonerWeb\\BeSecurePw\\Hook\\RestrictModulesHook->addRefreshJavaScript';
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_pagerenderer.php']['render-postProcess'][] =
+        'SpoonerWeb\\BeSecurePw\\Hook\\RestrictModulesHook->addRefreshJavaScript';
 
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_userauth.php']['postUserLookUp'][] = 'SpoonerWeb\\BeSecurePw\\Hook\\RestrictModulesHook->postUserLookUp';
 }
