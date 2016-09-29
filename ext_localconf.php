@@ -26,7 +26,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/setup/mod/index.php']['modifyUser
     'SpoonerWeb\\BeSecurePw\\Hook\\UserSetupHook->modifyUserDataBeforeSave';
 
 // password reminder
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/backend.php']['constructPostProcess'][] =
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/backend.php']['constructPostProcess']['be_secure_pw'] =
     'SpoonerWeb\\BeSecurePw\\Hook\\BackendHook->constructPostProcess';
 
 // Set timestamp for last password change
