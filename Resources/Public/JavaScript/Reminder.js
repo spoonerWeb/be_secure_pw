@@ -15,17 +15,42 @@
  * Module: SpoonerWeb/BeSecurePw/Reminder
  * JavaScript to handle password reminder modal
  */
-define( [ 'jquery', 'TYPO3/CMS/Backend/Modal' ], function ( $, Modal ) {
-	'use strict';
+define(['jquery', 'TYPO3/CMS/Backend/Modal'], function ($, Modal) {
+    'use strict';
 
-	$( function () {
-		Modal.confirm( TYPO3.LLL.beSecurePw.passwordReminderWindow_title, TYPO3.LLL.beSecurePw.passwordReminderWindow_message + " " + TYPO3.LLL.beSecurePw.passwordReminderWindow_confirmation)
-			.on( 'confirm.button.ok', function () {
-				Modal.currentModal.trigger( 'modal-dismiss' );
-				top.goToModule( 'user_setup' );
-			} )
-			.on( 'confirm.button.cancel', function () {
-				Modal.currentModal.trigger( 'modal-dismiss' );
-			} );
-	} );
-} );
+    var Reminder = {};
+
+    Reminder.initModal = function (force) {
+
+        $(function () {
+            if (force) {
+                Modal.show(
+                    TYPO3.LLL.beSecurePw.passwordReminderWindow_title,
+                    TYPO3.LLL.beSecurePw.passwordReminderWindow_message,
+                    Severity.warning,
+                    [{
+                        text: TYPO3.lang['button.ok'] || 'OK',
+                        btnClass: 'btn-warning',
+                        name: 'ok',
+                        active: true
+                    }]
+                ).on('button.clicked', function () {
+                    Modal.currentModal.trigger('modal-dismiss');
+                }).on('hidden.bs.modal', function () {
+                    top.goToModule('user_setup');
+                });
+            } else {
+                Modal.confirm(TYPO3.LLL.beSecurePw.passwordReminderWindow_title, TYPO3.LLL.beSecurePw.passwordReminderWindow_message + " " + TYPO3.LLL.beSecurePw.passwordReminderWindow_confirmation)
+                    .on('confirm.button.ok', function () {
+                        Modal.currentModal.trigger('modal-dismiss');
+                        top.goToModule('user_setup');
+                    })
+                    .on('confirm.button.cancel', function () {
+                        Modal.currentModal.trigger('modal-dismiss');
+                    });
+            }
+        });
+    };
+
+    return Reminder;
+});

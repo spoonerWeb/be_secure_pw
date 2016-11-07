@@ -14,8 +14,9 @@ namespace SpoonerWeb\BeSecurePw\Hook;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Utility;
+use SpoonerWeb\BeSecurePw\Utilities\PasswordExpirationUtility;
 use TYPO3\CMS\Core\Messaging;
+use TYPO3\CMS\Core\Utility;
 
 /**
  * Class UserSetupHook
@@ -26,8 +27,25 @@ use TYPO3\CMS\Core\Messaging;
 class UserSetupHook
 {
 
+    /**
+     * checks if the password is not the same as the previous one
+     *
+     * @param array $newSetup
+     * @param \TYPO3\CMS\Setup\Controller\SetupModuleController $parentObj
+     */
     public function modifyUserDataBeforeSave(&$params, &$parentObject)
     {
+        // No new password given then we don't need to preform the checks
+        if (
+            empty($params['be_user_data']['password'])
+            &&
+            empty($params['be_user_data']['password2'])
+            &&
+            !PasswordExpirationUtility::isBeUserPasswordExpired()
+        ) {
+            return;
+        }
+
         // Check if password is valid
         $passwordEvaluator = new \SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator();
         $set = false;
@@ -59,7 +77,6 @@ class UserSetupHook
             $params['be_user_data']['password2'] = '';
         }
     }
-
 
     /**
      * Add flash message with instructions for user.
@@ -104,6 +121,7 @@ class UserSetupHook
                     Messaging\FlashMessage::INFO,
                     true
                 );
+
                 $params['markers']['FLASHMESSAGES'] = '<div id="typo3-messages">' . $flashMessage->render() . '</div>';
 
                 // put flash message in front of content
