@@ -15,7 +15,9 @@ namespace SpoonerWeb\BeSecurePw\Hook;
  */
 
 use SpoonerWeb\BeSecurePw\Utilities\PasswordExpirationUtility;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
@@ -46,7 +48,9 @@ class BackendHook
      */
     public function constructPostProcess($config, &$backendReference)
     {
-        if (!PasswordExpirationUtility::isBeUserPasswordExpired()) {
+        /** @var PasswordExpirationUtility $passwordExpirationUtility */
+        $passwordExpirationUtility = GeneralUtility::makeInstance(PasswordExpirationUtility::class);
+        if (!$passwordExpirationUtility->isBeUserPasswordExpired()) {
             return;
         }
 
@@ -91,7 +95,9 @@ class BackendHook
                 . 'Resources/Public/JavaScript/' . $javaScriptFile
             );
         } else {
-            $backendReference->getPageRenderer()->loadRequireJsModule(
+            /** @var PageRenderer $pageRenderer */
+            $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+            $pageRenderer->loadRequireJsModule(
                 'TYPO3/CMS/BeSecurePw/Reminder',
                 'function(reminder){
                     reminder.initModal(' . (!empty($extConf['forcePasswordChange']) ? 'true' : 'false') . ');
