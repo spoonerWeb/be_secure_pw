@@ -48,9 +48,7 @@ class BackendHook
      */
     public function constructPostProcess($config, &$backendReference)
     {
-        /** @var PasswordExpirationUtility $passwordExpirationUtility */
-        $passwordExpirationUtility = GeneralUtility::makeInstance(PasswordExpirationUtility::class);
-        if (!$passwordExpirationUtility->isBeUserPasswordExpired()) {
+        if (!PasswordExpirationUtility::isBeUserPasswordExpired()) {
             return;
         }
 
