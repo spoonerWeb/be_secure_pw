@@ -34,7 +34,7 @@ class PasswordExpirationUtility
      * @static
      * @return bool FALSE if the password is still valid
      */
-    public function isBeUserPasswordExpired()
+    public static function isBeUserPasswordExpired()
     {
         // If ses_backuserid is set, an admin switched to that user. He should not be forced to change the password
         if ($GLOBALS['BE_USER']->user['ses_backuserid']) {
