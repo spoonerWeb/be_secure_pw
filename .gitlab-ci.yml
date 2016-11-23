@@ -14,4 +14,4 @@ test:
     - export COMPOSER_CACHE_DIR=/cache/composer
   script:
     - composer install
-    - ./vendor/phpunit/phpunit/phpunit -c -vvv Configuration/Build/UnitTests.xml
+    - ./vendor/phpunit/phpunit/phpunit -c -v Configuration/Build/UnitTests.xml
