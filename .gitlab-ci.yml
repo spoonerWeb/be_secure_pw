@@ -14,5 +14,4 @@ test:
     - export COMPOSER_CACHE_DIR=/cache/composer
   script:
     - composer install
-    - which phpunit
-    - phpunit -c Configuration/Build/UnitTests.xml
+    - vendor/phpunit/phpunit -c Configuration/Build/UnitTests.xml
