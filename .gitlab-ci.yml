@@ -14,4 +14,4 @@ test:
     - export COMPOSER_CACHE_DIR=/cache/composer
   script:
     - composer install
-    - phpunit -c htdocs/typo3conf/ext/be_secure_pw/Configuration/Build/UnitTests.xml
+    - ls -la
