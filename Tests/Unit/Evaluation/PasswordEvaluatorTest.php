@@ -14,21 +14,28 @@ namespace SpoonerWeb\BeSecurePw\Tests\Unit\Evaluation;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Tests\Unit\Resource\BaseTestCase;
+
 /**
  * Test case.
  *
  * @author Thomas Löffler <loeffler@spooner-web.de>
  */
-class PasswordEvaluatorTest extends \TYPO3\CMS\Core\Tests\Unit\Resource\BaseTestCase {
+class PasswordEvaluatorTest extends BaseTestCase
+{
 
-	/**
-	 * @var \SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator
-	 */
-	protected $subject = NULL;
+    /**
+     * @var \SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator
+     */
+    protected $subject = null;
 
-	public function setUp() {
-		$this->subject = new \SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator();
-	}
+    /**
+     * @return void
+     */
+    public function setUp()
+    {
+        $this->subject = new \SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator();
+    }
 
     /**
      * @test
@@ -42,137 +49,142 @@ class PasswordEvaluatorTest extends \TYPO3\CMS\Core\Tests\Unit\Resource\BaseTest
         );
     }
 
-	/**
-	 * @test
-	 */
-	public function returnFieldJavaScriptReturnsDefaultString() {
-		self::assertEquals(
-			'return value;',
-			$this->subject->returnFieldJS()
-		);
-	}
+    /**
+     * @test
+     */
+    public function returnFieldJavaScriptReturnsDefaultString()
+    {
+        self::assertEquals(
+            'return value;',
+            $this->subject->returnFieldJS()
+        );
+    }
 
-	/**
-	 * Test for valid passwords.
-	 * If password is valid, the password will be returned.
-	 *
-	 * @test
-	 * @param array $configuration
-	 * @param string $password
-	 * @dataProvider validPasswordDataProvider
-	 */
-	public function checkForValidPassword(array $configuration, $password) {
-		$set = TRUE;
-		$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw'] = serialize($configuration);
-		self::assertEquals(
-			$password,
-			$this->subject->evaluateFieldValue($password, '', $set)
-		);
-	}
+    /**
+     * Test for valid passwords.
+     * If password is valid, the password will be returned.
+     *
+     * @test
+     * @param array $configuration
+     * @param string $password
+     * @dataProvider validPasswordDataProvider
+     */
+    public function checkForValidPassword(array $configuration, $password)
+    {
+        $set = true;
+        $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw'] = serialize($configuration);
+        self::assertEquals(
+            $password,
+            $this->subject->evaluateFieldValue($password, '', $set)
+        );
+    }
 
-	/**
-	 * @return array
-	 */
-	public function validPasswordDataProvider() {
-		return array(
-			'passwordContainingFourLowerCharactersWithoutConfigurationIsValid' => array(
-				array(),
-				'test'
-			),
-			'passwordContainingTwelveLowerCharactersWithConfigOfMinimumEightCharactersIsValid' => array(
-				array(
-					'passwordLength' => 8
-				),
-				'testpassword'
-			),
-			'passwordContainingTwelveLowerCharactersWithConfigOfMinimumEightCharactersAndLowerCharactersIsValid' => array(
-				array(
-					'passwordLength' => 8,
-					'lowercaseChar' => TRUE
-				),
-				'testpassword'
-			),
-			'passwordContainingTwelveUpperAndLowerCharactersWithConfigOfMinimumEightCharactersAndCapitalCharactersIsValid' => array(
-				array(
-					'passwordLength' => 8,
-					'capitalChar' => TRUE,
-					'patterns' => 1
-				),
-				'testPassword'
-			),
-			'passwordContainingTwelveUpperAndLowerCharactersWithConfigOfMinimumEightCharactersDigitsOrCapitalCharactersIsValid' => array(
-				array(
-					'passwordLength' => 8,
-					'capitalChar' => TRUE,
-					'digit' => TRUE,
-					'patterns' => 1
-				),
-				'testPassword'
-			),
-			'passwordContainingUpperLowerDigitsAndSpecialCharactersWith22CharactersWithHardestConfigAndMinimumTwelveCharactersIsValid' => array(
-				array(
-					'passwordLength' => 12,
-					'capitalChar' => TRUE,
-					'lowercaseChar' => TRUE,
-					'digit' => TRUE,
-					'specialChar' => TRUE,
-					'patterns' => 4
-				),
-				'Ycb&T8bdHUCP[zD6HqB7pM'
-			)
-		);
-	}
+    /**
+     * @return array
+     */
+    public function validPasswordDataProvider()
+    {
+        return [
+            'passwordContainingFourLowerCharactersWithoutConfigurationIsValid' => [
+                [],
+                'test'
+            ],
+            'passwordContainingTwelveLowerCharactersWithConfigOfMinimumEightCharactersIsValid' => [
+                [
+                    'passwordLength' => 8
+                ],
+                'testpassword'
+            ],
+            'passwordContainingTwelveLowerCharactersWithConfigOfMinimumEightCharactersAndLowerCharactersIsValid' => [
+                [
+                    'passwordLength' => 8,
+                    'lowercaseChar' => true
+                ],
+                'testpassword'
+            ],
+            'passwordContainingTwelveUpperAndLowerCharactersWithConfigOfMinimumEightCharactersAndCapitalCharactersIsValid' => [
+                [
+                    'passwordLength' => 8,
+                    'capitalChar' => true,
+                    'patterns' => 1
+                ],
+                'testPassword'
+            ],
+            'passwordContainingTwelveUpperAndLowerCharactersWithConfigOfMinimumEightCharactersDigitsOrCapitalCharactersIsValid' => [
+                [
+                    'passwordLength' => 8,
+                    'capitalChar' => true,
+                    'digit' => true,
+                    'patterns' => 1
+                ],
+                'testPassword'
+            ],
+            'passwordContainingUpperLowerDigitsAndSpecialCharactersWith22CharactersWithHardestConfigAndMinimumTwelveCharactersIsValid' => [
+                [
+                    'passwordLength' => 12,
+                    'capitalChar' => true,
+                    'lowercaseChar' => true,
+                    'digit' => true,
+                    'specialChar' => true,
+                    'patterns' => 4
+                ],
+                'Ycb&T8bdHUCP[zD6HqB7pM'
+            ]
+        ];
+    }
 
-	/**
-	 * Test for invalid passwords.
-	 * If the password is invalid an empty string will be returned.
-	 *
-	 * @test
-	 * @param array $configuration
-	 * @param string $password
-	 * @dataProvider invalidPasswordDataProvider
-	 */
-	public function checkForInvalidPassword(array $configuration, $password) {
-		$set = TRUE;
-		$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw'] = serialize($configuration);
-		self::assertEquals(
-			'',
-			$this->subject->evaluateFieldValue($password, '', $set)
-		);
-	}
+    /**
+     * Test for invalid passwords.
+     * If the password is invalid an empty string will be returned.
+     *
+     * @test
+     * @param array $configuration
+     * @param string $password
+     * @dataProvider invalidPasswordDataProvider
+     */
+    public function checkForInvalidPassword(array $configuration, $password)
+    {
+        $set = true;
+        $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw'] = serialize($configuration);
+        self::assertEquals(
+            '',
+            $this->subject->evaluateFieldValue($password, '', $set)
+        );
+    }
 
-	/**
-	 * @return array
-	 */
-	public function invalidPasswordDataProvider() {
-		return array(
-			'emptyPasswordWithoutConfigurationIsInvalid' => array(
-				array(),
-				''
-			),
-			'passwordContainingFourLowerCharactersWithConfigOfMinimumEightCharactersIsInvalid' => array(
-				array(
-					'passwordLength' => 8
-				),
-				'test'
-			),
-			'passwordContainingTwelveLowerCharactersWithConfigOfMinimumEightCharactersAndCapitalCharactersIsInvalid' => array(
-				array(
-					'passwordLength' => 8,
-					'capitalChar' => TRUE,
-					'patterns' => 1
-				),
-				'testpassword'
-			),
-			'passwordContainingTwelveUpperAndLowerCharactersWithConfigOfMinimumEightCharactersDigitsAndCapitalCharactersIsInvalid' => array(
-				array(
-					'passwordLength' => 8,
-					'capitalChar' => TRUE,
-					'digit' => TRUE,
-					'patterns' => 2
-				),
-				'testPassword'
-			),
-		);
-	}
+    /**
+     * @return array
+     */
+    public function invalidPasswordDataProvider()
+    {
+        return [
+            'emptyPasswordWithoutConfigurationIsInvalid' => [
+                [],
+                ''
+            ],
+            'passwordContainingFourLowerCharactersWithConfigOfMinimumEightCharactersIsInvalid' => [
+                [
+                    'passwordLength' => 8
+                ],
+                'test'
+            ],
+            'passwordContainingTwelveLowerCharactersWithConfigOfMinimumEightCharactersAndCapitalCharactersIsInvalid' => [
+                [
+                    'passwordLength' => 8,
+                    'capitalChar' => true,
+                    'patterns' => 1
+                ],
+                'testpassword'
+            ],
+            'passwordContainingTwelveUpperAndLowerCharactersWithConfigOfMinimumEightCharactersDigitsAndCapitalCharactersIsInvalid' => [
+                [
+                    'passwordLength' => 8,
+                    'capitalChar' => true,
+                    'digit' => true,
+                    'patterns' => 2
+                ],
+                'testPassword'
+            ],
+        ];
+    }
 }
