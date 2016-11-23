@@ -32,10 +32,10 @@ class PasswordEvaluatorTest extends BaseTestCase
     /**
      * @return void
      */
-	public function setUp()
-	{
-		$this->subject = new \SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator();
-	}
+    public function setUp()
+    {
+        $this->subject = new \SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator();
+    }
 
     /**
      * @test
