@@ -42,9 +42,10 @@ class PasswordEvaluator
      * @param mixed $value The value that has to be checked.
      * @param string $is_in Is-In String
      * @param integer $set Determines if the field can be set (value correct) or not
+     * @param boolean $storeFlashMessageInSession Used only for phpunit issues
      * @return string The new value of the field
      */
-    public function evaluateFieldValue($value, $is_in, &$set)
+    public function evaluateFieldValue($value, $is_in, &$set, $storeFlashMessageInSession = true)
     {
         // if $value is a md5 hash, return the value directly
         if ($this->isMd5($value) || $this->isSalted($value)) {
@@ -164,7 +165,7 @@ class PasswordEvaluator
                 implode(LF, $messages),
                 $languageService->getLL('messageTitle'),
                 \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR,
-                true
+                $storeFlashMessageInSession
             )
         );
 

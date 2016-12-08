@@ -148,7 +148,7 @@ class PasswordEvaluatorTest extends BaseTestCase
         $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw'] = serialize($configuration);
         self::assertEquals(
             '',
-            $this->subject->evaluateFieldValue($password, '', $set)
+            $this->subject->evaluateFieldValue($password, '', $set, false)
         );
     }
 
