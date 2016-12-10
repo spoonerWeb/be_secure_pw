@@ -96,8 +96,6 @@ ter-upload:
         echo -e "Preparing upload of release ${CI_BUILD_TAG} to TER\n"
         # Cleanup before we upload
         git reset --hard HEAD && git clean -fx
-        # Build extension files
-        composer extension-release
         # Upload
         TAG_MESSAGE=`git tag -n10 -l $CI_BUILD_TAG | sed 's/^[0-9.]*[ ]*//g'`
         echo "Uploading release ${CI_BUILD_TAG} to TER"
