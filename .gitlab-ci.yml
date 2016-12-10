@@ -20,7 +20,7 @@ unittest-php56-62:
     - export COMPOSER_CACHE_DIR=/cache/composer
   script:
     - composer require typo3/cms="^6.2"
-    - ./vendor/phpunit/phpunit/phpunit -c .Build/Tests/UnitTests.xml
+    - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
 
 unittest-php56-7:
   image: webdevops/php:debian-8
@@ -34,7 +34,7 @@ unittest-php56-7:
     - export COMPOSER_CACHE_DIR=/cache/composer
   script:
     - composer require typo3/cms="^7.6"
-    - ./vendor/phpunit/phpunit/phpunit -c .Build/Tests/UnitTests.xml
+    - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
 
 unittest-php7-7:
   image: webdevops/php:debian-9
@@ -48,7 +48,7 @@ unittest-php7-7:
     - export COMPOSER_CACHE_DIR=/cache/composer
   script:
     - composer require typo3/cms="^7.6"
-    - ./vendor/phpunit/phpunit/phpunit -c .Build/Tests/UnitTests.xml
+    - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
 
 unittest-php7-8:
   image: webdevops/php:debian-9
@@ -62,7 +62,7 @@ unittest-php7-8:
     - export COMPOSER_CACHE_DIR=/cache/composer
   script:
     - composer require typo3/cms="^8"
-    - ./vendor/phpunit/phpunit/phpunit -c .Build/Tests/UnitTests.xml
+    - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
 
 unittest-php7-master:
   image: webdevops/php:debian-9
@@ -76,4 +76,4 @@ unittest-php7-master:
     - export COMPOSER_CACHE_DIR=/cache/composer
   script:
     - composer require typo3/cms="dev-master"
-    - ./vendor/phpunit/phpunit/phpunit -c .Build/Tests/UnitTests.xml
+    - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
