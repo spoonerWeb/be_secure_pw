@@ -2,16 +2,78 @@ cache:
   paths:
     - cache/
 
+variables:
+
+
 stages:
   - test
 
-test:
+unittest-php56-62:
+  image: webdevops/php:debian-8
+  only:
+    - branches
+  except:
+    - master
   stage: test
   before_script:
-    - apt-get install apt-transport-https
-    - apt-get update -qq && apt-get -qq install -y php5 php5-cli php5-gd php5-mysql
     - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
     - export COMPOSER_CACHE_DIR=/cache/composer
   script:
-    - composer install
-    - ./vendor/phpunit/phpunit/phpunit -c Configuration/Build/UnitTests.xml -vvv
+    - composer require typo3/cms="^6.2"
+    - ./vendor/phpunit/phpunit/phpunit -c .Build/Tests/UnitTests.xml
+
+unittest-php56-7:
+  image: webdevops/php:debian-8
+  only:
+    - branches
+  except:
+    - master
+  stage: test
+  before_script:
+    - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    - export COMPOSER_CACHE_DIR=/cache/composer
+  script:
+    - composer require typo3/cms="^7.6"
+    - ./vendor/phpunit/phpunit/phpunit -c .Build/Tests/UnitTests.xml
+
+unittest-php7-7:
+  image: webdevops/php:debian-9
+  only:
+    - branches
+  except:
+    - master
+  stage: test
+  before_script:
+    - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    - export COMPOSER_CACHE_DIR=/cache/composer
+  script:
+    - composer require typo3/cms="^7.6"
+    - ./vendor/phpunit/phpunit/phpunit -c .Build/Tests/UnitTests.xml
+
+unittest-php7-8:
+  image: webdevops/php:debian-9
+  only:
+    - branches
+  except:
+    - master
+  stage: test
+  before_script:
+    - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    - export COMPOSER_CACHE_DIR=/cache/composer
+  script:
+    - composer require typo3/cms="^8"
+    - ./vendor/phpunit/phpunit/phpunit -c .Build/Tests/UnitTests.xml
+
+unittest-php7-master:
+  image: webdevops/php:debian-9
+  only:
+    - branches
+  except:
+    - master
+  stage: test
+  before_script:
+    - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    - export COMPOSER_CACHE_DIR=/cache/composer
+  script:
+    - composer require typo3/cms="dev-master"
+    - ./vendor/phpunit/phpunit/phpunit -c .Build/Tests/UnitTests.xml
