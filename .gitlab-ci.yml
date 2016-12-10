@@ -2,9 +2,6 @@ cache:
   paths:
     - cache/
 
-variables:
-
-
 stages:
   - test
 
@@ -20,6 +17,7 @@ unittest-php56-62:
     - export COMPOSER_CACHE_DIR=/cache/composer
   script:
     - composer require typo3/cms="^6.2"
+    - export TYPO3_PATH_WEB="$PWD/.Build/Web"
     - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
 
 unittest-php56-7:
@@ -34,6 +32,7 @@ unittest-php56-7:
     - export COMPOSER_CACHE_DIR=/cache/composer
   script:
     - composer require typo3/cms="^7.6"
+    - export TYPO3_PATH_WEB="$PWD/.Build/Web"
     - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
 
 unittest-php7-7:
@@ -48,6 +47,7 @@ unittest-php7-7:
     - export COMPOSER_CACHE_DIR=/cache/composer
   script:
     - composer require typo3/cms="^7.6"
+    - export TYPO3_PATH_WEB="$PWD/.Build/Web"
     - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
 
 unittest-php7-8:
@@ -62,6 +62,7 @@ unittest-php7-8:
     - export COMPOSER_CACHE_DIR=/cache/composer
   script:
     - composer require typo3/cms="^8"
+    - export TYPO3_PATH_WEB="$PWD/.Build/Web"
     - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
 
 unittest-php7-master:
@@ -76,4 +77,5 @@ unittest-php7-master:
     - export COMPOSER_CACHE_DIR=/cache/composer
   script:
     - composer require typo3/cms="dev-master"
+    - export TYPO3_PATH_WEB="$PWD/.Build/Web"
     - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
