@@ -1,3 +1,18 @@
+.job_template: &unit_test  # Hidden key that defines an anchor named 'job_definition'
+  image: webdevops/php:$DOCKER_TAG
+  only:
+    - branches
+  except:
+    - master
+  stage: test
+  before_script:
+    - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    - export COMPOSER_CACHE_DIR=/cache/composer
+  script:
+    - composer require typo3/cms="${TYPO3_VERSION}"
+    - export TYPO3_PATH_WEB="$PWD/.Build/Web"
+    - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
+
 cache:
   paths:
     - cache/
@@ -7,79 +22,34 @@ stages:
   - deploy
 
 unittest-php56-62:
-  image: webdevops/php:debian-8
-  only:
-    - branches
-  except:
-    - master
-  stage: test
-  before_script:
-    - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-    - export COMPOSER_CACHE_DIR=/cache/composer
-  script:
-    - composer require typo3/cms="^6.2"
-    - export TYPO3_PATH_WEB="$PWD/.Build/Web"
-    - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
+  <<: *unit_test
+  variables:
+    DOCKER_TAG: debian-8
+    TYPO3_VERSION: ^6.2
 
 unittest-php56-7:
-  image: webdevops/php:debian-8
-  only:
-    - branches
-  except:
-    - master
-  stage: test
-  before_script:
-    - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-    - export COMPOSER_CACHE_DIR=/cache/composer
-  script:
-    - composer require typo3/cms="^7.6"
-    - export TYPO3_PATH_WEB="$PWD/.Build/Web"
-    - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
+  <<: *unit_test
+  variables:
+    DOCKER_TAG: debian-8
+    TYPO3_VERSION: ^7.6
 
 unittest-php7-7:
-  image: webdevops/php:debian-9
-  only:
-    - branches
-  except:
-    - master
-  stage: test
-  before_script:
-    - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-    - export COMPOSER_CACHE_DIR=/cache/composer
-  script:
-    - composer require typo3/cms="^7.6"
-    - export TYPO3_PATH_WEB="$PWD/.Build/Web"
-    - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
+  <<: *unit_test
+  variables:
+    DOCKER_TAG: debian-9
+    TYPO3_VERSION: ^7.6
 
 unittest-php7-8:
-  image: webdevops/php:debian-9
-  only:
-    - branches
-  except:
-    - master
-  stage: test
-  before_script:
-    - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-    - export COMPOSER_CACHE_DIR=/cache/composer
-  script:
-    - composer require typo3/cms="^8"
-    - export TYPO3_PATH_WEB="$PWD/.Build/Web"
-    - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
+  <<: *unit_test
+  variables:
+    DOCKER_TAG: debian-9
+    TYPO3_VERSION: ^8
 
 unittest-php7-master:
-  image: webdevops/php:debian-9
-  only:
-    - branches
-  except:
-    - master
-  stage: test
-  before_script:
-    - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-    - export COMPOSER_CACHE_DIR=/cache/composer
-  script:
-    - composer require typo3/cms="dev-master"
-    - export TYPO3_PATH_WEB="$PWD/.Build/Web"
-    - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
+  <<: *unit_test
+  variables:
+    DOCKER_TAG: debian-8
+    TYPO3_VERSION: dev-master
 
 ter-upload:
   only:
