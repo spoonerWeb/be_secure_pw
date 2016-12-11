@@ -48,7 +48,7 @@ unittest-php7-8:
 unittest-php7-master:
   <<: *unit_test
   variables:
-    DOCKER_TAG: debian-8
+    DOCKER_TAG: debian-9
     TYPO3_VERSION: dev-master
 
 ter-upload:
