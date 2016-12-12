@@ -1,6 +1,6 @@
 # Template for unit tests for better reuse
 .job_template: &building
-  image: webdevops/php:$DOCKER_TAG
+  image: php:$DOCKER_TAG
   only:
     - branches
   except:
@@ -34,35 +34,56 @@ stages:
 php56-typo3-62:
   <<: *building
   variables:
-    DOCKER_TAG: debian-8
+    DOCKER_TAG: 5.6-alpine
     TYPO3_VERSION: ^6.2
 
 # Unit Tests in PHP 5.6 and TYPO3 7.6
 php56-typo3-7:
   <<: *building
   variables:
-    DOCKER_TAG: debian-8
+    DOCKER_TAG: 5.6-alpine
     TYPO3_VERSION: ^7.6
 
 # Unit Tests in PHP 7.0 and TYPO3 7.6
 php7-typo3-7:
   <<: *building
   variables:
-    DOCKER_TAG: debian-9
+    DOCKER_TAG: 7.0-alpine
+    TYPO3_VERSION: ^7.6
+
+# Unit Tests in PHP 7.0 and TYPO3 7.6
+php7-typo3-7:
+  <<: *building
+  variables:
+    DOCKER_TAG: 7.1-alpine
     TYPO3_VERSION: ^7.6
 
 # Unit Tests in PHP 7.0 and TYPO3 8 (latest stable release)
 php7-typo3-8:
   <<: *building
   variables:
-    DOCKER_TAG: debian-9
+    DOCKER_TAG: 7.0-alpine
+    TYPO3_VERSION: ^8
+
+# Unit Tests in PHP 7.0 and TYPO3 8 (latest stable release)
+php7-typo3-8:
+  <<: *building
+  variables:
+    DOCKER_TAG: 7.1-alpine
     TYPO3_VERSION: ^8
 
 # Unit Tests in PHP 7.0 and TYPO3 (current master)
 php7-typo3-master:
   <<: *building
   variables:
-    DOCKER_TAG: debian-9
+    DOCKER_TAG: 7.0-alpine
+    TYPO3_VERSION: dev-master
+
+# Unit Tests in PHP 7.0 and TYPO3 (current master)
+php7-typo3-master:
+  <<: *building
+  variables:
+    DOCKER_TAG: 7.1-alpine
     TYPO3_VERSION: dev-master
 
 unit-tests:
