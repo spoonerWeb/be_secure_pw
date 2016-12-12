@@ -8,8 +8,9 @@
   stage: build
   before_script:
     - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-  script:
     - export COMPOSER_CACHE_DIR=/cache/composer
+  script:
+    - composer install
   artifacts:
     name: "$CI_BUILD_NAME"
     when: on_success
@@ -24,6 +25,8 @@
   except:
     - master
   stage: test
+  before_script:
+    - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
   script:
     - composer require typo3/cms="${TYPO3_VERSION}"
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
