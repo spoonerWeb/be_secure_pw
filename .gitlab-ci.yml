@@ -11,7 +11,7 @@
     - curl -sS https://getcomposer.org/installer | php -- --install-dir=.Build/bin/ --filename=composer
     - export COMPOSER_CACHE_DIR=/cache/composer
   script:
-    - composer install
+    - php .Build/bin/composer install
   artifacts:
     name: "$CI_BUILD_NAME"
     when: on_success
@@ -27,7 +27,7 @@
     - master
   stage: test
   script:
-    - composer require typo3/cms="${TYPO3_VERSION}"
+    - php .Build/bin/composer require typo3/cms="${TYPO3_VERSION}"
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
     - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
 
