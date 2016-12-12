@@ -12,6 +12,11 @@
   script:
     - composer require typo3/cms="${TYPO3_VERSION}"
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
+  artifacts:
+    when: on_success
+    expire_in: 1 hour
+    paths:
+      - .Build
 
 cache:
   key: "$CI_BUILD_NAME/$CI_BUILD_REF_NAME"
