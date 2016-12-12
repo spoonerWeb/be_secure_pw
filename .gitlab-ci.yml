@@ -7,7 +7,7 @@
   except:
     - master
   before_script:
-    - [ -d .Build/bin ] || mkdir -p .Build/bin
+    - "[ -d .Build/bin ] || mkdir -p .Build/bin"
     - curl -sS https://getcomposer.org/installer | php -- --install-dir=.Build/bin/ --filename=composer
     - export COMPOSER_CACHE_DIR=/cache/composer
   script:
