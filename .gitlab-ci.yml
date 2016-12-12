@@ -25,8 +25,7 @@
     - branches
   script:
     # php lint
-    - ls -la .Build/Tests/
-    - .Build/Tests/phplint.sh *
+    - ".Build/Tests/phplint.sh *"
     # phpunit
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
     - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
