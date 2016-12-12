@@ -13,6 +13,7 @@
     - composer require typo3/cms="${TYPO3_VERSION}"
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
   artifacts:
+    name: "$CI_BUILD_NAME"
     when: on_success
     expire_in: 1 hour
     paths:
