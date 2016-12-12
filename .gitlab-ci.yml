@@ -31,8 +31,7 @@
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
     - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
   dependencies:
-    - "$CI_BUILD_NAME"
-
+    - $BUILD_NAME
 
 cache:
   key: "$CI_BUILD_NAME/$CI_BUILD_REF_NAME"
@@ -61,6 +60,7 @@ php56-typo3-62-test:
   variables:
     DOCKER_TAG: 5.6-alpine
     TYPO3_VERSION: ^6.2
+    BUILD_NAME: php56-typo3-62
 
 # Build in PHP 5.6 and TYPO3 7.6
 php56-typo3-7:
@@ -75,6 +75,7 @@ php56-typo3-7-test:
   variables:
     DOCKER_TAG: 5.6-alpine
     TYPO3_VERSION: ^7.6
+    BUILD_NAME: php56-typo3-7
 
 # Build in PHP 7.0 and TYPO3 7.6
 php7.0-typo3-7:
@@ -89,6 +90,7 @@ php7.0-typo3-7-test:
   variables:
     DOCKER_TAG: 7.0-alpine
     TYPO3_VERSION: ^7.6
+    BUILD_NAME: php7.0-typo3-7
 
 # Build in PHP 7.1 and TYPO3 7.6
 php7.1-typo3-7:
@@ -103,6 +105,7 @@ php7.1-typo3-7-test:
   variables:
     DOCKER_TAG: 7.1-alpine
     TYPO3_VERSION: ^7.6
+    BUILD_NAME: php7.1-typo3-7
 
 # Build in PHP 7.0 and TYPO3 8 (latest stable release)
 php7.0-typo3-8:
@@ -117,6 +120,7 @@ php7.0-typo3-8-test:
   variables:
     DOCKER_TAG: 7.0-alpine
     TYPO3_VERSION: ^8
+    BUILD_NAME: php7.0-typo3-8
 
 # Build in PHP 7.1 and TYPO3 8 (latest stable release)
 php7.1-typo3-8:
@@ -131,6 +135,7 @@ php7.1-typo3-8-test:
   variables:
     DOCKER_TAG: 7.1-alpine
     TYPO3_VERSION: ^8
+    BUILD_NAME: php7.1-typo3-8
 
 # Build in PHP 7.0 and TYPO3 (current master)
 php7.0-typo3-master:
@@ -145,6 +150,7 @@ php7.0-typo3-master-test:
   variables:
     DOCKER_TAG: 7.0-alpine
     TYPO3_VERSION: dev-master
+    BUILD_NAME: php7.0-typo3-master
 
 # Build in PHP 7.1 and TYPO3 (current master)
 php7.1-typo3-master:
@@ -159,6 +165,7 @@ php7.1-typo3-master-test:
   variables:
     DOCKER_TAG: 7.1-alpine
     TYPO3_VERSION: dev-master
+    BUILD_NAME: php7.1-typo3-master
 
 # TER Upload when tagging in master branch
 # The variables T3O_USERNAME and T3O_PASSWORD should be set in GitLab
