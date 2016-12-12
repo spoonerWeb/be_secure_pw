@@ -33,6 +33,8 @@
 
 
 cache:
+  key: "$CI_BUILD_NAME/$CI_BUILD_REF_NAME"
+  untracked: true
   paths:
     - cache/
 
