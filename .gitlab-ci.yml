@@ -4,8 +4,6 @@
   image: php:$DOCKER_TAG
   only:
     - branches
-  except:
-    - master
   before_script:
     - "[ -d .Build/bin ] || mkdir -p .Build/bin"
     - curl -sS https://getcomposer.org/installer | php -- --install-dir=.Build/bin/ --filename=composer
@@ -24,8 +22,6 @@
   image: php:$DOCKER_TAG
   only:
     - branches
-  except:
-    - master
   script:
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
     - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
