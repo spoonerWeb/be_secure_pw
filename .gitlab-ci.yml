@@ -12,6 +12,7 @@
     - export COMPOSER_CACHE_DIR=/cache/composer
   script:
     - php .Build/bin/composer install
+    - php .Build/bin/composer remove symfony/console
     - php .Build/bin/composer require typo3/cms="${TYPO3_VERSION}"
   artifacts:
     name: "$CI_BUILD_NAME"
