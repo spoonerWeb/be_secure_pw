@@ -24,35 +24,35 @@ stages:
   - deploy
 
 # Unit Tests in PHP 5.6 and TYPO3 6.2
-unittest-php56-62:
+php56-typo3-62:
   <<: *building
   variables:
     DOCKER_TAG: debian-8
     TYPO3_VERSION: ^6.2
 
 # Unit Tests in PHP 5.6 and TYPO3 7.6
-unittest-php56-7:
+php56-typo3-7:
   <<: *building
   variables:
     DOCKER_TAG: debian-8
     TYPO3_VERSION: ^7.6
 
 # Unit Tests in PHP 7.0 and TYPO3 7.6
-unittest-php7-7:
+php7-typo3-7:
   <<: *building
   variables:
     DOCKER_TAG: debian-9
     TYPO3_VERSION: ^7.6
 
 # Unit Tests in PHP 7.0 and TYPO3 8 (latest stable release)
-unittest-php7-8:
+php7-typo3-8:
   <<: *building
   variables:
     DOCKER_TAG: debian-9
     TYPO3_VERSION: ^8
 
 # Unit Tests in PHP 7.0 and TYPO3 (current master)
-unittest-php7-master:
+php7-typo3-master:
   <<: *building
   variables:
     DOCKER_TAG: debian-9
