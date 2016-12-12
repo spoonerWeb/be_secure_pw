@@ -11,8 +11,6 @@
     - export COMPOSER_CACHE_DIR=/cache/composer
     - composer require typo3/cms="${TYPO3_VERSION}"
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
-  script:
-    - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
 
 cache:
   paths:
@@ -57,6 +55,15 @@ php7-typo3-master:
   variables:
     DOCKER_TAG: debian-9
     TYPO3_VERSION: dev-master
+
+unit-tests:
+  stage: test
+  only:
+    - branches
+  except:
+    - master
+  script:
+    - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
 
 # TER Upload when tagging in master branch
 # The variables T3O_USERNAME and T3O_PASSWORD should be set in GitLab
