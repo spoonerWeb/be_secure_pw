@@ -11,10 +11,7 @@
     - curl -sS https://getcomposer.org/installer | php -- --install-dir=.Build/bin/ --filename=composer
     - export COMPOSER_CACHE_DIR=/cache/composer
   script:
-    - php .Build/bin/composer install
-    - php .Build/bin/composer info
-    - php .Build/bin/composer require typo3/cms="${TYPO3_VERSION}"
-    - php .Build/bin/composer info
+    - php .Build/bin/composer require typo3/cms="${TYPO3_VERSION}" --update-with-dependencies
   artifacts:
     name: "$CI_BUILD_NAME"
     when: on_success
