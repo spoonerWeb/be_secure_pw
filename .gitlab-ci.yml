@@ -7,6 +7,7 @@
     - master
   stage: build
   before_script:
+    - mkdir .Build/bin
     - curl -sS https://getcomposer.org/installer | php -- --install-dir=.Build/bin/ --filename=composer
     - export COMPOSER_CACHE_DIR=/cache/composer
   script:
