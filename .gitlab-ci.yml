@@ -34,7 +34,9 @@
     - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
 
 cache:
-  paths:
+  key: "$CI_BUILD_NAME/$CI_BUILD_REF_NAME"
+  untracked: true
+    paths:
     - cache/
 
 stages:
