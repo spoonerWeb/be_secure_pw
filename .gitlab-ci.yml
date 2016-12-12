@@ -25,7 +25,7 @@ cache:
 stages:
   - build
   - test
-  - deploy
+  - upload
 
 # Build in PHP 5.6 and TYPO3 6.2
 php56-typo3-62:
@@ -89,8 +89,6 @@ unit-tests:
     - branches
   except:
     - master
-  dependencies:
-    - build:$CI_BUILD_NAME
   script:
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
     - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
@@ -98,6 +96,7 @@ unit-tests:
 # TER Upload when tagging in master branch
 # The variables T3O_USERNAME and T3O_PASSWORD should be set in GitLab
 ter-upload:
+  stage: upload
   only:
     - tags
     - master
