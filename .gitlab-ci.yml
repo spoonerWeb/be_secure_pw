@@ -11,7 +11,6 @@
     - export COMPOSER_CACHE_DIR=/cache/composer
   script:
     - composer require typo3/cms="${TYPO3_VERSION}"
-    - export TYPO3_PATH_WEB="$PWD/.Build/Web"
   artifacts:
     name: "$CI_BUILD_NAME"
     when: on_success
@@ -90,7 +89,10 @@ unit-tests:
     - branches
   except:
     - master
+  dependencies:
+    - build:$CI_BUILD_NAME
   script:
+    - export TYPO3_PATH_WEB="$PWD/.Build/Web"
     - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
 
 # TER Upload when tagging in master branch
