@@ -1,17 +1,17 @@
 # Template for unit tests for better reuse
-.job_template: &unit_test
+.job_template: &building
   image: webdevops/php:$DOCKER_TAG
   only:
     - branches
   except:
     - master
-  stage: test
+  stage: build
   before_script:
     - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
     - export COMPOSER_CACHE_DIR=/cache/composer
-  script:
     - composer require typo3/cms="${TYPO3_VERSION}"
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
+  script:
     - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
 
 cache:
@@ -19,40 +19,41 @@ cache:
     - cache/
 
 stages:
+  - build
   - test
   - deploy
 
 # Unit Tests in PHP 5.6 and TYPO3 6.2
 unittest-php56-62:
-  <<: *unit_test
+  <<: *building
   variables:
     DOCKER_TAG: debian-8
     TYPO3_VERSION: ^6.2
 
 # Unit Tests in PHP 5.6 and TYPO3 7.6
 unittest-php56-7:
-  <<: *unit_test
+  <<: *building
   variables:
     DOCKER_TAG: debian-8
     TYPO3_VERSION: ^7.6
 
 # Unit Tests in PHP 7.0 and TYPO3 7.6
 unittest-php7-7:
-  <<: *unit_test
+  <<: *building
   variables:
     DOCKER_TAG: debian-9
     TYPO3_VERSION: ^7.6
 
 # Unit Tests in PHP 7.0 and TYPO3 8 (latest stable release)
 unittest-php7-8:
-  <<: *unit_test
+  <<: *building
   variables:
     DOCKER_TAG: debian-9
     TYPO3_VERSION: ^8
 
 # Unit Tests in PHP 7.0 and TYPO3 (current master)
 unittest-php7-master:
-  <<: *unit_test
+  <<: *building
   variables:
     DOCKER_TAG: debian-9
     TYPO3_VERSION: dev-master
