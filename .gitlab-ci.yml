@@ -31,7 +31,7 @@
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
     - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
   dependencies:
-    - $BUILD_NAME
+    - ${BUILD_NAME}
 
 cache:
   key: "$CI_BUILD_NAME/$CI_BUILD_REF_NAME"
