@@ -23,8 +23,6 @@
   image: php:$DOCKER_TAG
   only:
     - branches
-  before_script:
-    - apt
   script:
     # php lint
     - .Build/Tests/phplint.sh *
