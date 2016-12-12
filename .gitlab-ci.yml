@@ -7,7 +7,7 @@
   except:
     - master
   before_script:
-    - mkdir .Build/bin
+    - mkdir .Build/bin/
     - curl -sS https://getcomposer.org/installer | php -- --install-dir=.Build/bin/ --filename=composer
     - export COMPOSER_CACHE_DIR=/cache/composer
   script:
@@ -41,9 +41,6 @@ stages:
   - build
   - test
   - upload
-
-buildComposer:
-  <<: *building
 
 # Build in PHP 5.6 and TYPO3 6.2
 php56-typo3-62:
