@@ -1,4 +1,4 @@
-# Template for Build for better reuse
+# Template for the build for better reuse
 .job_template: &building
   stage: build
   image: php:$DOCKER_TAG
@@ -17,12 +17,16 @@
     paths:
       - .Build
 
+# Template for the testing for better reuse
 .job_template: &testing
   stage: test
   image: php:$DOCKER_TAG
   only:
     - branches
   script:
+    # php lint
+    - ".Build/Tests/phplint.sh *"
+    # phpunit
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
     - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
 
