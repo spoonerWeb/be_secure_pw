@@ -1,5 +1,5 @@
 .idea/
 Thumbs.db
 *~
-.Build
-!.Build/Tests
+/.Build/
+!/.Build/Tests/

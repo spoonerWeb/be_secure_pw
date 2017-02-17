@@ -22,9 +22,12 @@
   image: php:$DOCKER_TAG
   only:
     - branches
+  before_script:
+    - curl -OL https://github.com/squizlabs/PHP_CodeSniffer/releases/download/2.8.0/phpcs.phar
   script:
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
     - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
+    - php phpcs.phar --standard=PSR2 Classes Configuration/TCA Tests/Unit
 
 cache:
   key: "$CI_BUILD_NAME/$CI_BUILD_REF_NAME"
