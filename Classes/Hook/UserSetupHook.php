@@ -36,8 +36,7 @@ class UserSetupHook
     public function modifyUserDataBeforeSave(&$params, &$parentObject)
     {
         // No new password given then we don't need to preform the checks
-        if (
-            empty($params['be_user_data']['password'])
+        if (empty($params['be_user_data']['password'])
             &&
             empty($params['be_user_data']['password2'])
             &&
@@ -158,7 +157,6 @@ class UserSetupHook
                 . $GLOBALS['BACK_PATH'] . '../'
                 . Utility\ExtensionManagementUtility::siteRelPath('be_secure_pw')
                 . 'Resources/Public/JavaScript/passwordtester.js"></script>';
-
         }
     }
 

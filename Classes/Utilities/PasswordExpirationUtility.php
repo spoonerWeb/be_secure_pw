@@ -38,12 +38,12 @@ class PasswordExpirationUtility
     {
         // If ses_backuserid is set, an admin switched to that user. He should not be forced to change the password
         if ($GLOBALS['BE_USER']->user['ses_backuserid']) {
-            return FALSE;
+            return false;
         }
 
         // exit, if cli user is found
         if (GeneralUtility::isFirstPartOfStr($GLOBALS['BE_USER']->user['username'], '_cli')) {
-            return FALSE;
+            return false;
         }
 
         // if the user just updated his password, $GLOBALS['BE_USER'] record may still hold the old data

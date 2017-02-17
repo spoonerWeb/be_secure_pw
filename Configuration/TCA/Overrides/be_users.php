@@ -14,17 +14,17 @@
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
-$tempColumns = array(
-    'tx_besecurepw_lastpwchange' => array(
+$tempColumns = [
+    'tx_besecurepw_lastpwchange' => [
         'exclude' => 0,
         'label' => 'LLL:EXT:be_secure_pw/Resources/Private/Language/locallang.xml:be_users.tx_besecurepw_lastpwchange',
-        'config' => array(
+        'config' => [
             'type' => 'input',
             'size' => 12,
             'eval' => 'datetime',
-        )
-    ),
-);
+        ]
+    ],
+];
 
 ExtensionManagementUtility::addTCAcolumns('be_users', $tempColumns);
 ExtensionManagementUtility::addToAllTCAtypes('be_users', 'tx_besecurepw_lastpwchange;;;;1-1-1');

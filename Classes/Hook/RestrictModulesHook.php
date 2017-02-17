@@ -55,9 +55,11 @@ class RestrictModulesHook implements \TYPO3\CMS\Core\SingletonInterface
             $GLOBALS['BE_USER']->user['admin'] = 0;
             // this grants the user access to the modules
             $GLOBALS['BE_USER']->user['userMods'] = 'user,user_setup';
-            // remove all groups from the user, so he can not get access to any other modules than the ones we granted him
+            // remove all groups from the user, so he can not get access to any other modules
+            // than the ones we granted him
             $GLOBALS['BE_USER']->user['usergroup'] = '';
-            // allow access to live and workspace, if the user is currently in a workspace, but the access is removed due to missing usergroup
+            // allow access to live and workspace, if the user is currently in a workspace,
+            // but the access is removed due to missing usergroup
             $GLOBALS['BE_USER']->user['workspace_perms'] = 3;
         }
     }
