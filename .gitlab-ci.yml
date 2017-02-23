@@ -5,6 +5,7 @@
   only:
     - branches
   before_script:
+    - apt-get install git
     - "[ -d .Build/bin ] || mkdir -p .Build/bin"
     - curl -sS https://getcomposer.org/installer | php -- --install-dir=.Build/bin/ --filename=composer
     - export COMPOSER_CACHE_DIR=/cache/composer
