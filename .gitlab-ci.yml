@@ -15,8 +15,6 @@ stages:
   before_script:
     - curl -OL https://github.com/squizlabs/PHP_CodeSniffer/releases/download/2.8.0/phpcs.phar
     - apk --update add wget curl git && rm /var/cache/apk/*
-    - rm composer.lock
-    - rm -Rf .Build
     - "[ -d .Build/bin ] || mkdir -p .Build/bin"
     - curl -sS https://getcomposer.org/installer | php -- --install-dir=.Build/bin/ --filename=composer
     - export COMPOSER_CACHE_DIR=/cache/composer
