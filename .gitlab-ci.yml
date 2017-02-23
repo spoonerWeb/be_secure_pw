@@ -142,7 +142,7 @@ php7.1-typo3-8-test:
   dependencies:
     - php7.1-typo3-8
   script:
-    - ls -l .Build/vendor/typo3/cms/components/testing_framework/Resources/Core/Build/
+    - ls -l .Build/vendor/typo3/cms/
 
 # Build in PHP 7.0 and TYPO3 (current master)
 php7.0-typo3-master:
@@ -177,6 +177,8 @@ php7.1-typo3-master-test:
     UNIT_TEST_CONFIG_FILENAME: UnitTests-8.xml
   dependencies:
     - php7.1-typo3-master
+  script:
+    - ls -l .Build/vendor/typo3/cms/
 
 # TER Upload when tagging in master branch
 # The variables T3O_USERNAME and T3O_PASSWORD should be set in GitLab
