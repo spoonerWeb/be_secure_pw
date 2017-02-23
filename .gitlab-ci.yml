@@ -13,6 +13,8 @@ stages:
   only:
     - branches
   before_script:
+    - export TYPO3_PATH_WEB="$PWD/.Build/Web"
+    - export COMPOSER_CACHE_DIR=.composer
     - curl -OLs https://github.com/squizlabs/PHP_CodeSniffer/releases/download/2.8.0/phpcs.phar
     - curl -OLs https://composer.github.io/installer.sig
     - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -21,8 +23,6 @@ stages:
     - php -r "unlink('composer-setup.php'); unlink('installer.sig');"
     - composer require typo3/cms="${TYPO3_VERSION}" --update-with-dependencies
     - composer require nimut/testing-framework
-    - export TYPO3_PATH_WEB="$PWD/.Build/Web"
-    - export COMPOSER_CACHE_DIR=.composer
   script:
     - .Build/bin/phpunit -c Configuration/.Build/Tests/UnitTests.xml
     - php phpcs.phar --standard=PSR2 --config-set warning_severity 8 Classes Configuration/TCA Tests/Unit
