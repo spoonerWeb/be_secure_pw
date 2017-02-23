@@ -9,7 +9,7 @@
     - curl -sS https://getcomposer.org/installer | php -- --install-dir=.Build/bin/ --filename=composer
     - export COMPOSER_CACHE_DIR=/cache/composer
   script:
-    - php .Build/bin/composer require typo3/cms="${TYPO3_VERSION}" --update-with-dependencies
+    - php .Build/bin/composer require typo3/cms="${TYPO3_VERSION}" --prefer-source --update-with-dependencies
   artifacts:
     name: "$CI_BUILD_NAME"
     when: on_success
@@ -141,8 +141,6 @@ php7.1-typo3-8-test:
     UNIT_TEST_CONFIG_FILENAME: UnitTests-8.xml
   dependencies:
     - php7.1-typo3-8
-  script:
-    - ls -l .Build/vendor/typo3/cms/
 
 # Build in PHP 7.0 and TYPO3 (current master)
 php7.0-typo3-master:
@@ -177,8 +175,6 @@ php7.1-typo3-master-test:
     UNIT_TEST_CONFIG_FILENAME: UnitTests-8.xml
   dependencies:
     - php7.1-typo3-master
-  script:
-    - ls -l .Build/vendor/typo3/cms/
 
 # TER Upload when tagging in master branch
 # The variables T3O_USERNAME and T3O_PASSWORD should be set in GitLab
