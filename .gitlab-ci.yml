@@ -7,9 +7,10 @@
   before_script:
     - apk --update add wget curl git && rm /var/cache/apk/*
     - "[ -d .Build/bin ] || mkdir -p .Build/bin"
+    - rm composer.lock
+    - rm -Rf .Build
     - curl -sS https://getcomposer.org/installer | php -- --install-dir=.Build/bin/ --filename=composer
     - export COMPOSER_CACHE_DIR=/cache/composer
-    - rm composer.lock
   script:
     - php .Build/bin/composer require typo3/cms="${TYPO3_VERSION}" --prefer-source --update-with-dependencies
   artifacts:
@@ -28,7 +29,7 @@
     - curl -OL https://github.com/squizlabs/PHP_CodeSniffer/releases/download/2.8.0/phpcs.phar
   script:
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
-    - .Build/bin/phpunit -c .Build/Tests/$UNIT_TEST_CONFIG_FILENAME
+    - .Build/bin/phpunit -c Configuration/.Build/Tests/$UNIT_TEST_CONFIG_FILENAME
     - php phpcs.phar --standard=PSR2 --config-set warning_severity 8 Classes Configuration/TCA Tests/Unit
 
 cache:
