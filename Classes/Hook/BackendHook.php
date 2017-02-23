@@ -113,6 +113,7 @@ class BackendHook
      * @param $id
      * @param $parentObj
      */
+    // @codingStandardsIgnoreLine
     public function processDatamap_preProcessFieldArray(&$incomingFieldArray, $table, $id, &$parentObj)
     {
         if ($table === 'be_users' && !empty($incomingFieldArray['password'])) {
