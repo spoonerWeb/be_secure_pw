@@ -34,8 +34,6 @@ test:php56:typo3_62:
     DOCKER_TAG: 5.6-alpine
     TYPO3_VERSION: ^6.2
     UNIT_TEST_CONFIG_FILENAME: UnitTests.xml
-  dependencies:
-    - php56-typo3-62
 
 # Build in PHP 5.6 and TYPO3 7.6
 test:php56:typo3_7:
@@ -44,8 +42,6 @@ test:php56:typo3_7:
     DOCKER_TAG: 5.6-alpine
     TYPO3_VERSION: ^7.6
     UNIT_TEST_CONFIG_FILENAME: UnitTests.xml
-  dependencies:
-    - php56-typo3-7
 
 # Build in PHP 7.0 and TYPO3 7.6
 test:php70:typo3_7:
@@ -54,8 +50,6 @@ test:php70:typo3_7:
     DOCKER_TAG: 7.0-alpine
     TYPO3_VERSION: ^7.6
     UNIT_TEST_CONFIG_FILENAME: UnitTests.xml
-  dependencies:
-    - php7.0-typo3-7
 
 # Build in PHP 7.1 and TYPO3 7.6
 test:php71:typo3_7:
@@ -64,8 +58,6 @@ test:php71:typo3_7:
     DOCKER_TAG: 7.1-alpine
     TYPO3_VERSION: ^7.6
     UNIT_TEST_CONFIG_FILENAME: UnitTests.xml
-  dependencies:
-    - php7.1-typo3-7
 
 # Build in PHP 7.0 and TYPO3 8 (latest stable release)
 test:php70:typo3_8:
@@ -74,8 +66,6 @@ test:php70:typo3_8:
     DOCKER_TAG: 7.0-alpine
     TYPO3_VERSION: ^8
     UNIT_TEST_CONFIG_FILENAME: UnitTests-8.xml
-  dependencies:
-    - php7.0-typo3-8
 
 # Build in PHP 7.1 and TYPO3 8 (latest stable release)
 test:php71:typo3_8:
@@ -84,8 +74,6 @@ test:php71:typo3_8:
     DOCKER_TAG: 7.1-alpine
     TYPO3_VERSION: ^8
     UNIT_TEST_CONFIG_FILENAME: UnitTests-8.xml
-  dependencies:
-    - php7.1-typo3-8
 
 # Build in PHP 7.0 and TYPO3 (current master)
 test:php70:typo3_master:
@@ -94,8 +82,6 @@ test:php70:typo3_master:
     DOCKER_TAG: 7.0-alpine
     TYPO3_VERSION: dev-master
     UNIT_TEST_CONFIG_FILENAME: UnitTests-8.xml
-  dependencies:
-    - php7.0-typo3-master
 
 # Build in PHP 7.1 and TYPO3 (current master)
 test:php71:typo3_master:
@@ -104,8 +90,6 @@ test:php71:typo3_master:
     DOCKER_TAG: 7.1-alpine
     TYPO3_VERSION: dev-master
     UNIT_TEST_CONFIG_FILENAME: UnitTests-8.xml
-  dependencies:
-    - php7.1-typo3-master
 
 # TER Upload when tagging in master branch
 # The variables T3O_USERNAME and T3O_PASSWORD should be set in GitLab
