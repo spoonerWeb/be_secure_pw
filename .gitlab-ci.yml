@@ -5,6 +5,7 @@
   only:
     - branches
   before_script:
+    - ls -l
     - apk --update add wget curl git && rm /var/cache/apk/*
     - "[ -d .Build/bin ] || mkdir -p .Build/bin"
     - rm composer.lock
