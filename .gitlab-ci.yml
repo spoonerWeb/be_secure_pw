@@ -1,173 +1,87 @@
-# Template for the build for better reuse
-.job_template: &building
-  stage: build
-  image: php:$DOCKER_TAG
-  only:
-    - branches
-  before_script:
-    - "[ -d .Build/bin ] || mkdir -p .Build/bin"
-    - curl -sS https://getcomposer.org/installer | php -- --install-dir=.Build/bin/ --filename=composer
-    - export COMPOSER_CACHE_DIR=/cache/composer
-  script:
-    - php .Build/bin/composer require typo3/cms="${TYPO3_VERSION}" --update-with-dependencies
-  artifacts:
-    name: "$CI_BUILD_NAME"
-    when: on_success
-    expire_in: 1 hour
-    paths:
-      - .Build
+cache:
+  key: "$CI_BUILD_REF_NAME/$CI_BUILD_STAGE"
+  paths:
+    - .composer/
 
-# Template for the testing for better reuse
-.job_template: &testing
+stages:
+  - test
+  - upload
+
+.test: &testing
   stage: test
   image: php:$DOCKER_TAG
   only:
     - branches
-  script:
-    # php lint
-    - ".Build/Tests/phplint.sh *"
-    # phpunit
+  before_script:
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
-    - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
-
-cache:
-  key: "$CI_BUILD_NAME/$CI_BUILD_REF_NAME"
-  untracked: true
-  paths:
-    - cache/
-
-stages:
-  - build
-  - test
-  - upload
-
-# Build in PHP 5.6 and TYPO3 6.2
-php56-typo3-62:
-  <<: *building
-  variables:
-    DOCKER_TAG: 5.6-alpine
-    TYPO3_VERSION: ^6.2
+    - export COMPOSER_CACHE_DIR=.composer
+    - curl -OLs https://github.com/squizlabs/PHP_CodeSniffer/releases/download/2.8.0/phpcs.phar
+    - curl -OLs https://composer.github.io/installer.sig
+    - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+    - php -r "if (hash_file('SHA384', 'composer-setup.php') === trim(file_get_contents('installer.sig'))) { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+    - php composer-setup.php --no-ansi --install-dir=/usr/bin --filename=composer
+    - php -r "unlink('composer-setup.php'); unlink('installer.sig');"
+    - composer require typo3/cms="${TYPO3_VERSION}" --update-with-dependencies
+    - composer require nimut/testing-framework
+  script:
+    - .Build/bin/phpunit -c Configuration/.Build/Tests/UnitTests.xml
+    - php phpcs.phar --standard=PSR2 --config-set warning_severity 8 Classes Configuration/TCA Tests/Unit
 
 # Tests in PHP 5.6 and TYPO3 6.2
-php56-typo3-62-test:
+test:php56:typo3_62:
   <<: *testing
   variables:
     DOCKER_TAG: 5.6-alpine
     TYPO3_VERSION: ^6.2
-  dependencies:
-    - php56-typo3-62
 
 # Build in PHP 5.6 and TYPO3 7.6
-php56-typo3-7:
-  <<: *building
+test:php56:typo3_7:
+  <<: *testing
   variables:
     DOCKER_TAG: 5.6-alpine
     TYPO3_VERSION: ^7.6
 
-# Build in PHP 5.6 and TYPO3 7.6
-php56-typo3-7-test:
-  <<: *testing
-  variables:
-    DOCKER_TAG: 5.6-alpine
-    TYPO3_VERSION: ^7.6
-  dependencies:
-    - php56-typo3-7
-
 # Build in PHP 7.0 and TYPO3 7.6
-php7.0-typo3-7:
-  <<: *building
-  variables:
-    DOCKER_TAG: 7.0-alpine
-    TYPO3_VERSION: ^7.6
-
-# Build in PHP 7.0 and TYPO3 7.6
-php7.0-typo3-7-test:
+test:php70:typo3_7:
   <<: *testing
   variables:
     DOCKER_TAG: 7.0-alpine
-    TYPO3_VERSION: ^7.6
-  dependencies:
-    - php7.0-typo3-7
-
-# Build in PHP 7.1 and TYPO3 7.6
-php7.1-typo3-7:
-  <<: *building
-  variables:
-    DOCKER_TAG: 7.1-alpine
     TYPO3_VERSION: ^7.6
 
 # Build in PHP 7.1 and TYPO3 7.6
-php7.1-typo3-7-test:
+test:php71:typo3_7:
   <<: *testing
   variables:
     DOCKER_TAG: 7.1-alpine
     TYPO3_VERSION: ^7.6
-  dependencies:
-    - php7.1-typo3-7
 
 # Build in PHP 7.0 and TYPO3 8 (latest stable release)
-php7.0-typo3-8:
-  <<: *building
-  variables:
-    DOCKER_TAG: 7.0-alpine
-    TYPO3_VERSION: ^8
-
-# Build in PHP 7.0 and TYPO3 8 (latest stable release)
-php7.0-typo3-8-test:
+test:php70:typo3_8:
   <<: *testing
   variables:
     DOCKER_TAG: 7.0-alpine
-    TYPO3_VERSION: ^8
-  dependencies:
-    - php7.0-typo3-8
-
-# Build in PHP 7.1 and TYPO3 8 (latest stable release)
-php7.1-typo3-8:
-  <<: *building
-  variables:
-    DOCKER_TAG: 7.1-alpine
     TYPO3_VERSION: ^8
 
 # Build in PHP 7.1 and TYPO3 8 (latest stable release)
-php7.1-typo3-8-test:
+test:php71:typo3_8:
   <<: *testing
   variables:
     DOCKER_TAG: 7.1-alpine
     TYPO3_VERSION: ^8
-  dependencies:
-    - php7.1-typo3-8
 
 # Build in PHP 7.0 and TYPO3 (current master)
-php7.0-typo3-master:
-  <<: *building
-  variables:
-    DOCKER_TAG: 7.0-alpine
-    TYPO3_VERSION: dev-master
-
-# Build in PHP 7.0 and TYPO3 (current master)
-php7.0-typo3-master-test:
+test:php70:typo3_master:
   <<: *testing
   variables:
     DOCKER_TAG: 7.0-alpine
-    TYPO3_VERSION: dev-master
-  dependencies:
-    - php7.0-typo3-master
+    TYPO3_VERSION: dev-master as 8.6.0
 
 # Build in PHP 7.1 and TYPO3 (current master)
-php7.1-typo3-master:
-  <<: *building
-  variables:
-    DOCKER_TAG: 7.1-alpine
-    TYPO3_VERSION: dev-master
-
-# Build in PHP 7.1 and TYPO3 (current master)
-php7.1-typo3-master-test:
+test:php71:typo3_master:
   <<: *testing
   variables:
     DOCKER_TAG: 7.1-alpine
-    TYPO3_VERSION: dev-master
-  dependencies:
-    - php7.1-typo3-master
+    TYPO3_VERSION: dev-master as 8.6.0
 
 # TER Upload when tagging in master branch
 # The variables T3O_USERNAME and T3O_PASSWORD should be set in GitLab
@@ -176,7 +90,6 @@ ter-upload:
   stage: upload
   only:
     - tags
-    - master
   before_script:
     - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
     - export COMPOSER_CACHE_DIR=/cache/composer

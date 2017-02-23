@@ -113,12 +113,13 @@ class BackendHook
      * @param $id
      * @param $parentObj
      */
+    // @codingStandardsIgnoreLine
     public function processDatamap_preProcessFieldArray(&$incomingFieldArray, $table, $id, &$parentObj)
     {
         if ($table === 'be_users' && !empty($incomingFieldArray['password'])) {
-
             // only do that, if the record was edited from the user himself
-            if ((int)$id === (int)$GLOBALS['BE_USER']->user['uid'] && empty($GLOBALS['BE_USER']->user['ses_backuserid'])) {
+            if ((int)$id === (int)$GLOBALS['BE_USER']->user['uid']
+                && empty($GLOBALS['BE_USER']->user['ses_backuserid'])) {
                 $incomingFieldArray['tx_besecurepw_lastpwchange'] = time() + date('Z');
             }
 
@@ -128,5 +129,4 @@ class BackendHook
             }
         }
     }
-
 }
