@@ -26,7 +26,7 @@
     - curl -OL https://github.com/squizlabs/PHP_CodeSniffer/releases/download/2.8.0/phpcs.phar
   script:
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
-    - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
+    - .Build/bin/phpunit -c .Build/Tests/$UNIT_TEST_CONFIG_FILENAME
     - php phpcs.phar --standard=PSR2 --config-set warning_severity 8 Classes Configuration/TCA Tests/Unit
 
 cache:
@@ -53,6 +53,7 @@ php56-typo3-62-test:
   variables:
     DOCKER_TAG: 5.6-alpine
     TYPO3_VERSION: ^6.2
+    UNIT_TEST_CONFIG_FILENAME: UnitTests.xml
   dependencies:
     - php56-typo3-62
 
@@ -69,6 +70,7 @@ php56-typo3-7-test:
   variables:
     DOCKER_TAG: 5.6-alpine
     TYPO3_VERSION: ^7.6
+    UNIT_TEST_CONFIG_FILENAME: UnitTests.xml
   dependencies:
     - php56-typo3-7
 
@@ -85,6 +87,7 @@ php7.0-typo3-7-test:
   variables:
     DOCKER_TAG: 7.0-alpine
     TYPO3_VERSION: ^7.6
+    UNIT_TEST_CONFIG_FILENAME: UnitTests.xml
   dependencies:
     - php7.0-typo3-7
 
@@ -101,6 +104,7 @@ php7.1-typo3-7-test:
   variables:
     DOCKER_TAG: 7.1-alpine
     TYPO3_VERSION: ^7.6
+    UNIT_TEST_CONFIG_FILENAME: UnitTests.xml
   dependencies:
     - php7.1-typo3-7
 
@@ -117,6 +121,7 @@ php7.0-typo3-8-test:
   variables:
     DOCKER_TAG: 7.0-alpine
     TYPO3_VERSION: ^8
+    UNIT_TEST_CONFIG_FILENAME: UnitTests-8.xml
   dependencies:
     - php7.0-typo3-8
 
@@ -133,6 +138,7 @@ php7.1-typo3-8-test:
   variables:
     DOCKER_TAG: 7.1-alpine
     TYPO3_VERSION: ^8
+    UNIT_TEST_CONFIG_FILENAME: UnitTests-8.xml
   dependencies:
     - php7.1-typo3-8
 
@@ -149,6 +155,7 @@ php7.0-typo3-master-test:
   variables:
     DOCKER_TAG: 7.0-alpine
     TYPO3_VERSION: dev-master
+    UNIT_TEST_CONFIG_FILENAME: UnitTests-8.xml
   dependencies:
     - php7.0-typo3-master
 
@@ -165,6 +172,7 @@ php7.1-typo3-master-test:
   variables:
     DOCKER_TAG: 7.1-alpine
     TYPO3_VERSION: dev-master
+    UNIT_TEST_CONFIG_FILENAME: UnitTests-8.xml
   dependencies:
     - php7.1-typo3-master
 

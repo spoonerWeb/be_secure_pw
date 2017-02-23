@@ -1,5 +1,6 @@
 .idea/
 Thumbs.db
 *~
-/.Build/
-!/.Build/Tests/
+.Build/Web
+.Build/bin
+.Build/vendor
