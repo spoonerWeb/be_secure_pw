@@ -27,7 +27,7 @@
   script:
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
     - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
-    - php phpcs.phar --standard=PSR2 Classes Configuration/TCA Tests/Unit
+    - php phpcs.phar --standard=PSR2 --config-set warning_severity 8 Classes Configuration/TCA Tests/Unit
 
 cache:
   key: "$CI_BUILD_NAME/$CI_BUILD_REF_NAME"
