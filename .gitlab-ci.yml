@@ -92,7 +92,7 @@ ter-upload:
     - tags
   before_script:
     - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-    - export COMPOSER_CACHE_DIR=/cache/composer
+    - export COMPOSER_CACHE_DIR=.composer
   script:
     - composer install
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
