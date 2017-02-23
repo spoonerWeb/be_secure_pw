@@ -141,6 +141,8 @@ php7.1-typo3-8-test:
     UNIT_TEST_CONFIG_FILENAME: UnitTests-8.xml
   dependencies:
     - php7.1-typo3-8
+  script:
+    - ls -l .Build/vendor/typo3/cms/components/testing_framework/Resources/Core/Build/
 
 # Build in PHP 7.0 and TYPO3 (current master)
 php7.0-typo3-master:
