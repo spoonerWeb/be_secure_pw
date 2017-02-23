@@ -15,15 +15,17 @@ stages:
   before_script:
     - curl -OL https://github.com/squizlabs/PHP_CodeSniffer/releases/download/2.8.0/phpcs.phar
     - apk --update add wget curl git && rm /var/cache/apk/*
-    - "[ -d .Build/bin ] || mkdir -p .Build/bin"
-    - curl -sS https://getcomposer.org/installer | php -- --install-dir=.Build/bin/ --filename=composer
-    - export COMPOSER_CACHE_DIR=/cache/composer
-  script:
-    - php .Build/bin/composer require typo3/cms="${TYPO3_VERSION}" --update-with-dependencies
+    - wget https://composer.github.io/installer.sig -O - -q | tr -d '\n' > installer.sig
+    - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+    - php -r "if (hash_file('SHA384', 'composer-setup.php') === file_get_contents('installer.sig')) { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+    - php composer-setup.php --no-ansi --install-dir=/usr/bin --filename=composer
+    - php -r "unlink('composer-setup.php'); unlink('installer.sig');"
+    - composer require typo3/cms="${TYPO3_VERSION}" --update-with-dependencies
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
-    - .Build/bin/phpunit -c Configuration/.Build/Tests/$UNIT_TEST_CONFIG_FILENAME
+  script:
+    - composer require nimut/testing-framework
+    - .Build/bin/phpunit -c Configuration/.Build/Tests/UnitTests.xml
     - php phpcs.phar --standard=PSR2 --config-set warning_severity 8 Classes Configuration/TCA Tests/Unit
-
 
 # Tests in PHP 5.6 and TYPO3 6.2
 test:php56:typo3_62:
@@ -31,7 +33,6 @@ test:php56:typo3_62:
   variables:
     DOCKER_TAG: 5.6-alpine
     TYPO3_VERSION: ^6.2
-    UNIT_TEST_CONFIG_FILENAME: UnitTests.xml
 
 # Build in PHP 5.6 and TYPO3 7.6
 test:php56:typo3_7:
@@ -39,7 +40,6 @@ test:php56:typo3_7:
   variables:
     DOCKER_TAG: 5.6-alpine
     TYPO3_VERSION: ^7.6
-    UNIT_TEST_CONFIG_FILENAME: UnitTests.xml
 
 # Build in PHP 7.0 and TYPO3 7.6
 test:php70:typo3_7:
@@ -47,7 +47,6 @@ test:php70:typo3_7:
   variables:
     DOCKER_TAG: 7.0-alpine
     TYPO3_VERSION: ^7.6
-    UNIT_TEST_CONFIG_FILENAME: UnitTests.xml
 
 # Build in PHP 7.1 and TYPO3 7.6
 test:php71:typo3_7:
@@ -55,7 +54,6 @@ test:php71:typo3_7:
   variables:
     DOCKER_TAG: 7.1-alpine
     TYPO3_VERSION: ^7.6
-    UNIT_TEST_CONFIG_FILENAME: UnitTests.xml
 
 # Build in PHP 7.0 and TYPO3 8 (latest stable release)
 test:php70:typo3_8:
@@ -63,7 +61,6 @@ test:php70:typo3_8:
   variables:
     DOCKER_TAG: 7.0-alpine
     TYPO3_VERSION: ^8
-    UNIT_TEST_CONFIG_FILENAME: UnitTests-8.xml
 
 # Build in PHP 7.1 and TYPO3 8 (latest stable release)
 test:php71:typo3_8:
@@ -71,7 +68,6 @@ test:php71:typo3_8:
   variables:
     DOCKER_TAG: 7.1-alpine
     TYPO3_VERSION: ^8
-    UNIT_TEST_CONFIG_FILENAME: UnitTests-8.xml
 
 # Build in PHP 7.0 and TYPO3 (current master)
 test:php70:typo3_master:
@@ -79,7 +75,6 @@ test:php70:typo3_master:
   variables:
     DOCKER_TAG: 7.0-alpine
     TYPO3_VERSION: dev-master
-    UNIT_TEST_CONFIG_FILENAME: UnitTests-8.xml
 
 # Build in PHP 7.1 and TYPO3 (current master)
 test:php71:typo3_master:
@@ -87,7 +82,6 @@ test:php71:typo3_master:
   variables:
     DOCKER_TAG: 7.1-alpine
     TYPO3_VERSION: dev-master
-    UNIT_TEST_CONFIG_FILENAME: UnitTests-8.xml
 
 # TER Upload when tagging in master branch
 # The variables T3O_USERNAME and T3O_PASSWORD should be set in GitLab
