@@ -19,7 +19,7 @@ stages:
     - curl -sS https://getcomposer.org/installer | php -- --install-dir=.Build/bin/ --filename=composer
     - export COMPOSER_CACHE_DIR=/cache/composer
   script:
-    - php .Build/bin/composer require typo3/cms="${TYPO3_VERSION}" --prefer-source --update-with-dependencies
+    - php .Build/bin/composer require typo3/cms="${TYPO3_VERSION}" --update-with-dependencies
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
     - .Build/bin/phpunit -c Configuration/.Build/Tests/$UNIT_TEST_CONFIG_FILENAME
     - php phpcs.phar --standard=PSR2 --config-set warning_severity 8 Classes Configuration/TCA Tests/Unit
@@ -95,7 +95,6 @@ ter-upload:
   stage: upload
   only:
     - tags
-    - master
   before_script:
     - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
     - export COMPOSER_CACHE_DIR=/cache/composer
