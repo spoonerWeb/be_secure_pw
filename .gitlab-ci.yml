@@ -22,6 +22,7 @@ stages:
     - composer require typo3/cms="${TYPO3_VERSION}" --update-with-dependencies
     - composer require nimut/testing-framework
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
+    - export COMPOSER_CACHE_DIR=.composer
   script:
     - .Build/bin/phpunit -c Configuration/.Build/Tests/UnitTests.xml
     - php phpcs.phar --standard=PSR2 --config-set warning_severity 8 Classes Configuration/TCA Tests/Unit
@@ -73,14 +74,14 @@ test:php70:typo3_master:
   <<: *testing
   variables:
     DOCKER_TAG: 7.0-alpine
-    TYPO3_VERSION: dev-master
+    TYPO3_VERSION: dev-master as 8.6.0
 
 # Build in PHP 7.1 and TYPO3 (current master)
 test:php71:typo3_master:
   <<: *testing
   variables:
     DOCKER_TAG: 7.1-alpine
-    TYPO3_VERSION: dev-master
+    TYPO3_VERSION: dev-master as 8.6.0
 
 # TER Upload when tagging in master branch
 # The variables T3O_USERNAME and T3O_PASSWORD should be set in GitLab
