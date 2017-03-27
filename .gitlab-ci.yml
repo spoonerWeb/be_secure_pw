@@ -15,7 +15,6 @@ stages:
   before_script:
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
     - export COMPOSER_CACHE_DIR=.composer
-    - curl -OLs https://github.com/squizlabs/PHP_CodeSniffer/releases/download/2.8.0/phpcs.phar
     - curl -OLs https://composer.github.io/installer.sig
     - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
     - php -r "if (hash_file('SHA384', 'composer-setup.php') === trim(file_get_contents('installer.sig'))) { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
@@ -23,9 +22,10 @@ stages:
     - php -r "unlink('composer-setup.php'); unlink('installer.sig');"
     - composer require typo3/cms="${TYPO3_VERSION}" --update-with-dependencies
     - composer require nimut/testing-framework
+    - composer require squizlabs/php_codesniffer
   script:
     - .Build/bin/phpunit -c Configuration/.Build/Tests/UnitTests.xml
-    - php phpcs.phar --standard=PSR2 --config-set warning_severity 8 Classes Configuration/TCA Tests/Unit
+    - bin/phpcs --standard=PSR2 --config-set warning_severity 8 Classes Configuration/TCA Tests/Unit
 
 # Tests in PHP 5.6 and TYPO3 6.2
 test:php56:typo3_62:
@@ -95,6 +95,7 @@ ter-upload:
     - export COMPOSER_CACHE_DIR=.composer
   script:
     - composer install
+    - composer require namelesscoder/typo3-repository-client
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
     - >
       if [ -n "$CI_BUILD_TAG" ] && [ -n "$T3O_USERNAME" ] && [ -n "$T3O_PASSWORD" ]; then
