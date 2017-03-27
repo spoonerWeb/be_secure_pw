@@ -13,6 +13,7 @@ stages:
   only:
     - branches
   before_script:
+    - git fetch
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
     - export COMPOSER_CACHE_DIR=.composer
     - curl -OLs https://composer.github.io/installer.sig
@@ -25,7 +26,7 @@ stages:
     - composer require squizlabs/php_codesniffer
   script:
     - .Build/bin/phpunit -c Configuration/.Build/Tests/UnitTests.xml
-    - bin/phpcs --standard=PSR2 --config-set warning_severity 8 Classes Configuration/TCA Tests/Unit
+    - .Build/bin/phpcs --standard=PSR2 --config-set warning_severity 8 Classes Configuration/TCA Tests/Unit
 
 # Tests in PHP 5.6 and TYPO3 6.2
 test:php56:typo3_62:
