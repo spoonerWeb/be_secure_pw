@@ -13,7 +13,7 @@ stages:
   only:
     - branches
   before_script:
-    - apk install git
+    - apk add git
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
     - export COMPOSER_CACHE_DIR=.composer
     - curl -OLs https://composer.github.io/installer.sig
