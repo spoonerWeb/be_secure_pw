@@ -28,7 +28,7 @@ stages:
     - composer require squizlabs/php_codesniffer
   script:
     - .Build/bin/phpunit -c Configuration/.Build/Tests/UnitTests.xml
-    - .Build/bin/phpcs --standard=PSR2 --config-set warning_severity 8 Classes Configuration/TCA Tests/Unit
+    - .Build/bin/phpcs --standard=PSR2 --extensions=php *
 
 # Tests in PHP 5.6 and TYPO3 6.2
 test:php56:typo3_62:

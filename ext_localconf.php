@@ -35,10 +35,11 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['proc
 
 $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$_EXTKEY]);
 
-// execution of is hook only needed in backend, but it is in the abstract class and could also be executed from frontend otherwise
-// if the backend is set to adminOnly, we can not enforce the change, because the hook removes the admin flag
-if (!empty($extConf['forcePasswordChange']) && TYPO3_MODE === 'BE' && (int)$TYPO3_CONF_VARS['BE']['adminOnly'] === 0) {
-
+// execution of is hook only needed in backend, but it is in the abstract class and could also be executed
+// from frontend otherwise if the backend is set to adminOnly, we can not enforce the change,
+// because the hook removes the admin flag
+if (!empty($extConf['forcePasswordChange']) && TYPO3_MODE === 'BE'
+    && (int)$GLOBALS['TYPO3_CONF_VARS']['BE']['adminOnly'] === 0) {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_pagerenderer.php']['render-postProcess'][] =
         'SpoonerWeb\\BeSecurePw\\Hook\\RestrictModulesHook->addRefreshJavaScript';
 

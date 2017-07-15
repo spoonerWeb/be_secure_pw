@@ -102,6 +102,7 @@ class PasswordEvaluatorTest extends BaseTestCase
                 ],
                 'testpassword'
             ],
+            // @codingStandardsIgnoreLine
             'passwordContainingTwelveUpperAndLowerCharactersWithConfigOfMinimumEightCharactersAndCapitalCharactersIsValid' => [
                 [
                     'passwordLength' => 8,
@@ -110,6 +111,7 @@ class PasswordEvaluatorTest extends BaseTestCase
                 ],
                 'testPassword'
             ],
+            // @codingStandardsIgnoreLine
             'passwordContainingTwelveUpperAndLowerCharactersWithConfigOfMinimumEightCharactersDigitsOrCapitalCharactersIsValid' => [
                 [
                     'passwordLength' => 8,
@@ -119,6 +121,7 @@ class PasswordEvaluatorTest extends BaseTestCase
                 ],
                 'testPassword'
             ],
+            // @codingStandardsIgnoreLine
             'passwordContainingUpperLowerDigitsAndSpecialCharactersWith22CharactersWithHardestConfigAndMinimumTwelveCharactersIsValid' => [
                 [
                     'passwordLength' => 12,
@@ -168,6 +171,7 @@ class PasswordEvaluatorTest extends BaseTestCase
                 ],
                 'test'
             ],
+            // @codingStandardsIgnoreLine
             'passwordContainingTwelveLowerCharactersWithConfigOfMinimumEightCharactersAndCapitalCharactersIsInvalid' => [
                 [
                     'passwordLength' => 8,
@@ -176,6 +180,7 @@ class PasswordEvaluatorTest extends BaseTestCase
                 ],
                 'testpassword'
             ],
+            // @codingStandardsIgnoreLine
             'passwordContainingTwelveUpperAndLowerCharactersWithConfigOfMinimumEightCharactersDigitsAndCapitalCharactersIsInvalid' => [
                 [
                     'passwordLength' => 8,
