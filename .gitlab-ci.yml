@@ -8,6 +8,7 @@ before_script:
 
 stages:
   - test
+  - mirror
   - upload
 
 .test: &testing
@@ -85,6 +86,16 @@ test:php71:typo3_master:
   variables:
     DOCKER_TAG: 7.1-alpine
     TYPO3_VERSION: dev-master as 8.6.0
+
+mirror-to-github:
+  stage: mirror
+  image: indiehosters/git
+  only:
+    - master
+  script:
+    - git remote add github https://tomalo:$GITHUB_TOKEN@github.com/spoonerWeb/be_secure_pw.git
+    - git push github master
+    - git push github master --tags
 
 # TER Upload when tagging in master branch
 # The variables T3O_USERNAME and T3O_PASSWORD should be set in GitLab
