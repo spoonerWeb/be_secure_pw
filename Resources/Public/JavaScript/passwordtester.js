@@ -42,7 +42,7 @@ PasswordTester = Class.create({
 				// generates the field with the image
 				this.generateImage();
 
-				if (password.length == 0) {
+				if (password.length === 0) {
 					this.saveButton.set({
 						disabled: null
 					}, false);
@@ -54,16 +54,16 @@ PasswordTester = Class.create({
 	},
 
 	calculateStrength: function (passwordString) {
-		if (beSecurePwConf.lowercaseChar == 1 && passwordString.search(/[a-z]/) != -1) {
+		if (beSecurePwConf.lowercaseChar === 1 && passwordString.search(/[a-z]/) !== -1) {
 			this.passwordStatus++;
 		}
-		if (beSecurePwConf.capitalChar == 1 && passwordString.search(/[A-Z]/) != -1) {
+		if (beSecurePwConf.capitalChar === 1 && passwordString.search(/[A-Z]/) !== -1) {
 			this.passwordStatus++;
 		}
-		if (beSecurePwConf.digit == 1 && passwordString.search(/[0-9]/) != -1) {
+		if (beSecurePwConf.digit === 1 && passwordString.search(/[0-9]/) !== -1) {
 			this.passwordStatus++;
 		}
-		if (beSecurePwConf.specialChar == 1 && passwordString.search(/[^0-9a-z]/i) != -1) {
+		if (beSecurePwConf.specialChar === 1 && passwordString.search(/[^0-9a-z]/i) !== -1) {
 			this.passwordStatus++;
 		}
 		if (this.passwordStatus >= beSecurePwConf.patterns && passwordString.length >= beSecurePwConf.passwordLength) {
@@ -74,7 +74,7 @@ PasswordTester = Class.create({
 	generateImage: function () {
 		Ext.destroy(Ext.get('password_strength'));
 		this.passwordField.setStyle('float', 'left');
-		if (this.passwordSecure == true) {
+		if (this.passwordSecure === true) {
 			Ext.DomHelper.insertAfter(
 				this.passwordField,
 				{
