@@ -53,7 +53,7 @@ class BackendHook
 
         // let the popup pop up :)
         $ll = 'LLL:EXT:be_secure_pw/Resources/Private/Language/locallang_reminder.xml:';
-        $generatedLabels = array(
+        $generatedLabels = [
             'passwordReminderWindow_title' => $GLOBALS['LANG']->sL(
                 $ll . 'passwordReminderWindow_title'
             ),
@@ -69,7 +69,7 @@ class BackendHook
             'passwordReminderWindow_button_postpone' => $GLOBALS['LANG']->sL(
                 $ll . 'passwordReminderWindow_button_postpone'
             ),
-        );
+        ];
 
         // get configuration of a secure password
         $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw']);
@@ -113,7 +113,7 @@ class BackendHook
 
             // trigger reload of the backend, if it was previously locked down
             if (PasswordExpirationUtility::isBeUserPasswordExpired()) {
-                self::$insertModuleRefreshJS = true;
+                static::$insertModuleRefreshJS = true;
             }
         }
     }
