@@ -1,24 +1,25 @@
 <?php
 defined('TYPO3_MODE') || die('Access denied.');
+use SpoonerWeb\BeSecurePw;
 
 $boot = function ($extensionKey) {
 
     // here we register "PasswordEvaluator"
     // for editing by tca form
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals'][\SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator::class] =
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals'][BeSecurePw\Evaluation\PasswordEvaluator::class] =
         'EXT:be_secure_pw/Classes/Evaluation/PasswordEvaluator.php';
 
     // Information in user setup module
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/setup/mod/index.php']['modifyUserDataBeforeSave']['be_secure_pw'] =
-        \SpoonerWeb\BeSecurePw\Hook\UserSetupHook::class . '->modifyUserDataBeforeSave';
+        BeSecurePw\Hook\UserSetupHook::class . '->modifyUserDataBeforeSave';
 
     // password reminder
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/backend.php']['constructPostProcess']['be_secure_pw'] =
-        \SpoonerWeb\BeSecurePw\Hook\BackendHook::class . '->constructPostProcess';
+        BeSecurePw\Hook\BackendHook::class . '->constructPostProcess';
 
     // Set timestamp for last password change
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass']['be_secure_pw'] =
-        \SpoonerWeb\BeSecurePw\Hook\BackendHook::class;
+        BeSecurePw\Hook\BackendHook::class;
 
     $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extensionKey]);
 
@@ -28,10 +29,10 @@ $boot = function ($extensionKey) {
     if (!empty($extConf['forcePasswordChange']) && TYPO3_MODE === 'BE'
         && (int)$GLOBALS['TYPO3_CONF_VARS']['BE']['adminOnly'] === 0) {
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_pagerenderer.php']['render-postProcess'][] =
-            \SpoonerWeb\BeSecurePw\Hook\RestrictModulesHook::class . '->addRefreshJavaScript';
+            BeSecurePw\Hook\RestrictModulesHook::class . '->addRefreshJavaScript';
 
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_userauth.php']['postUserLookUp'][] =
-            \SpoonerWeb\BeSecurePw\Hook\RestrictModulesHook::class . '->postUserLookUp';
+            BeSecurePw\Hook\RestrictModulesHook::class . '->postUserLookUp';
     }
 };
 
