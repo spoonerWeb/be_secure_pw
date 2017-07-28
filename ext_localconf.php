@@ -1,7 +1,7 @@
 <?php
 defined('TYPO3_MODE') || die('Access denied.');
 
-$boot = function($extensionKey) {
+$boot = function ($extensionKey) {
 
     // here we register "PasswordEvaluator"
     // for editing by tca form
@@ -33,7 +33,6 @@ $boot = function($extensionKey) {
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_userauth.php']['postUserLookUp'][] =
             \SpoonerWeb\BeSecurePw\Hook\RestrictModulesHook::class . '->postUserLookUp';
     }
-
 };
 
 $boot($_EXTKEY);

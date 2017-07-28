@@ -1,7 +1,7 @@
 <?php
 defined('TYPO3_MODE') || die('Access denied.');
 
-$boot = function() {
+$boot = function () {
     // for editing per "user settings"
     $saltedPasswordEvaluator = \TYPO3\CMS\Saltedpasswords\Evaluation\BackendEvaluator::class;
 
