@@ -15,11 +15,11 @@ namespace SpoonerWeb\BeSecurePw\Hook;
  */
 use SpoonerWeb\BeSecurePw\Utilities\PasswordExpirationUtility;
 use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Authentication\AbstractUserAuthentication;
 
 /**
  * Class BackendHook
  *
- * @package be_secure_pw
  * @author Andreas Kießling <andreas.kiessling@web.de>
  * @author Christian Plattner <Christian.Plattner@world-direct.at>
  */
@@ -32,8 +32,8 @@ class RestrictModulesHook implements \TYPO3\CMS\Core\SingletonInterface
      * PageRenderer::executePostRenderHook
      *
      * @param array $params
-     * @param PageRenderer $pageRenderer
-     * @return string
+     * @param \TYPO3\CMS\Core\Page\PageRenderer $pageRenderer
+     * @return void
      */
     public function addRefreshJavaScript(array $params, PageRenderer $pageRenderer)
     {
@@ -46,9 +46,9 @@ class RestrictModulesHook implements \TYPO3\CMS\Core\SingletonInterface
      * If the password is expired, only load the necessary modules to change the password
      *
      * @param array $params
-     * @param mixed $pObj
+     * @param \TYPO3\CMS\Core\Authentication\AbstractUserAuthentication $pObj
      */
-    public function postUserLookUp(array $params, $pObj)
+    public function postUserLookUp(array $params, AbstractUserAuthentication $pObj)
     {
         if (PasswordExpirationUtility::isBeUserPasswordExpired()) {
             // remove admin rights, because otherwise we can't restrict access to the modules

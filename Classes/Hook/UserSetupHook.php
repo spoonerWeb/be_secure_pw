@@ -17,11 +17,14 @@ namespace SpoonerWeb\BeSecurePw\Hook;
 use SpoonerWeb\BeSecurePw\Utilities\PasswordExpirationUtility;
 use TYPO3\CMS\Core\Messaging;
 use TYPO3\CMS\Core\Utility;
+use TYPO3\CMS\Setup\Controller\SetupModuleController;
+use SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Backend\Template\DocumentTemplate;
 
 /**
  * Class UserSetupHook
  *
- * @package be_secure_pw
  * @author Thomas Loeffler <loeffler@spooner-web.de>
  */
 class UserSetupHook
@@ -30,10 +33,10 @@ class UserSetupHook
     /**
      * checks if the password is not the same as the previous one
      *
-     * @param array $newSetup
-     * @param \TYPO3\CMS\Setup\Controller\SetupModuleController $parentObj
+     * @param array $params
+     * @param \TYPO3\CMS\Setup\Controller\SetupModuleController $parentObject
      */
-    public function modifyUserDataBeforeSave(&$params, &$parentObject)
+    public function modifyUserDataBeforeSave(array &$params, SetupModuleController &$parentObject)
     {
         // No new password given then we don't need to preform the checks
         if (empty($params['be_user_data']['password'])
@@ -46,7 +49,7 @@ class UserSetupHook
         }
 
         // Check if password is valid
-        $passwordEvaluator = new \SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator();
+        $passwordEvaluator = GeneralUtility::makeInstance(PasswordEvaluator::class);
         $set = false;
         $password = $passwordEvaluator->evaluateFieldValue($params['be_user_data']['password'], '', $set);
 
@@ -83,7 +86,7 @@ class UserSetupHook
      * @param array &$params
      * @param \TYPO3\CMS\Backend\Template\DocumentTemplate &$parentObj
      */
-    public function moduleBodyPostProcess(&$params, &$parentObj)
+    public function moduleBodyPostProcess(array &$params, DocumentTemplate &$parentObj)
     {
         // execute only in user setup module
         if ($parentObj->scriptID == 'ext/setup/mod/index.php') {
@@ -109,7 +112,7 @@ class UserSetupHook
 
                 // flash message with instructions for the user
                 $flashMessage = Utility\GeneralUtility::makeInstance(
-                    'TYPO3\CMS\Core\Messaging\FlashMessage',
+                    Messaging\FlashMessage::class,
                     sprintf(
                         $GLOBALS['LANG']->getLL('beSecurePw.description'),
                         $extConf['passwordLength'],
@@ -139,10 +142,10 @@ class UserSetupHook
      * Hook-function: inject additional JS code
      * called in typo3/template.php:template->startPage
      *
-     * @param  $params
-     * @param  $parentObj
+     * @param array $params
+     * @param \TYPO3\CMS\Backend\Template\DocumentTemplate $parentObj
      */
-    public function preStartPageHook($params, &$parentObj)
+    public function preStartPageHook(array $params, DocumentTemplate &$parentObj)
     {
         if ($parentObj->scriptID == 'ext/setup/mod/index.php') { // execute only in user setup module
 
