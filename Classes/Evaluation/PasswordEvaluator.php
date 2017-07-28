@@ -15,15 +15,25 @@ namespace SpoonerWeb\BeSecurePw\Evaluation;
  */
 
 use TYPO3\CMS\Core\Utility;
+use TYPO3\CMS\Core\Log\LogManager;
+use TYPO3\CMS\Lang\LanguageService;
+use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
+use TYPO3\CMS\Core\Messaging\FlashMessage;
+use TYPO3\CMS\Saltedpasswords\Utility\SaltedPasswordsUtility;
+use TYPO3\CMS\Saltedpasswords\Salt\SaltFactory;
 
 /**
  * Class PasswordEvaluator
  *
- * @package be_secure_pw
  * @author Thomas Loeffler <loeffler@spooner-web.de>
  */
 class PasswordEvaluator
 {
+    const PATTERN_LOWER_CHAR = '/[a-z]/';
+    const PATTERN_CAPITAL_CHAR = '/[A-Z]/';
+    const PATTERN_DIGIT = '/[0-9]/';
+    const PATTERN_SPECIAL_CHAR = '/[^0-9a-z]/i';
+    const PATTERN_MD5 = '/[0-9abcdef]{32,32}/';
 
     /**
      * This function just return the field value as it is. No transforming,
@@ -31,7 +41,7 @@ class PasswordEvaluator
      *
      * @return string JavaScript code for evaluation
      */
-    public function returnFieldJS()
+    public function returnFieldJS(): string
     {
         return 'return value;';
     }
@@ -39,14 +49,18 @@ class PasswordEvaluator
     /**
      * Function uses Portable PHP Hashing Framework to create a proper password string if needed
      *
-     * @param mixed $value The value that has to be checked.
+     * @param string $value The value that has to be checked.
      * @param string $is_in Is-In String
      * @param integer $set Determines if the field can be set (value correct) or not
      * @param boolean $storeFlashMessageInSession Used only for phpunit issues
      * @return string The new value of the field
      */
-    public function evaluateFieldValue($value, $is_in, &$set, $storeFlashMessageInSession = true)
-    {
+    public function evaluateFieldValue(
+        string $value,
+        string $is_in,
+        int &$set,
+        bool $storeFlashMessageInSession = true
+    ): string {
         // if $value is a md5 hash, return the value directly
         if ($this->isMd5($value) || $this->isSalted($value)) {
             return $value;
@@ -55,21 +69,20 @@ class PasswordEvaluator
         $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw']);
 
         /** @var \TYPO3\CMS\Core\DataHandling\DataHandler $tce */
-        $tce = Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\DataHandling\\DataHandler');
+        $tce = Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\DataHandling\DataHandler::class);
         $tce->BE_USER = $GLOBALS['BE_USER'];
 
-        /** @var $logger \TYPO3\CMS\Core\Log\Logger */
-        $logger = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Log\LogManager::class)
-                    ->getLogger(__CLASS__);
+        /** @var \TYPO3\CMS\Core\Log\Logger $logger */
+        $logger = Utility\GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
 
         // get the languages from ext
         /** @var \TYPO3\CMS\Lang\LanguageService $languageService */
-        $languageService = Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Lang\\LanguageService');
+        $languageService = Utility\GeneralUtility::makeInstance(LanguageService::class);
         $languageService->init($tce->BE_USER->uc['lang']);
         $languageService->includeLLFile('EXT:be_secure_pw/Resources/Private/Language/locallang.xml');
         /** @var \TYPO3\CMS\Core\Messaging\FlashMessageQueue $flashMessageQueue */
         $flashMessageQueue = Utility\GeneralUtility::makeInstance(
-            \TYPO3\CMS\Core\Messaging\FlashMessageQueue::class,
+            FlashMessageQueue::class,
             'core.template.flashMessages'
         );
         $set = true;
@@ -89,11 +102,11 @@ class PasswordEvaluator
         }
 
         $counter = 0;
-        $notUsed = array();
+        $notUsed = [];
 
         // check for lowercase characters
         if ($confArr['lowercaseChar']) {
-            if (preg_match("/[a-z]/", $value) > 0) {
+            if (preg_match(static::PATTERN_LOWER_CHAR, $value) > 0) {
                 $counter++;
             } else {
                 $notUsed[] = $languageService->getLL('lowercaseChar');
@@ -102,7 +115,7 @@ class PasswordEvaluator
 
         // check for capital characters
         if ($confArr['capitalChar']) {
-            if (preg_match("/[A-Z]/", $value) > 0) {
+            if (preg_match(static::PATTERN_CAPITAL_CHAR, $value) > 0) {
                 $counter++;
             } else {
                 $notUsed[] = $languageService->getLL('capitalChar');
@@ -111,7 +124,7 @@ class PasswordEvaluator
 
         // check for digits
         if ($confArr['digit']) {
-            if (preg_match("/[0-9]/", $value) > 0) {
+            if (preg_match(static::PATTERN_DIGIT, $value) > 0) {
                 $counter++;
             } else {
                 $notUsed[] = $languageService->getLL('digit');
@@ -120,7 +133,7 @@ class PasswordEvaluator
 
         // check for special characters
         if ($confArr['specialChar']) {
-            if (preg_match("/[^0-9a-z]/i", $value) > 0) {
+            if (preg_match(static::PATTERN_SPECIAL_CHAR, $value) > 0) {
                 $counter++;
             } else {
                 $notUsed[] = $languageService->getLL('specialChar');
@@ -154,17 +167,17 @@ class PasswordEvaluator
         /* no problems */
         if ($set) {
             // If no saltedpasswords are enabled, hash the password to prevent a clean password in DB
-            if (!\TYPO3\CMS\Saltedpasswords\Utility\SaltedPasswordsUtility::isUsageEnabled('BE')) {
+            if (!SaltedPasswordsUtility::isUsageEnabled('BE')) {
                 $value = md5($value);
             }
             return $value;
         }
 
         $flashMessageQueue->addMessage(
-            new \TYPO3\CMS\Core\Messaging\FlashMessage(
+            new FlashMessage(
                 implode(LF, $messages),
                 $languageService->getLL('messageTitle'),
-                \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR,
+                FlashMessage::ERROR,
                 $storeFlashMessageInSession
             )
         );
@@ -174,25 +187,25 @@ class PasswordEvaluator
     }
 
     /**
-     * @param $password
+     * @param string $password
      * @return boolean
      */
-    protected function isMd5($password)
+    private function isMd5(string $password): bool
     {
-        return (boolean)preg_match('/[0-9abcdef]{32,32}/', $password);
+        return (boolean)preg_match(static::PATTERN_MD5, $password);
     }
 
     /**
-     * @param $password
+     * @param string $password
      * @return boolean
      */
-    protected function isSalted($password)
+    private function isSalted(string $password): bool
     {
-        if (!\TYPO3\CMS\Saltedpasswords\Utility\SaltedPasswordsUtility::isUsageEnabled('BE')) {
+        if (!SaltedPasswordsUtility::isUsageEnabled('BE')) {
             return false;
         }
 
-        $saltFactory = \TYPO3\CMS\Saltedpasswords\Salt\SaltFactory::getSaltingInstance($password, 'BE');
+        $saltFactory = SaltFactory::getSaltingInstance($password, 'BE');
         if (!$saltFactory) {
             return false;
         }
