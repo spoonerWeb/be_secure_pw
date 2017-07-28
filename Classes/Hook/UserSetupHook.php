@@ -38,7 +38,7 @@ class UserSetupHook
      */
     public function modifyUserDataBeforeSave(array &$params, SetupModuleController &$parentObject)
     {
-        // No new password given then we don't need to preform the checks
+        // No new password given then we don't need to run the checks
         if (empty($params['be_user_data']['password'])
             &&
             empty($params['be_user_data']['password2'])
