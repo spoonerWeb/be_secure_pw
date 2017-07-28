@@ -1,7 +1,7 @@
 cache:
   key: "$CI_COMMIT_REF_NAME/$CI_JOB_STAGE"
   paths:
-    - .composer/
+    - /cache/
 
 before_script:
   - apk add git --update
@@ -18,7 +18,7 @@ stages:
     - branches
   before_script:
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
-    - export COMPOSER_CACHE_DIR=.composer
+    - export COMPOSER_CACHE_DIR=/cache/composer
     - curl -OLs https://composer.github.io/installer.sig
     - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
     - php -r "if (hash_file('SHA384', 'composer-setup.php') === trim(file_get_contents('installer.sig'))) { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
@@ -92,9 +92,9 @@ ter-upload:
     - tags
   before_script:
     - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-    - export COMPOSER_CACHE_DIR=.composer
+    - export COMPOSER_CACHE_DIR=/cache/composer
+    - apt-get install -y git
   script:
-    - composer install
     - composer require namelesscoder/typo3-repository-client
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
     - >
