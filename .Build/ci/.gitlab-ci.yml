@@ -31,20 +31,6 @@ stages:
     - .Build/bin/phpunit -c Configuration/.Build/Tests/UnitTests.xml
     - .Build/bin/phpcs --standard=PSR2 --extensions=php *
 
-# Tests in PHP 5.6 and TYPO3 6.2
-test:php56:typo3_62:
-  <<: *testing
-  variables:
-    DOCKER_TAG: 5.6-alpine
-    TYPO3_VERSION: ^6.2
-
-# Build in PHP 5.6 and TYPO3 7.6
-test:php56:typo3_7:
-  <<: *testing
-  variables:
-    DOCKER_TAG: 5.6-alpine
-    TYPO3_VERSION: ^7.6
-
 # Build in PHP 7.0 and TYPO3 7.6
 test:php70:typo3_7:
   <<: *testing

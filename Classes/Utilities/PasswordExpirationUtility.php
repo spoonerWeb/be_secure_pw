@@ -20,7 +20,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Class PasswordExpirationUtility
  *
- * @package be_secure_pw
  * @author Thomas Loeffler <loeffler@spooner-web.de>
  * @author Andreas Kießling <andreas.kiessling@web.de>
  * @author Christian Plattner <christian.plattner@world-direct.at>
@@ -34,7 +33,7 @@ class PasswordExpirationUtility
      * @static
      * @return bool FALSE if the password is still valid
      */
-    public static function isBeUserPasswordExpired()
+    public static function isBeUserPasswordExpired(): bool
     {
         // If ses_backuserid is set, an admin switched to that user. He should not be forced to change the password
         if ($GLOBALS['BE_USER']->user['ses_backuserid']) {

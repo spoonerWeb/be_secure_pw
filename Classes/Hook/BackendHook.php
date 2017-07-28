@@ -16,14 +16,13 @@ namespace SpoonerWeb\BeSecurePw\Hook;
 
 use SpoonerWeb\BeSecurePw\Utilities\PasswordExpirationUtility;
 use TYPO3\CMS\Core\Page\PageRenderer;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+use TYPO3\CMS\Backend\Controller\BackendController;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
 
 /**
  * Class BackendHook
  *
- * @package be_secure_pw
  * @author Thomas Loeffler <loeffler@spooner-web.de>
  */
 class BackendHook
@@ -46,7 +45,7 @@ class BackendHook
      * @param array $config
      * @param \TYPO3\CMS\Backend\Controller\BackendController $backendReference
      */
-    public function constructPostProcess($config, &$backendReference)
+    public function constructPostProcess(array $config, BackendController &$backendReference)
     {
         if (!PasswordExpirationUtility::isBeUserPasswordExpired()) {
             return;
@@ -54,7 +53,7 @@ class BackendHook
 
         // let the popup pop up :)
         $ll = 'LLL:EXT:be_secure_pw/Resources/Private/Language/locallang_reminder.xml:';
-        $generatedLabels = array(
+        $generatedLabels = [
             'passwordReminderWindow_title' => $GLOBALS['LANG']->sL(
                 $ll . 'passwordReminderWindow_title'
             ),
@@ -70,7 +69,7 @@ class BackendHook
             'passwordReminderWindow_button_postpone' => $GLOBALS['LANG']->sL(
                 $ll . 'passwordReminderWindow_button_postpone'
             ),
-        );
+        ];
 
         // get configuration of a secure password
         $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw']);
@@ -83,38 +82,27 @@ class BackendHook
         $labelsForJS = 'TYPO3.LLL.beSecurePw = ' . json_encode($generatedLabels) . ';';
 
         $backendReference->addJavascript($labelsForJS);
-        $version7 = VersionNumberUtility::convertVersionNumberToInteger('7.0.0');
-        $currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
-        if ($currentVersion < $version7) {
-            $javaScriptFile = 'passwordreminder.js';
-            $backendReference->addJavascriptFile(
-                $GLOBALS['BACK_PATH'] . '../'
-                . ExtensionManagementUtility::siteRelPath('be_secure_pw')
-                . 'Resources/Public/JavaScript/' . $javaScriptFile
-            );
-        } else {
-            /** @var PageRenderer $pageRenderer */
-            $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-            $pageRenderer->loadRequireJsModule(
-                'TYPO3/CMS/BeSecurePw/Reminder',
-                'function(reminder){
-                    reminder.initModal(' . (!empty($extConf['forcePasswordChange']) ? 'true' : 'false') . ');
-                }'
-            );
-        }
+        /** @var PageRenderer $pageRenderer */
+        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+        $pageRenderer->loadRequireJsModule(
+            'TYPO3/CMS/BeSecurePw/Reminder',
+            'function(reminder){
+                reminder.initModal(' . (!empty($extConf['forcePasswordChange']) ? 'true' : 'false') . ');
+            }'
+        );
     }
 
 
     /**
      * looks for a password change and sets the field "tx_besecurepw_lastpwchange" with an actual timestamp
      *
-     * @param $incomingFieldArray
-     * @param $table
-     * @param $id
-     * @param $parentObj
+     * @param array $incomingFieldArray
+     * @param string $table
+     * @param int $id
+     * @param \TYPO3\CMS\Core\DataHandling\DataHandler $parentObj
      */
     // @codingStandardsIgnoreLine
-    public function processDatamap_preProcessFieldArray(&$incomingFieldArray, $table, $id, &$parentObj)
+    public function processDatamap_preProcessFieldArray(&$incomingFieldArray, $table, $id, DataHandler &$parentObj)
     {
         if ($table === 'be_users' && !empty($incomingFieldArray['password'])) {
             // only do that, if the record was edited from the user himself
@@ -125,7 +113,7 @@ class BackendHook
 
             // trigger reload of the backend, if it was previously locked down
             if (PasswordExpirationUtility::isBeUserPasswordExpired()) {
-                self::$insertModuleRefreshJS = true;
+                static::$insertModuleRefreshJS = true;
             }
         }
     }

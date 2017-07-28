@@ -43,7 +43,7 @@ class PasswordEvaluatorTest extends BaseTestCase
      */
     public function classCanBeInstantiated()
     {
-        self::assertInstanceOf(
+        static::assertInstanceOf(
             \SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator::class,
             $this->subject
         );
@@ -54,7 +54,7 @@ class PasswordEvaluatorTest extends BaseTestCase
      */
     public function returnFieldJavaScriptReturnsDefaultString()
     {
-        self::assertEquals(
+        static::assertEquals(
             'return value;',
             $this->subject->returnFieldJS()
         );
@@ -69,11 +69,11 @@ class PasswordEvaluatorTest extends BaseTestCase
      * @param string $password
      * @dataProvider validPasswordDataProvider
      */
-    public function checkForValidPassword(array $configuration, $password)
+    public function checkForValidPassword(array $configuration, string $password)
     {
         $set = true;
         $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw'] = serialize($configuration);
-        self::assertEquals(
+        static::assertEquals(
             $password,
             $this->subject->evaluateFieldValue($password, '', $set)
         );
@@ -145,11 +145,11 @@ class PasswordEvaluatorTest extends BaseTestCase
      * @param string $password
      * @dataProvider invalidPasswordDataProvider
      */
-    public function checkForInvalidPassword(array $configuration, $password)
+    public function checkForInvalidPassword(array $configuration, string $password)
     {
         $set = true;
         $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw'] = serialize($configuration);
-        self::assertEquals(
+        static::assertEquals(
             '',
             $this->subject->evaluateFieldValue($password, '', $set, false)
         );

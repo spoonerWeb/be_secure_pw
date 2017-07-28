@@ -27,7 +27,7 @@ define(['jquery', 'TYPO3/CMS/Backend/Modal'], function ($, Modal) {
                 Modal.show(
                     TYPO3.LLL.beSecurePw.passwordReminderWindow_title,
                     TYPO3.LLL.beSecurePw.passwordReminderWindow_message,
-                    Severity.warning,
+                    TYPO3.Severity.warning,
                     [{
                         text: TYPO3.lang['button.ok'] || 'OK',
                         btnClass: 'btn-warning',
