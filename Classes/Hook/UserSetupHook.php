@@ -89,51 +89,50 @@ class UserSetupHook
     public function moduleBodyPostProcess(array &$params, DocumentTemplate &$parentObj)
     {
         // execute only in user setup module
-        if ($parentObj->scriptID == 'ext/setup/mod/index.php') {
+        if ($parentObj->scriptID == 'ext/setup/mod/index.php'
+            && !array_key_exists('FLASHMESSAGES', $params['markers'])) {
             // don't override existing flash messages
-            if (!array_key_exists('FLASHMESSAGES', $params['markers'])) {
-                // get configuration of a secure password
-                $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw']);
+            // get configuration of a secure password
+            $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw']);
 
-                $this->getLanguageLabels();
-                // how many parameters have to be checked
-                $toCheckParams = array(
-                    'lowercaseChar',
-                    'capitalChar',
-                    'digit',
-                    'specialChar'
-                );
-                $checkParameter = array();
-                foreach ($toCheckParams as $parameter) {
-                    if ($extConf[$parameter] == 1) {
-                        $checkParameter[] = $GLOBALS['LANG']->getLL($parameter);
-                    }
+            $this->getLanguageLabels();
+            // how many parameters have to be checked
+            $toCheckParams = array(
+                'lowercaseChar',
+                'capitalChar',
+                'digit',
+                'specialChar'
+            );
+            $checkParameter = array();
+            foreach ($toCheckParams as $parameter) {
+                if ($extConf[$parameter] == 1) {
+                    $checkParameter[] = $GLOBALS['LANG']->getLL($parameter);
                 }
+            }
 
-                // flash message with instructions for the user
-                $flashMessage = Utility\GeneralUtility::makeInstance(
-                    Messaging\FlashMessage::class,
-                    sprintf(
-                        $GLOBALS['LANG']->getLL('beSecurePw.description'),
-                        $extConf['passwordLength'],
-                        implode(', ', $checkParameter),
-                        $extConf['patterns']
-                    ),
-                    $GLOBALS['LANG']->getLL('beSecurePw.header'),
-                    Messaging\FlashMessage::INFO,
-                    true
+            // flash message with instructions for the user
+            $flashMessage = Utility\GeneralUtility::makeInstance(
+                Messaging\FlashMessage::class,
+                sprintf(
+                    $GLOBALS['LANG']->getLL('beSecurePw.description'),
+                    $extConf['passwordLength'],
+                    implode(', ', $checkParameter),
+                    $extConf['patterns']
+                ),
+                $GLOBALS['LANG']->getLL('beSecurePw.header'),
+                Messaging\FlashMessage::INFO,
+                true
+            );
+
+            $params['markers']['FLASHMESSAGES'] = '<div id="typo3-messages">' . $flashMessage->render() . '</div>';
+
+            // put flash message in front of content
+            if (strpos($params['moduleBody'], '###FLASHMESSAGES###') === false) {
+                $params['moduleBody'] = str_replace(
+                    '###CONTENT###',
+                    '###FLASHMESSAGES######CONTENT###',
+                    $params['moduleBody']
                 );
-
-                $params['markers']['FLASHMESSAGES'] = '<div id="typo3-messages">' . $flashMessage->render() . '</div>';
-
-                // put flash message in front of content
-                if (strpos($params['moduleBody'], '###FLASHMESSAGES###') === false) {
-                    $params['moduleBody'] = str_replace(
-                        '###CONTENT###',
-                        '###FLASHMESSAGES######CONTENT###',
-                        $params['moduleBody']
-                    );
-                }
             }
         }
     }
@@ -147,8 +146,8 @@ class UserSetupHook
      */
     public function preStartPageHook(array $params, DocumentTemplate &$parentObj)
     {
-        if ($parentObj->scriptID == 'ext/setup/mod/index.php') { // execute only in user setup module
-
+        // execute only in user setup module
+        if ($parentObj->scriptID === 'ext/setup/mod/index.php') {
             // get configuration of a secure password
             $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw']);
 
