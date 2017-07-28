@@ -57,7 +57,7 @@ class PasswordEvaluator
      */
     public function evaluateFieldValue(
         string $value,
-        string $is_in,
+        $is_in,
         int &$set,
         bool $storeFlashMessageInSession = true
     ): string {
