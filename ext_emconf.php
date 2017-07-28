@@ -8,12 +8,12 @@
  * writing. "version" and "dependencies" must not be touched!
  */
 
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF[$_EXTKEY] = [
     'title' => 'Make BE user password really secure',
     'description' => 'You can set password conventions to force secure passwords for BE users.',
     'category' => 'be',
     'shy' => 0,
-    'version' => '7.1.1',
+    'version' => '8.0.0',
     'priority' => '',
     'loadOrder' => '',
     'module' => '',
@@ -23,12 +23,12 @@ $EM_CONF[$_EXTKEY] = array(
     'author' => 'Thomas Loeffler',
     'author_email' => 'loeffler@spooner-web.de',
     'author_company' => '',
-    'constraints' => array(
-        'depends' => array(
-            'php' => '5.5',
-            'typo3' => '6.2.0-8.99.99',
-        ),
-        'conflicts' => array(),
-        'suggests' => array(),
-    )
-);
+    'constraints' => [
+        'depends' => [
+            'php' => '7.0',
+            'typo3' => '7.6.21-8.99.99',
+        ],
+        'conflicts' => [],
+        'suggests' => [],
+    ]
+];
