@@ -90,53 +90,32 @@ class PasswordEvaluator
         $messages = [];
         // check for password length
         $passwordLength = (int)$confArr['passwordLength'];
-        if ($confArr['passwordLength'] && $passwordLength) {
-            if (strlen($value) < $confArr['passwordLength']) {
-                /* password too short */
-                $set = false;
-                $logger->error(
-                    sprintf($languageService->getLL('shortPassword'), $passwordLength)
-                );
-                $messages[] = sprintf($languageService->getLL('shortPassword'), $passwordLength);
-            }
+        if ($confArr['passwordLength'] && $passwordLength && strlen($value) < $confArr['passwordLength']) {
+            /* password too short */
+            $set = false;
+            $logger->error(
+                sprintf($languageService->getLL('shortPassword'), $passwordLength)
+            );
+            $messages[] = sprintf($languageService->getLL('shortPassword'), $passwordLength);
         }
 
         $counter = 0;
         $notUsed = [];
 
-        // check for lowercase characters
-        if ($confArr['lowercaseChar']) {
-            if (preg_match(static::PATTERN_LOWER_CHAR, $value) > 0) {
-                $counter++;
-            } else {
-                $notUsed[] = $languageService->getLL('lowercaseChar');
-            }
-        }
+        $checks = [
+            'lowercaseChar' => static::PATTERN_LOWER_CHAR,
+            'capitalChar' => static::PATTERN_CAPITAL_CHAR,
+            'digit' => static::PATTERN_DIGIT,
+            'specialChar' => static::PATTERN_SPECIAL_CHAR,
+        ];
 
-        // check for capital characters
-        if ($confArr['capitalChar']) {
-            if (preg_match(static::PATTERN_CAPITAL_CHAR, $value) > 0) {
-                $counter++;
-            } else {
-                $notUsed[] = $languageService->getLL('capitalChar');
-            }
-        }
-
-        // check for digits
-        if ($confArr['digit']) {
-            if (preg_match(static::PATTERN_DIGIT, $value) > 0) {
-                $counter++;
-            } else {
-                $notUsed[] = $languageService->getLL('digit');
-            }
-        }
-
-        // check for special characters
-        if ($confArr['specialChar']) {
-            if (preg_match(static::PATTERN_SPECIAL_CHAR, $value) > 0) {
-                $counter++;
-            } else {
-                $notUsed[] = $languageService->getLL('specialChar');
+        foreach ($checks as $index => $pattern) {
+            if ($confArr[$index]) {
+                if (preg_match($pattern, $value) > 0) {
+                    $counter++;
+                } else {
+                    $notUsed[] = $languageService->getLL($index);
+                }
             }
         }
 
