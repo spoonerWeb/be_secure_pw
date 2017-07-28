@@ -9,7 +9,7 @@ before_script:
 stages:
   - test
   - mirror
-  - upload
+  - release
 
 .test: &testing
   stage: test
@@ -87,13 +87,13 @@ mirror-to-github:
 # The variables T3O_USERNAME and T3O_PASSWORD should be set in GitLab
 ter-upload:
   image: php:7-alpine
-  stage: upload
+  stage: release
   only:
     - tags
   before_script:
     - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
     - export COMPOSER_CACHE_DIR=/cache/composer
-    - apt-get install -y git
+    - apk add git --update
   script:
     - composer require namelesscoder/typo3-repository-client
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
