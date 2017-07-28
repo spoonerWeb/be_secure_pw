@@ -86,7 +86,7 @@ mirror-to-github:
 # TER Upload when tagging in master branch
 # The variables T3O_USERNAME and T3O_PASSWORD should be set in GitLab
 ter-upload:
-  image: php:7-alpine
+  image: php:7
   stage: release
   only:
     - tags
