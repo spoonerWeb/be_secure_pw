@@ -21,7 +21,7 @@ stages:
     - export COMPOSER_CACHE_DIR=.cache/composer
     - php -r "copy('https://getcomposer.org/composer.phar', 'composer.phar');"
     - >
-      if [ ${TYPO3_VERSION} = dev-master]; then
+      if [ ${TYPO3_VERSION} = dev-master ]; then
         php composer.phar config minimum-stability dev
       fi;
     - php composer.phar require typo3/cms="${TYPO3_VERSION}" --update-with-dependencies
