@@ -20,7 +20,7 @@ stages:
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
     - export COMPOSER_CACHE_DIR=.cache/composer
     - php -r "copy('https://getcomposer.org/composer.phar', 'composer.phar');"
-    - if [ ${TYPO3_VERSION} == "dev-master" ]; then php composer.phar config minimum-stability dev; fi
+    - if [ "${TYPO3_VERSION}" == "dev-master" ]; then php composer.phar config minimum-stability dev; fi
     - php composer.phar require typo3/cms="${TYPO3_VERSION}" --update-with-dependencies
     - php composer.phar require nimut/testing-framework
     - php composer.phar require squizlabs/php_codesniffer
