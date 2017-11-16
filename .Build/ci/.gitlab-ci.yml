@@ -20,7 +20,7 @@ stages:
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
     - export COMPOSER_CACHE_DIR=.cache/composer
     - php -r "copy('https://getcomposer.org/composer.phar', 'composer.phar');"
-    - [[ "${TYPO3_VERSION}" == "dev-master" ]] && php composer.phar config minimum-stability dev
+    - php composer.phar config minimum-stability ${COMPOSER_STABILITY}
     - php composer.phar require typo3/cms="${TYPO3_VERSION}" --update-with-dependencies
     - php composer.phar require nimut/testing-framework
     - php composer.phar require squizlabs/php_codesniffer
@@ -34,6 +34,7 @@ test:php70:typo3_7:
   variables:
     DOCKER_TAG: 7.0-alpine
     TYPO3_VERSION: ^7.6
+    COMPOSER_STABILITY: stable
 
 # Build in PHP 7.1 and TYPO3 7.6
 test:php71:typo3_7:
@@ -41,6 +42,7 @@ test:php71:typo3_7:
   variables:
     DOCKER_TAG: 7.1-alpine
     TYPO3_VERSION: ^7.6
+    COMPOSER_STABILITY: stable
 
 # Build in PHP 7.0 and TYPO3 8 (latest stable release)
 test:php70:typo3_8:
@@ -48,6 +50,7 @@ test:php70:typo3_8:
   variables:
     DOCKER_TAG: 7.0-alpine
     TYPO3_VERSION: ^8
+    COMPOSER_STABILITY: stable
 
 # Build in PHP 7.1 and TYPO3 8 (latest stable release)
 test:php71:typo3_8:
@@ -55,6 +58,7 @@ test:php71:typo3_8:
   variables:
     DOCKER_TAG: 7.1-alpine
     TYPO3_VERSION: ^8
+    COMPOSER_STABILITY: stable
 
 # Build in PHP 7.0 and TYPO3 (current master)
 test:php70:typo3_master:
@@ -62,6 +66,7 @@ test:php70:typo3_master:
   variables:
     DOCKER_TAG: 7.0-alpine
     TYPO3_VERSION: dev-master
+    COMPOSER_STABILITY: dev
 
 # Build in PHP 7.1 and TYPO3 (current master)
 test:php71:typo3_master:
@@ -69,6 +74,7 @@ test:php71:typo3_master:
   variables:
     DOCKER_TAG: 7.1-alpine
     TYPO3_VERSION: dev-master
+    COMPOSER_STABILITY: dev
 
 mirror-to-github:
   stage: mirror
