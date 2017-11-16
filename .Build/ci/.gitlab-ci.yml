@@ -20,9 +20,10 @@ stages:
     - export TYPO3_PATH_WEB="$PWD/.Build/Web"
     - export COMPOSER_CACHE_DIR=/cache/composer
     - php -r "copy('https://getcomposer.org/composer.phar', 'composer.phar');"
-    - composer.phar require typo3/cms="${TYPO3_VERSION}" --update-with-dependencies
-    - composer.phar require nimut/testing-framework
-    - composer.phar require squizlabs/php_codesniffer
+    - chmod +x composer.phar
+    - ./composer.phar require typo3/cms="${TYPO3_VERSION}" --update-with-dependencies
+    - ./composer.phar require nimut/testing-framework
+    - ./composer.phar require squizlabs/php_codesniffer
   script:
     - .Build/bin/phpunit -c Configuration/.Build/Tests/UnitTests.xml
     - .Build/bin/phpcs --standard=PSR2 --extensions=php *
