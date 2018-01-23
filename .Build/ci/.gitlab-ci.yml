@@ -1,5 +1,5 @@
 cache:
-  key: "$CI_COMMIT_REF_NAME/$CI_JOB_STAGE"
+  key: "$CI_COMMIT_REF_NAME-$CI_JOB_STAGE"
   paths:
     - .cache/
 
