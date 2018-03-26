@@ -3,6 +3,7 @@
   "type": "typo3-cms-extension",
   "description": "You can set password conventions to force secure passwords for BE users.",
   "homepage": "http://typo3.org",
+  "minimum-stability": "dev",
   "license": [
     "GPL-2.0+"
   ],
@@ -23,11 +24,10 @@
     }
   ],
   "require": {
-    "php": "^7.0 || ^7.1",
-    "typo3/cms-core": "^7.6 || ^8.7"
+    "php": "^7.0 || ^7.1"
   },
   "require-dev": {
-    "phpunit/phpunit": "^5.6"
+    "nimut/testing-framework": "^2"
   },
   "autoload": {
     "psr-4": {

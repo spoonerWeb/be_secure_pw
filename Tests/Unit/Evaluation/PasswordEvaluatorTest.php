@@ -14,14 +14,12 @@ namespace SpoonerWeb\BeSecurePw\Tests\Unit\Evaluator;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Tests\BaseTestCase;
-
 /**
  * Test case.
  *
  * @author Thomas Löffler <loeffler@spooner-web.de>
  */
-class PasswordEvaluatorTest extends BaseTestCase
+class PasswordEvaluatorTest extends \Nimut\TestingFramework\TestCase\UnitTestCase
 {
 
     /**

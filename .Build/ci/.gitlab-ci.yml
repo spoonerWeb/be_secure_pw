@@ -1,7 +1,7 @@
 cache:
   key: "$CI_COMMIT_REF_NAME-$CI_JOB_STAGE"
   paths:
-    - .cache/
+    - cache/
 
 before_script:
   - apk add git --update
@@ -16,13 +16,21 @@ stages:
   image: php:$DOCKER_TAG
   only:
     - branches
+  variables:
+    TYPO3_PATH_WEB: "$PWD/.Build/Web"
+    TYPO3_PATH_ROOT: "$PWD/.Build/Web"
+    COMPOSER_CACHE_DIR: "/cache/composer"
   before_script:
-    - export TYPO3_PATH_WEB="$PWD/.Build/Web"
-    - export COMPOSER_CACHE_DIR=.cache/composer
+    - apk add git --update
     - php -r "copy('https://getcomposer.org/composer.phar', 'composer.phar');"
-    - php composer.phar require typo3/cms-core="${TYPO3_VERSION}" --update-with-dependencies
-    - php composer.phar require nimut/testing-framework
-    - php composer.phar require squizlabs/php_codesniffer
+    - php composer.phar config minimum-stability ${COMPOSER_STABILITY}
+    - php composer.phar remove --dev nimut/testing-framework
+    - php composer.phar remove typo3/cms-core
+    - rm composer.lock
+    - rm -Rf .Build/vendor/
+    - php composer.phar require ${TYPO3_VERSION} --update-with-dependencies
+    - php composer.phar require --dev nimut/testing-framework:${NIMUT_TESTFRAMEWORK_VERSION} --update-with-dependencies
+    - php composer.phar require --dev squizlabs/php_codesniffer
   script:
     - .Build/bin/phpunit -c Configuration/.Build/Tests/UnitTests.xml
     - .Build/bin/phpcs --standard=PSR2 --extensions=php *
@@ -32,7 +40,8 @@ test:php70:typo3_7:
   <<: *testing
   variables:
     DOCKER_TAG: 7.0-alpine
-    TYPO3_VERSION: ^7.6
+    TYPO3_VERSION: typo3/cms:^7.6
+    NIMUT_TESTFRAMEWORK_VERSION: ^2
     COMPOSER_STABILITY: stable
 
 # Build in PHP 7.1 and TYPO3 7.6
@@ -40,7 +49,8 @@ test:php71:typo3_7:
   <<: *testing
   variables:
     DOCKER_TAG: 7.1-alpine
-    TYPO3_VERSION: ^7.6
+    TYPO3_VERSION: typo3/cms:^7.6
+    NIMUT_TESTFRAMEWORK_VERSION: ^2
     COMPOSER_STABILITY: stable
 
 # Build in PHP 7.0 and TYPO3 8 (latest stable release)
@@ -48,7 +58,8 @@ test:php70:typo3_8:
   <<: *testing
   variables:
     DOCKER_TAG: 7.0-alpine
-    TYPO3_VERSION: ^8
+    TYPO3_VERSION: typo3/cms-core:^8
+    NIMUT_TESTFRAMEWORK_VERSION: ^2
     COMPOSER_STABILITY: stable
 
 # Build in PHP 7.1 and TYPO3 8 (latest stable release)
@@ -56,23 +67,26 @@ test:php71:typo3_8:
   <<: *testing
   variables:
     DOCKER_TAG: 7.1-alpine
-    TYPO3_VERSION: ^8
+    TYPO3_VERSION: typo3/cms-core:^8
+    NIMUT_TESTFRAMEWORK_VERSION: ^2
     COMPOSER_STABILITY: stable
 
-# Build in PHP 7.0 and TYPO3 (current master)
-test:php70:typo3_master:
+# Build in PHP 7.2 and TYPO3 (9.x)
+test:php72:typo3_9:
   <<: *testing
   variables:
-    DOCKER_TAG: 7.0-alpine
-    TYPO3_VERSION: dev-master
+    DOCKER_TAG: 7.2-alpine3.7
+    TYPO3_VERSION: typo3/minimal
+    NIMUT_TESTFRAMEWORK_VERSION: ^3
     COMPOSER_STABILITY: dev
 
-# Build in PHP 7.1 and TYPO3 (current master)
-test:php71:typo3_master:
+# Build in PHP 7.2 and TYPO3 (current master)
+test:php72:typo3_master:
   <<: *testing
   variables:
-    DOCKER_TAG: 7.1-alpine
-    TYPO3_VERSION: dev-master
+    DOCKER_TAG: 7.2-alpine3.7
+    TYPO3_VERSION: typo3/minimal:dev-master
+    NIMUT_TESTFRAMEWORK_VERSION: ^3
     COMPOSER_STABILITY: dev
 
 mirror-to-github:
