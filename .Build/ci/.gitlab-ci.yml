@@ -93,7 +93,6 @@ mirror-to-github:
   stage: mirror
   image: indiehosters/git
   only:
-    - tags
     - master
   script:
     - git remote add github https://tomalo:$GITHUB_TOKEN@github.com/spoonerWeb/be_secure_pw.git
