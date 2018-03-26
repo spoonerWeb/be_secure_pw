@@ -97,6 +97,7 @@ mirror-to-github:
   script:
     - git remote add github https://tomalo:$GITHUB_TOKEN@github.com/spoonerWeb/be_secure_pw.git
     - git push github master
+    - git pull github master --tags
     - git push github master --tags
 
 # TER Upload when tagging in master branch
