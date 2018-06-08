@@ -72,7 +72,10 @@ class BackendHook
         ];
 
         // get configuration of a secure password
-        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw'], ['allowed_classes' => false]);
+        $extConf = unserialize(
+            $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw'],
+            ['allowed_classes' => false]
+        );
 
         // Convert labels/settings back to UTF-8 since json_encode() only works with UTF-8:
         if ($GLOBALS['LANG']->charSet !== 'utf-8') {

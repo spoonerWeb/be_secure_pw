@@ -66,7 +66,10 @@ class PasswordEvaluator
             return $value;
         }
 
-        $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw'], ['allowed_classes' => false]);
+        $confArr = unserialize(
+            $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw'],
+            ['allowed_classes' => false]
+        );
 
         /** @var \TYPO3\CMS\Core\DataHandling\DataHandler $tce */
         $tce = Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\DataHandling\DataHandler::class);

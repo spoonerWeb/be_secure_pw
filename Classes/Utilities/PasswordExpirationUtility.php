@@ -53,7 +53,10 @@ class PasswordExpirationUtility
         $lastLogin = (int)$beUser['lastlogin'];
 
         // get configuration of a secure password
-        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw'], ['allowed_classes' => false]);
+        $extConf = unserialize(
+            $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw'],
+            ['allowed_classes' => false]
+        );
 
         $validUntilConfiguration = trim($extConf['validUntil']);
 
