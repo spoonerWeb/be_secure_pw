@@ -22,6 +22,9 @@
       "role": "Developer"
     }
   ],
+  "replace": {
+    "typo3-ter/be-secure-pw": "*"
+  },
   "require": {
     "php": "^7.0 || ^7.1"
   },
@@ -40,7 +43,8 @@
   "extra": {
     "typo3/cms": {
       "cms-package-dir": "{$vendor-dir}/typo3/cms",
-      "web-dir": ".Build/Web"
+      "web-dir": ".Build/Web",
+      "extension-key": "be_secure_pw"
     }
   }
 }
