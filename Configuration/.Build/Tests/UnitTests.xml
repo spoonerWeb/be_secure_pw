@@ -3,7 +3,7 @@
         backupStaticAttributes="false"
         bootstrap="../../../.Build/vendor/nimut/testing-framework/res/Configuration/UnitTestsBootstrap.php"
         colors="true"
-        convertErrorsToExceptions="true"
+        convertErrorsToExceptions="false"
         convertWarningsToExceptions="true"
         forceCoversAnnotation="false"
         processIsolation="false"
