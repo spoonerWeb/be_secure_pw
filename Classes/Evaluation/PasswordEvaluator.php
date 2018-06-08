@@ -66,7 +66,7 @@ class PasswordEvaluator
             return $value;
         }
 
-        $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw']);
+        $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw'], ['allowed_classes' => false]);
 
         /** @var \TYPO3\CMS\Core\DataHandling\DataHandler $tce */
         $tce = Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\DataHandling\DataHandler::class);
@@ -126,8 +126,8 @@ class PasswordEvaluator
             $additional = '';
             $set = false;
 
-            if (is_array($notUsed) && sizeof($notUsed) > 0) {
-                if (sizeof($notUsed) > 1) {
+            if (is_array($notUsed) && !empty($notUsed)) {
+                if (count($notUsed) > 1) {
                     $additional = sprintf($languageService->getLL('notUsedConventions'), implode(', ', $notUsed));
                 } else {
                     $additional = sprintf($languageService->getLL('notUsedConvention'), $notUsed[0]);

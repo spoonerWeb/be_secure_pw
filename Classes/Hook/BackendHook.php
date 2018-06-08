@@ -45,7 +45,7 @@ class BackendHook
      * @param array $config
      * @param \TYPO3\CMS\Backend\Controller\BackendController $backendReference
      */
-    public function constructPostProcess(array $config, BackendController &$backendReference)
+    public function constructPostProcess(array $config, BackendController $backendReference)
     {
         if (!PasswordExpirationUtility::isBeUserPasswordExpired()) {
             return;
@@ -72,7 +72,7 @@ class BackendHook
         ];
 
         // get configuration of a secure password
-        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw']);
+        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw'], ['allowed_classes' => false]);
 
         // Convert labels/settings back to UTF-8 since json_encode() only works with UTF-8:
         if ($GLOBALS['LANG']->charSet !== 'utf-8') {
@@ -81,9 +81,9 @@ class BackendHook
 
         $labelsForJS = 'TYPO3.LLL.beSecurePw = ' . json_encode($generatedLabels) . ';';
 
-        $backendReference->addJavascript($labelsForJS);
         /** @var PageRenderer $pageRenderer */
         $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+        $pageRenderer->addJsInlineCode('labels', $labelsForJS);
         $pageRenderer->loadRequireJsModule(
             'TYPO3/CMS/BeSecurePw/Reminder',
             'function(reminder){
@@ -102,7 +102,7 @@ class BackendHook
      * @param \TYPO3\CMS\Core\DataHandling\DataHandler $parentObj
      */
     // @codingStandardsIgnoreLine
-    public function processDatamap_preProcessFieldArray(&$incomingFieldArray, $table, $id, DataHandler &$parentObj)
+    public function processDatamap_preProcessFieldArray(&$incomingFieldArray, $table, $id, DataHandler $parentObj)
     {
         if ($table === 'be_users' && !empty($incomingFieldArray['password'])) {
             // only do that, if the record was edited from the user himself
