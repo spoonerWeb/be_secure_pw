@@ -77,7 +77,7 @@ test:php72:typo3_9:
     DOCKER_TAG: 7.2-alpine3.7
     TYPO3_VERSION: typo3/minimal
     NIMUT_TESTFRAMEWORK_VERSION: ^3
-    COMPOSER_STABILITY: dev
+    COMPOSER_STABILITY: stable
 
 # Build in PHP 7.2 and TYPO3 (current master)
 test:php72:typo3_master:
