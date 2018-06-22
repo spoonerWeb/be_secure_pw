@@ -70,6 +70,15 @@ test:php71:typo3_8:
     NIMUT_TESTFRAMEWORK_VERSION: ^2
     COMPOSER_STABILITY: stable
 
+# Build in PHP 7.2 and TYPO3 8 (latest stable release)
+test:php72:typo3_8:
+  <<: *testing
+  variables:
+    DOCKER_TAG: 7.2-alpine
+    TYPO3_VERSION: typo3/cms-core:^8
+    NIMUT_TESTFRAMEWORK_VERSION: ^2
+    COMPOSER_STABILITY: stable
+
 # Build in PHP 7.2 and TYPO3 (9.x)
 test:php72:typo3_9:
   <<: *testing
