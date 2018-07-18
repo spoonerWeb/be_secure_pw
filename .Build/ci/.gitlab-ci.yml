@@ -85,7 +85,7 @@ test:php72:typo3_9:
   variables:
     DOCKER_TAG: 7.2-alpine3.7
     TYPO3_VERSION: typo3/minimal
-    NIMUT_TESTFRAMEWORK_VERSION: ^3
+    NIMUT_TESTFRAMEWORK_VERSION: ^4
     COMPOSER_STABILITY: stable
 
 # Build in PHP 7.2 and TYPO3 (current master)
@@ -94,7 +94,7 @@ test:php72:typo3_master:
   variables:
     DOCKER_TAG: 7.2-alpine3.7
     TYPO3_VERSION: typo3/minimal:dev-master
-    NIMUT_TESTFRAMEWORK_VERSION: ^3
+    NIMUT_TESTFRAMEWORK_VERSION: ^4
     COMPOSER_STABILITY: dev
 
 # TER Upload when tagging in master branch
