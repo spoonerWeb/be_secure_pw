@@ -27,4 +27,4 @@ $tempColumns = [
 ];
 
 ExtensionManagementUtility::addTCAcolumns('be_users', $tempColumns);
-ExtensionManagementUtility::addToAllTCAtypes('be_users', 'tx_besecurepw_lastpwchange;;;;1-1-1');
+ExtensionManagementUtility::addToAllTCAtypes('be_users', 'tx_besecurepw_lastpwchange');
