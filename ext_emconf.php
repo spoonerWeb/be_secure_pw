@@ -13,7 +13,7 @@ $EM_CONF[$_EXTKEY] = [
     'description' => 'You can set password conventions to force secure passwords for BE users.',
     'category' => 'be',
     'shy' => 0,
-    'version' => '8.0.1',
+    'version' => '8.0.2-dev',
     'priority' => '',
     'loadOrder' => '',
     'module' => '',
@@ -26,7 +26,7 @@ $EM_CONF[$_EXTKEY] = [
     'constraints' => [
         'depends' => [
             'php' => '7.0',
-            'typo3' => '7.6.21-9.99.99',
+            'typo3' => '7.6.21-9.5.99',
         ],
         'conflicts' => [],
         'suggests' => [],
