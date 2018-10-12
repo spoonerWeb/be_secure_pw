@@ -19,8 +19,9 @@ use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Lang\LanguageService;
 use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
-use TYPO3\CMS\Saltedpasswords\Utility\SaltedPasswordsUtility;
-use TYPO3\CMS\Saltedpasswords\Salt\SaltFactory;
+use TYPO3\CMS\Core\Crypto\PasswordHashing\SaltedPasswordsUtility;
+// use TYPO3\CMS\Saltedpasswords\Salt\SaltFactory;
+use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
 
 /**
  * Class PasswordEvaluator
@@ -66,10 +67,7 @@ class PasswordEvaluator
             return $value;
         }
 
-        $confArr = unserialize(
-            $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw'],
-            ['allowed_classes' => false]
-        );
+        $confArr = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['be_secure_pw'];
 
         /** @var \TYPO3\CMS\Core\DataHandling\DataHandler $tce */
         $tce = Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\DataHandling\DataHandler::class);
@@ -187,7 +185,7 @@ class PasswordEvaluator
             return false;
         }
 
-        $saltFactory = SaltFactory::getSaltingInstance($password, 'BE');
+        $saltFactory = PasswordHashFactory::getSaltingInstance($password, 'BE');
         if (!$saltFactory) {
             return false;
         }
