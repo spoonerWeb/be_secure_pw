@@ -16,11 +16,10 @@ namespace SpoonerWeb\BeSecurePw\Evaluation;
 
 use TYPO3\CMS\Core\Utility;
 use TYPO3\CMS\Core\Log\LogManager;
-use TYPO3\CMS\Lang\LanguageService;
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
-use TYPO3\CMS\Core\Crypto\PasswordHashing\SaltedPasswordsUtility;
-// use TYPO3\CMS\Saltedpasswords\Salt\SaltFactory;
+use TYPO3\CMS\Saltedpasswords\Utility\SaltedPasswordsUtility;
 use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
 
 /**
@@ -62,10 +61,6 @@ class PasswordEvaluator
         int &$set,
         bool $storeFlashMessageInSession = true
     ): string {
-        // if $value is a md5 hash, return the value directly
-        if ($this->isMd5($value) || $this->isSalted($value)) {
-            return $value;
-        }
 
         $confArr = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['be_secure_pw'];
 
@@ -146,10 +141,10 @@ class PasswordEvaluator
 
         /* no problems */
         if ($set) {
-            // If no saltedpasswords are enabled, hash the password to prevent a clean password in DB
-            if (!SaltedPasswordsUtility::isUsageEnabled('BE')) {
-                $value = md5($value);
-            }
+            // Hash password before storing it
+            $hashInstance = Utility\GeneralUtility::makeInstance(PasswordHashFactory::class)->getDefaultHashInstance('BE');
+            $value = $hashInstance->getHashedPassword($value);
+
             return $value;
         }
 
@@ -166,30 +161,4 @@ class PasswordEvaluator
         return '';
     }
 
-    /**
-     * @param string $password
-     * @return boolean
-     */
-    private function isMd5(string $password): bool
-    {
-        return (boolean)preg_match(static::PATTERN_MD5, $password);
-    }
-
-    /**
-     * @param string $password
-     * @return boolean
-     */
-    private function isSalted(string $password): bool
-    {
-        if (!SaltedPasswordsUtility::isUsageEnabled('BE')) {
-            return false;
-        }
-
-        $saltFactory = PasswordHashFactory::getSaltingInstance($password, 'BE');
-        if (!$saltFactory) {
-            return false;
-        }
-
-        return $saltFactory->isValidSaltedPW($password);
-    }
 }
