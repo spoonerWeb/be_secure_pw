@@ -74,11 +74,6 @@ class BackendHook
         // get configuration of a secure password
         $extConf = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['be_secure_pw'];
 
-        // Convert labels/settings back to UTF-8 since json_encode() only works with UTF-8:
-        if ($GLOBALS['LANG']->charSet !== 'utf-8') {
-            $GLOBALS['LANG']->csConvObj->convArray($generatedLabels, $GLOBALS['LANG']->charSet, 'utf-8');
-        }
-
         $labelsForJS = 'TYPO3.LLL.beSecurePw = ' . json_encode($generatedLabels) . ';';
 
         /** @var PageRenderer $pageRenderer */
