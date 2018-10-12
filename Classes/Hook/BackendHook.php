@@ -74,7 +74,7 @@ class BackendHook
         // get configuration of a secure password
         $extConf = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['be_secure_pw'];
 
-        $labelsForJS = 'TYPO3.LLL.beSecurePw = ' . json_encode($generatedLabels) . ';';
+        $labelsForJS = 'TYPO3.lang.beSecurePw = ' . json_encode($generatedLabels) . ';';
 
         /** @var PageRenderer $pageRenderer */
         $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);

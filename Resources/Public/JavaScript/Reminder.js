@@ -25,8 +25,8 @@ define(['jquery', 'TYPO3/CMS/Backend/Modal'], function ($, Modal) {
         $(function () {
             if (force) {
                 Modal.show(
-                    TYPO3.LLL.beSecurePw.passwordReminderWindow_title,
-                    TYPO3.LLL.beSecurePw.passwordReminderWindow_message,
+                    TYPO3.lang.beSecurePw.passwordReminderWindow_title,
+                    TYPO3.lang.beSecurePw.passwordReminderWindow_message,
                     TYPO3.Severity.warning,
                     [{
                         text: TYPO3.lang['button.ok'] || 'OK',
@@ -40,7 +40,7 @@ define(['jquery', 'TYPO3/CMS/Backend/Modal'], function ($, Modal) {
                     top.goToModule('user_setup');
                 });
             } else {
-                Modal.confirm(TYPO3.LLL.beSecurePw.passwordReminderWindow_title, TYPO3.LLL.beSecurePw.passwordReminderWindow_message + " " + TYPO3.LLL.beSecurePw.passwordReminderWindow_confirmation)
+                Modal.confirm(TYPO3.lang.beSecurePw.passwordReminderWindow_title, TYPO3.lang.beSecurePw.passwordReminderWindow_message + " " + TYPO3.lang.beSecurePw.passwordReminderWindow_confirmation)
                     .on('confirm.button.ok', function () {
                         Modal.currentModal.trigger('modal-dismiss');
                         top.goToModule('user_setup');
