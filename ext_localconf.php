@@ -21,7 +21,7 @@ $boot = function ($extensionKey) {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass']['be_secure_pw'] =
         BeSecurePw\Hook\BackendHook::class;
 
-    $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extensionKey]);
+    $extConf = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS'][$extensionKey];
 
     // execution of is hook only needed in backend, but it is in the abstract class and could also be executed
     // from frontend otherwise if the backend is set to adminOnly, we can not enforce the change,

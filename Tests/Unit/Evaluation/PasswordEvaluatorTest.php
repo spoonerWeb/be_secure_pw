@@ -70,7 +70,7 @@ class PasswordEvaluatorTest extends \Nimut\TestingFramework\TestCase\UnitTestCas
     public function checkForValidPassword(array $configuration, string $password)
     {
         $set = true;
-        $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw'] = serialize($configuration);
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['be_secure_pw'] = $configuration;
         static::assertEquals(
             $password,
             $this->subject->evaluateFieldValue($password, '', $set)
@@ -146,7 +146,7 @@ class PasswordEvaluatorTest extends \Nimut\TestingFramework\TestCase\UnitTestCas
     public function checkForInvalidPassword(array $configuration, string $password)
     {
         $set = true;
-        $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['be_secure_pw'] = serialize($configuration);
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['be_secure_pw'] = $configuration;
         static::assertEquals(
             '',
             $this->subject->evaluateFieldValue($password, '', $set, false)

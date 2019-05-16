@@ -26,10 +26,10 @@
     "typo3-ter/be-secure-pw": "*"
   },
   "require": {
-    "php": "^7.0 || ^7.1 || ^7.2"
-  },
-  "require-dev": {
-    "nimut/testing-framework": "^2 || ^3"
+    "php": "^7.2",
+    "typo3/cms-core": "^9.5",
+    "typo3/cms-setup": "^9.5",
+    "typo3/cms-beuser": "^9.5"
   },
   "autoload": {
     "psr-4": {

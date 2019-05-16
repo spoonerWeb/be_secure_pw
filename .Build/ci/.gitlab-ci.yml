@@ -1,7 +1,7 @@
 cache:
   key: "$CI_COMMIT_REF_NAME-$CI_JOB_STAGE"
   paths:
-    - cache/
+    - /cache/composer
 
 before_script:
   - apk add git --update
@@ -23,6 +23,7 @@ stages:
     - apk add git --update
     - php -r "copy('https://getcomposer.org/composer.phar', 'composer.phar');"
     - php composer.phar config minimum-stability ${COMPOSER_STABILITY}
+    - php composer.phar config cache-dir /cache/composer
     - php composer.phar remove --dev nimut/testing-framework
     - php composer.phar remove typo3/cms-core
     - rm composer.lock
@@ -33,58 +34,14 @@ stages:
   script:
     - .Build/bin/phpunit -c Configuration/.Build/Tests/UnitTests.xml
     - .Build/bin/phpcs --standard=PSR2 --extensions=php *
-
-# Build in PHP 7.0 and TYPO3 7.6
-test:php70:typo3_7:
-  <<: *testing
-  variables:
-    DOCKER_TAG: 7.0-alpine
-    TYPO3_VERSION: typo3/cms:^7.6
-    NIMUT_TESTFRAMEWORK_VERSION: ^2
-    COMPOSER_STABILITY: stable
-
-# Build in PHP 7.1 and TYPO3 7.6
-test:php71:typo3_7:
-  <<: *testing
-  variables:
-    DOCKER_TAG: 7.1-alpine
-    TYPO3_VERSION: typo3/cms:^7.6
-    NIMUT_TESTFRAMEWORK_VERSION: ^2
-    COMPOSER_STABILITY: stable
-
-# Build in PHP 7.0 and TYPO3 8 (latest stable release)
-test:php70:typo3_8:
-  <<: *testing
-  variables:
-    DOCKER_TAG: 7.0-alpine
-    TYPO3_VERSION: typo3/cms-core:^8
-    NIMUT_TESTFRAMEWORK_VERSION: ^2
-    COMPOSER_STABILITY: stable
-
-# Build in PHP 7.1 and TYPO3 8 (latest stable release)
-test:php71:typo3_8:
-  <<: *testing
-  variables:
-    DOCKER_TAG: 7.1-alpine
-    TYPO3_VERSION: typo3/cms-core:^8
-    NIMUT_TESTFRAMEWORK_VERSION: ^2
-    COMPOSER_STABILITY: stable
-
-# Build in PHP 7.2 and TYPO3 8 (latest stable release)
-test:php72:typo3_8:
-  <<: *testing
-  variables:
-    DOCKER_TAG: 7.2-alpine
-    TYPO3_VERSION: typo3/cms-core:^8
-    NIMUT_TESTFRAMEWORK_VERSION: ^3
-    COMPOSER_STABILITY: stable
+  allow_failure: true
 
 # Build in PHP 7.2 and TYPO3 (9.x)
 test:php72:typo3_9:
   <<: *testing
   variables:
     DOCKER_TAG: 7.2-alpine3.7
-    TYPO3_VERSION: typo3/minimal
+    TYPO3_VERSION: typo3/cms-core:^9
     NIMUT_TESTFRAMEWORK_VERSION: ^4
     COMPOSER_STABILITY: stable
 
@@ -106,7 +63,7 @@ ter-upload:
     - tags
   before_script:
     - php -r "copy('https://getcomposer.org/composer.phar', 'composer.phar');"
-    - export COMPOSER_CACHE_DIR=.cache/composer
+    - php composer.phar config cache-dir /cache/composer
   script:
     - php composer.phar require namelesscoder/typo3-repository-client
     - >

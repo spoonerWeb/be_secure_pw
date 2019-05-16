@@ -22,6 +22,7 @@ $tempColumns = [
             'type' => 'input',
             'size' => 12,
             'eval' => 'datetime',
+            'default' => 0
         ]
     ],
 ];
