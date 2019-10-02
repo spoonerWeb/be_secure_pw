@@ -72,7 +72,7 @@ class BackendHook
         ];
 
         // get configuration of a secure password
-        $extConf = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['be_secure_pw'];
+        $extConf = \SpoonerWeb\BeSecurePw\Configuration\ExtensionConfiguration::getExtensionConfig();
 
         $labelsForJS = 'TYPO3.lang.beSecurePw = ' . json_encode($generatedLabels) . ';';
 

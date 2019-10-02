@@ -53,7 +53,7 @@ class PasswordExpirationUtility
         $lastLogin = (int)$beUser['lastlogin'];
 
         // get configuration of a secure password
-        $extConf = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['be_secure_pw'];
+        $extConf = \SpoonerWeb\BeSecurePw\Configuration\ExtensionConfiguration::getExtensionConfig();
 
         $validUntilConfiguration = trim($extConf['validUntil']);
 

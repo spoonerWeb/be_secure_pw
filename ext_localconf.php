@@ -2,7 +2,7 @@
 defined('TYPO3_MODE') || die('Access denied.');
 use SpoonerWeb\BeSecurePw;
 
-$boot = function ($extensionKey) {
+$boot = function () {
 
     // here we register "PasswordEvaluator"
     // for editing by tca form
@@ -21,13 +21,15 @@ $boot = function ($extensionKey) {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass']['be_secure_pw'] =
         BeSecurePw\Hook\BackendHook::class;
 
-    $extConf = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS'][$extensionKey];
+    $extConf = \SpoonerWeb\BeSecurePw\Configuration\ExtensionConfiguration::getExtensionConfig();
 
     // execution of is hook only needed in backend, but it is in the abstract class and could also be executed
     // from frontend otherwise if the backend is set to adminOnly, we can not enforce the change,
     // because the hook removes the admin flag
-    if (!empty($extConf['forcePasswordChange']) && TYPO3_MODE === 'BE'
-        && (int)$GLOBALS['TYPO3_CONF_VARS']['BE']['adminOnly'] === 0) {
+    if (!empty($extConf['forcePasswordChange'])
+        && TYPO3_MODE === 'BE'
+        && (int)$GLOBALS['TYPO3_CONF_VARS']['BE']['adminOnly'] === 0
+    ) {
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_pagerenderer.php']['render-postProcess'][] =
             BeSecurePw\Hook\RestrictModulesHook::class . '->addRefreshJavaScript';
 
@@ -36,5 +38,5 @@ $boot = function ($extensionKey) {
     }
 };
 
-$boot($_EXTKEY);
+$boot();
 unset($boot);

@@ -33,7 +33,6 @@ class PasswordEvaluator
     const PATTERN_CAPITAL_CHAR = '/[A-Z]/';
     const PATTERN_DIGIT = '/[0-9]/';
     const PATTERN_SPECIAL_CHAR = '/[^0-9a-z]/i';
-    const PATTERN_MD5 = '/[0-9abcdef]{32,32}/';
 
     /**
      * This function just return the field value as it is. No transforming,
@@ -54,6 +53,7 @@ class PasswordEvaluator
      * @param integer $set Determines if the field can be set (value correct) or not
      * @param boolean $storeFlashMessageInSession Used only for phpunit issues
      * @return string The new value of the field
+     * @throws \TYPO3\CMS\Core\Crypto\PasswordHashing\InvalidPasswordHashException
      */
     public function evaluateFieldValue(
         string $value,
@@ -62,7 +62,7 @@ class PasswordEvaluator
         bool $storeFlashMessageInSession = true
     ): string {
 
-        $confArr = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['be_secure_pw'];
+        $extConf = \SpoonerWeb\BeSecurePw\Configuration\ExtensionConfiguration::getExtensionConfig();
 
         /** @var \TYPO3\CMS\Core\DataHandling\DataHandler $tce */
         $tce = Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\DataHandling\DataHandler::class);
@@ -85,8 +85,8 @@ class PasswordEvaluator
 
         $messages = [];
         // check for password length
-        $passwordLength = (int)$confArr['passwordLength'];
-        if ($confArr['passwordLength'] && $passwordLength && strlen($value) < $confArr['passwordLength']) {
+        $passwordLength = (int)$extConf['passwordLength'];
+        if ($extConf['passwordLength'] && $passwordLength && strlen($value) < $extConf['passwordLength']) {
             /* password too short */
             $set = false;
             $logger->error(
@@ -106,7 +106,7 @@ class PasswordEvaluator
         ];
 
         foreach ($checks as $index => $pattern) {
-            if ($confArr[$index]) {
+            if ($extConf[$index]) {
                 if (preg_match($pattern, $value) > 0) {
                     $counter++;
                 } else {
@@ -115,9 +115,9 @@ class PasswordEvaluator
             }
         }
 
-        if ($counter < $confArr['patterns']) {
+        if ($counter < $extConf['patterns']) {
             /* password does not fit all conventions */
-            $ignoredPatterns = $confArr['patterns'] - $counter;
+            $ignoredPatterns = $extConf['patterns'] - $counter;
 
             $additional = '';
             $set = false;
@@ -160,5 +160,4 @@ class PasswordEvaluator
         // if password not valid return empty password
         return '';
     }
-
 }
