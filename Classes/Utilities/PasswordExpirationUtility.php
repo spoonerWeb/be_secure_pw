@@ -55,6 +55,11 @@ class PasswordExpirationUtility
         // get configuration of a secure password
         $extConf = \SpoonerWeb\BeSecurePw\Configuration\ExtensionConfiguration::getExtensionConfig();
 
+        // check if user passwords of admins do not expire
+        if ((bool)$extConf['ignorePasswordChangeForAdmins'] && $GLOBALS['BE_USER']->isAdmin()) {
+            return false;
+        }
+
         $validUntilConfiguration = trim($extConf['validUntil']);
 
         $validUntil = 0;
