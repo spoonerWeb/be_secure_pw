@@ -143,7 +143,9 @@ class PasswordEvaluator
         if ($set) {
             // Hash password before storing it
             $hashInstance = Utility\GeneralUtility::makeInstance(PasswordHashFactory::class)->getDefaultHashInstance('BE');
-            $value = $hashInstance->getHashedPassword($value);
+            if ($hashInstance->isHashUpdateNeeded($value)) {
+                $value = $hashInstance->getHashedPassword($value);
+            }
 
             return $value;
         }
