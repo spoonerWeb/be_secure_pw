@@ -30,3 +30,9 @@ $tempColumns = [
 
 ExtensionManagementUtility::addTCAcolumns('be_users', $tempColumns);
 ExtensionManagementUtility::addToAllTCAtypes('be_users', 'tx_besecurepw_lastpwchange');
+
+$GLOBALS['TCA']['be_users']['columns']['password']['config']['eval'] = implode(',', [
+    'required',
+    \SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator::class,
+    'password'
+]);

@@ -15,12 +15,11 @@ namespace SpoonerWeb\BeSecurePw\Hook;
  */
 
 use SpoonerWeb\BeSecurePw\Utilities\PasswordExpirationUtility;
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Messaging;
-use TYPO3\CMS\Core\Utility;
 use TYPO3\CMS\Setup\Controller\SetupModuleController;
 use SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Backend\Template\DocumentTemplate;
 
 /**
  * Class UserSetupHook
@@ -59,7 +58,7 @@ class UserSetupHook
             $params['be_user_data']['password2'] = '';
             $this->getLanguageLabels();
             /** @var \TYPO3\CMS\Core\Messaging\FlashMessageQueue $messageQueue */
-            $messageQueue = Utility\GeneralUtility::makeInstance(
+            $messageQueue = GeneralUtility::makeInstance(
                 Messaging\FlashMessageQueue::class,
                 'core.template.flashMessages'
             );
@@ -87,7 +86,7 @@ class UserSetupHook
     {
         // get the languages from ext
         if (empty($GLOBALS['LANG'])) {
-            $GLOBALS['LANG'] = Utility\GeneralUtility::makeInstance('language');
+            $GLOBALS['LANG'] = GeneralUtility::makeInstance(LanguageService::class);
             $GLOBALS['LANG']->init($GLOBALS['BE_USER']->uc['lang']);
         }
         $GLOBALS['LANG']->includeLLFile('EXT:be_secure_pw/Resources/Private/Language/locallang.xml');
