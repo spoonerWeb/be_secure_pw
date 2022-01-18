@@ -1,6 +1,8 @@
 <?php
 namespace SpoonerWeb\BeSecurePw\Hook;
 
+use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
+use TYPO3\CMS\Core\Messaging\FlashMessage;
 /**
  * This file is part of the TYPO3 CMS project.
  *
@@ -59,15 +61,13 @@ class UserSetupHook
             $params['be_user_data']['password2'] = '';
             $this->getLanguageLabels();
             /** @var \TYPO3\CMS\Core\Messaging\FlashMessageQueue $messageQueue */
-            $messageQueue = Utility\GeneralUtility::makeInstance(
-                Messaging\FlashMessageQueue::class,
-                'core.template.flashMessages'
-            );
+            $flashMessageService = GeneralUtility::makeInstance(Messaging\FlashMessageService::class);
+            $messageQueue = $flashMessageService->getMessageQueueByIdentifier();
             $messageQueue->addMessage(
-                new Messaging\FlashMessage(
+                new FlashMessage(
                     $GLOBALS['LANG']->getLL('samePassword'),
                     '',
-                    Messaging\FlashMessage::WARNING,
+                    FlashMessage::WARNING,
                     true
                 )
             );
@@ -87,9 +87,9 @@ class UserSetupHook
     {
         // get the languages from ext
         if (empty($GLOBALS['LANG'])) {
-            $GLOBALS['LANG'] = Utility\GeneralUtility::makeInstance('language');
+            $GLOBALS['LANG'] = GeneralUtility::makeInstance('language');
             $GLOBALS['LANG']->init($GLOBALS['BE_USER']->uc['lang']);
         }
-        $GLOBALS['LANG']->includeLLFile('EXT:be_secure_pw/Resources/Private/Language/locallang.xml');
+        $GLOBALS['LANG']->includeLLFile('EXT:be_secure_pw/Resources/Private/Language/locallang.xlf');
     }
 }

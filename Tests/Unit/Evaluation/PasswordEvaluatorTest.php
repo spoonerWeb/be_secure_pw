@@ -1,6 +1,8 @@
 <?php
 namespace SpoonerWeb\BeSecurePw\Tests\Unit\Evaluator;
 
+use Nimut\TestingFramework\TestCase\UnitTestCase;
+use SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator;
 /**
  * This file is part of the TYPO3 CMS project.
  *
@@ -13,13 +15,12 @@ namespace SpoonerWeb\BeSecurePw\Tests\Unit\Evaluator;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
 /**
  * Test case.
  *
  * @author Thomas Löffler <loeffler@spooner-web.de>
  */
-class PasswordEvaluatorTest extends \Nimut\TestingFramework\TestCase\UnitTestCase
+class PasswordEvaluatorTest extends UnitTestCase
 {
 
     /**
@@ -32,7 +33,7 @@ class PasswordEvaluatorTest extends \Nimut\TestingFramework\TestCase\UnitTestCas
      */
     public function setUp()
     {
-        $this->subject = new \SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator();
+        $this->subject = new PasswordEvaluator();
     }
 
     /**
@@ -42,7 +43,7 @@ class PasswordEvaluatorTest extends \Nimut\TestingFramework\TestCase\UnitTestCas
     public function classCanBeInstantiated()
     {
         static::assertInstanceOf(
-            \SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator::class,
+            PasswordEvaluator::class,
             $this->subject
         );
     }

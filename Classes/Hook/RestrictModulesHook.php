@@ -1,6 +1,7 @@
 <?php
 namespace SpoonerWeb\BeSecurePw\Hook;
 
+use TYPO3\CMS\Core\SingletonInterface;
 /**
  * This file is part of the TYPO3 CMS project.
  *
@@ -23,7 +24,7 @@ use TYPO3\CMS\Core\Authentication\AbstractUserAuthentication;
  * @author Andreas Kießling <andreas.kiessling@web.de>
  * @author Christian Plattner <Christian.Plattner@world-direct.at>
  */
-class RestrictModulesHook implements \TYPO3\CMS\Core\SingletonInterface
+class RestrictModulesHook implements SingletonInterface
 {
     /**
      * Insert JavaScript code to refresh the module menu, if the password was updated and

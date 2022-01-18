@@ -1,7 +1,7 @@
 <phpunit
         backupGlobals="true"
         backupStaticAttributes="false"
-        bootstrap="../../../.Build/vendor/nimut/testing-framework/res/Configuration/UnitTestsBootstrap.php"
+        bootstrap="../../.Build/vendor/nimut/testing-framework/res/Configuration/UnitTestsBootstrap.php"
         colors="true"
         convertErrorsToExceptions="false"
         convertWarningsToExceptions="true"
@@ -15,7 +15,7 @@
 >
     <testsuites>
         <testsuite name="Base tests">
-            <directory>../../../Tests/Unit</directory>
+            <directory>../../Tests/Unit</directory>
         </testsuite>
     </testsuites>
 </phpunit>

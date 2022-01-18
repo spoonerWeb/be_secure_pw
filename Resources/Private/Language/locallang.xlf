@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file id="1642515484" source-language="en" datatype="plaintext" original="messages" date="2022-01-18T14:18:04Z" product-name="be_secure_pw">
+		<header/>
+		<body>
+			<trans-unit id="beSecurePw.header" resname="beSecurePw.header" >
+				<source>Password settings</source>
+			</trans-unit>
+			<trans-unit id="beSecurePw.description" resname="beSecurePw.description" xml:space="preserve">
+				<source>There are the following parameters set for setting a new password:&lt;br /&gt;
+- Password length must be a minimum of &lt;b&gt;%s&lt;/b&gt; chars&lt;br /&gt;
+- Active checks in password: &lt;b&gt;%s&lt;/b&gt;&lt;br /&gt;
+- Amount of checks which have to be successful: &lt;b&gt;%s&lt;/b&gt;&lt;br /&gt;
+			</source>
+			</trans-unit>
+			<trans-unit id="lowercaseChar" resname="lowercaseChar" >
+				<source>lowercase chars</source>
+			</trans-unit>
+			<trans-unit id="capitalChar" resname="capitalChar" >
+				<source>capital chars</source>
+			</trans-unit>
+			<trans-unit id="digit" resname="digit" >
+				<source>digits</source>
+			</trans-unit>
+			<trans-unit id="specialChar" resname="specialChar" >
+				<source>special chars</source>
+			</trans-unit>
+			<trans-unit id="shortPassword" resname="shortPassword" >
+				<source>The password is too short! Please use at least %s characters.</source>
+			</trans-unit>
+			<trans-unit id="passwordConvention" resname="passwordConvention" >
+				<source>%s password convention was ignored!</source>
+			</trans-unit>
+			<trans-unit id="passwordConventions" resname="passwordConventions" >
+				<source>%s password conventions were ignored!</source>
+			</trans-unit>
+			<trans-unit id="messageTitle" resname="messageTitle" >
+				<source>Attempt to modify password</source>
+			</trans-unit>
+			<trans-unit id="notUsedConvention" resname="notUsedConvention" >
+				<source> Not used convention is %s</source>
+			</trans-unit>
+			<trans-unit id="notUsedConventions" resname="notUsedConventions" >
+				<source> Not used conventions are %s</source>
+			</trans-unit>
+			<trans-unit id="samePassword" resname="samePassword" >
+				<source>Your new password was the same as your old one. Your password was not updated though.</source>
+			</trans-unit>
+			<trans-unit id="passwordNotChanged" resname="passwordNotChanged" >
+				<source>Password was not changed!</source>
+			</trans-unit>
+			<trans-unit id="needPasswordChange.title" resname="needPasswordChange.title" >
+				<source>Your password has expired!</source>
+			</trans-unit>
+			<trans-unit id="needPasswordChange.message" resname="needPasswordChange.message" >
+				<source>You need to set a new password within the password requirements.</source>
+			</trans-unit>
+			<trans-unit id="be_users.tx_besecurepw_lastpwchange" resname="be_users.tx_besecurepw_lastpwchange" >
+				<source>Last password change</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

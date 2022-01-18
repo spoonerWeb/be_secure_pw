@@ -15,6 +15,7 @@ namespace SpoonerWeb\BeSecurePw\Utilities;
  */
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -36,27 +37,27 @@ class PasswordExpirationUtility
     public static function isBeUserPasswordExpired(): bool
     {
         // If ses_backuserid is set, an admin switched to that user. He should not be forced to change the password
-        if ($GLOBALS['BE_USER']->user['ses_backuserid']) {
+        if ($GLOBALS['BE_USER']->getOriginalUserIdWhenInSwitchUserMode()) {
             return false;
         }
 
         // exit, if cli user is found
-        if (GeneralUtility::isFirstPartOfStr($GLOBALS['BE_USER']->user['username'], '_cli')) {
+        if (\str_starts_with($GLOBALS['BE_USER']->user['username'], '_cli')) {
             return false;
         }
 
         // if the user just updated his password, $GLOBALS['BE_USER'] record may still hold the old data
-        $beUser = BackendUtility::getRecord('be_users', $GLOBALS['BE_USER']->user['uid']);
+        $beUser = BackendUtility::getRecord('be_users', (int)$GLOBALS['BE_USER']->user['uid']);
 
         // password is too old
         $lastPwChange = (int)$beUser['tx_besecurepw_lastpwchange'];
         $lastLogin = (int)$beUser['lastlogin'];
 
         // get configuration of a secure password
-        $extConf = \SpoonerWeb\BeSecurePw\Configuration\ExtensionConfiguration::getExtensionConfig();
+        $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('be_secure_pw');
 
         // check if user passwords of admins do not expire
-        if ((bool)$extConf['ignorePasswordChangeForAdmins'] && $GLOBALS['BE_USER']->isAdmin()) {
+        if ($extConf['ignorePasswordChangeForAdmins'] && $GLOBALS['BE_USER']->isAdmin()) {
             return false;
         }
 

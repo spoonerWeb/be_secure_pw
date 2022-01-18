@@ -7,8 +7,8 @@ forcePasswordChange = 0
   # cat=basic/enable/60; type=boolean; label= Disable 'forcePasswordChange' functionality for admin users.
 ignorePasswordChangeForAdmins = 0
 
-  # cat=basic/enable/60; type=int [5-20]; label= Length of the password: Here you can set the minimal length of the BE user password. If nothing is set, default is 8.
-passwordLength = 8
+  # cat=basic/enable/60; type=int [8-20]; label= Length of the password: Here you can set the minimal length of the BE user password. If nothing is set, default is 8.
+passwordLength = 12
 
   # cat=basic/enable/60; type=boolean; label= Lowercase characters: The password must contain at least one lowercase character (a-z).
 lowercaseChar = 1
