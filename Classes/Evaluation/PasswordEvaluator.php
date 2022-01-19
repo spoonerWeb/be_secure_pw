@@ -17,6 +17,7 @@ namespace SpoonerWeb\BeSecurePw\Evaluation;
  * The TYPO3 project - inspiring people to share!
  */
 
+use SpoonerWeb\BeSecurePw\Service\PawnedPasswordService;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
@@ -146,14 +147,35 @@ class PasswordEvaluator implements SingletonInterface
             }
         }
 
+        $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
+        $messageQueue = $flashMessageService->getMessageQueueByIdentifier();
+
+
+        $checkPawnedPasswordApi = $extConf['checkPawnedPasswordApi'] ?? false;
+        if ($checkPawnedPasswordApi) {
+            $amountOfTimesFoundInDatabase = PawnedPasswordService::checkPassword($value);
+
+            if ($amountOfTimesFoundInDatabase) {
+                $set = 0;
+                if ($storeFlashMessageInSession) {
+                    $flashMessage = GeneralUtility::makeInstance(
+                        FlashMessage::class,
+                        sprintf($languageService->getLL('pawnedPassword.message'), $amountOfTimesFoundInDatabase),
+                        $languageService->getLL('pawnedPassword.title'),
+                        FlashMessage::ERROR,
+                        $storeFlashMessageInSession
+                    );
+                    $messageQueue->addMessage($flashMessage);
+                }
+            }
+        }
+
         /* no problems */
         if ($set) {
             return $value;
         }
 
         if ($storeFlashMessageInSession) {
-            $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
-            $messageQueue = $flashMessageService->getMessageQueueByIdentifier();
             foreach ($messages as $message) {
                 $flashMessage = GeneralUtility::makeInstance(
                     FlashMessage::class,
