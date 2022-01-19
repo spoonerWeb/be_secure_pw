@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace SpoonerWeb\BeSecurePw\Service;
 
@@ -25,7 +26,7 @@ class PawnedPasswordService
             self::API_URL . substr($hash, 0, 5),
             'GET',
             [
-                'User-Agent' => 'TYPO3 Extension be_secure_pw'
+                'User-Agent' => 'TYPO3 Extension be_secure_pw',
             ]
         );
 

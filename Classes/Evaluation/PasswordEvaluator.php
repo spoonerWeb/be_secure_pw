@@ -150,7 +150,6 @@ class PasswordEvaluator implements SingletonInterface
         $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
         $messageQueue = $flashMessageService->getMessageQueueByIdentifier();
 
-
         $checkPawnedPasswordApi = $extConf['checkPawnedPasswordApi'] ?? false;
         if ($checkPawnedPasswordApi) {
             $amountOfTimesFoundInDatabase = PawnedPasswordService::checkPassword($value);
