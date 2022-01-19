@@ -74,7 +74,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // @see https://github.com/sabbelasichon/typo3-rector/blob/master/typo3.constants.php
     // @see https://github.com/rectorphp/rector/blob/main/docs/static_reflection_and_autoload.md#include-files
     $parameters->set(Option::BOOTSTRAP_FILES, [
-       getcwd() . '/../vendor/autoload.php'
+       getcwd() . '/.Build/vendor/autoload.php'
     ]);
 
     // get services (needed for register a single rule)
