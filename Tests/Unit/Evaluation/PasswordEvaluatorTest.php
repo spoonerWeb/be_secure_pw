@@ -19,6 +19,9 @@ namespace SpoonerWeb\BeSecurePw\Tests\Unit\Evaluator;
 
 use Nimut\TestingFramework\TestCase\UnitTestCase;
 use SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Test case.
@@ -34,7 +37,17 @@ class PasswordEvaluatorTest extends UnitTestCase
 
     public function setUp(): void
     {
-        $this->subject = new PasswordEvaluator();
+        $languageServiceFactory = self::getMockBuilder(LanguageServiceFactory::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $backendUser = self::getMockBuilder(BackendUserAuthentication::class)
+            ->getMock();
+
+        $this->subject = GeneralUtility::makeInstance(
+            PasswordEvaluator::class,
+            $languageServiceFactory,
+            $backendUser
+        );
     }
 
     /**

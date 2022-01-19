@@ -20,10 +20,11 @@ namespace SpoonerWeb\BeSecurePw\Evaluation;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
-use TYPO3\CMS\Core\Localization\LanguageService;
+use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -31,12 +32,21 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  * @author Thomas Loeffler <loeffler@spooner-web.de>
  */
-class PasswordEvaluator
+class PasswordEvaluator implements SingletonInterface
 {
     public const PATTERN_LOWER_CHAR = '/[a-z]/';
     public const PATTERN_CAPITAL_CHAR = '/[A-Z]/';
     public const PATTERN_DIGIT = '/[0-9]/';
     public const PATTERN_SPECIAL_CHAR = '/[^0-9a-z]/i';
+
+    protected LanguageServiceFactory $languageServiceFactory;
+    protected BackendUserAuthentication $backendUser;
+
+    public function __construct(LanguageServiceFactory $languageServiceFactory, BackendUserAuthentication $backendUser)
+    {
+        $this->languageServiceFactory = $languageServiceFactory;
+        $this->backendUser = $backendUser;
+    }
 
     /**
      * This function just return the field value as it is. No transforming,
@@ -57,11 +67,12 @@ class PasswordEvaluator
      * @param int $set Determines if the field can be set (value correct) or not
      * @param bool $storeFlashMessageInSession Used only for phpunit issues
      * @return string The new value of the field
-     * @throws \TYPO3\CMS\Core\Crypto\PasswordHashing\InvalidPasswordHashException
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException
      */
     public function evaluateFieldValue(
         string $value,
-        $is_in,
+        string $is_in,
         int &$set,
         bool $storeFlashMessageInSession = true
     ): string {
@@ -70,10 +81,10 @@ class PasswordEvaluator
         /** @var \TYPO3\CMS\Core\Log\Logger $logger */
         $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
 
-        $this->getLanguage()->includeLLFile('EXT:be_secure_pw/Resources/Private/Language/locallang.xlf');
-        $this->getLanguage()->init($this->getBackendUser()->uc['lang']);
+        $languageService = $this->languageServiceFactory->create($this->backendUser->uc['lang'] ?? 'default');
+        $languageService->includeLLFile('EXT:be_secure_pw/Resources/Private/Language/locallang.xlf');
 
-        $set = true;
+        $set = 1;
 
         $messages = [];
         // check for password length
@@ -82,9 +93,9 @@ class PasswordEvaluator
             /* password too short */
             $set = false;
             $logger->error(
-                sprintf($this->getLanguage()->getLL('shortPassword'), $passwordLength)
+                sprintf($languageService->getLL('shortPassword'), $passwordLength)
             );
-            $messages[] = sprintf($this->getLanguage()->getLL('shortPassword'), $passwordLength);
+            $messages[] = sprintf($languageService->getLL('shortPassword'), $passwordLength);
         }
 
         $counter = 0;
@@ -102,7 +113,7 @@ class PasswordEvaluator
                 if (preg_match($pattern, $value) > 0) {
                     $counter++;
                 } else {
-                    $notUsed[] = $this->getLanguage()->getLL($index);
+                    $notUsed[] = $languageService->getLL($index);
                 }
             }
         }
@@ -116,56 +127,42 @@ class PasswordEvaluator
 
             if (is_array($notUsed) && !empty($notUsed)) {
                 if (count($notUsed) > 1) {
-                    $additional = sprintf($this->getLanguage()->getLL('notUsedConventions'), implode(', ', $notUsed));
+                    $additional = sprintf($languageService->getLL('notUsedConventions'), implode(', ', $notUsed));
                 } else {
-                    $additional = sprintf($this->getLanguage()->getLL('notUsedConvention'), $notUsed[0]);
+                    $additional = sprintf($languageService->getLL('notUsedConvention'), $notUsed[0]);
                 }
             }
 
             if ($ignoredPatterns >= 1) {
                 $label = $ignoredPatterns > 1 ? 'passwordConventions' : 'passwordConvention';
                 $logger->error(
-                    sprintf($this->getLanguage()->getLL($label) . $additional, $ignoredPatterns)
+                    sprintf($languageService->getLL($label) . $additional, $ignoredPatterns)
                 );
-                $messages[] = sprintf($this->getLanguage()->getLL($label) . $additional, $ignoredPatterns);
+                $messages[] = sprintf($languageService->getLL($label) . $additional, $ignoredPatterns);
             }
         }
 
         /* no problems */
         if ($set) {
-            // Hash password before storing it
-            $hashInstance = GeneralUtility::makeInstance(PasswordHashFactory::class)->getDefaultHashInstance('BE');
-            if ($hashInstance->isHashUpdateNeeded($value)) {
-                $value = $hashInstance->getHashedPassword($value);
-            }
-
             return $value;
         }
 
-        $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
-        $messageQueue = $flashMessageService->getMessageQueueByIdentifier();
-        foreach ($messages as $message) {
-            $flashMessage = GeneralUtility::makeInstance(
-                FlashMessage::class,
-                $message,
-                $this->getLanguage()->getLL('passwordNotChanged'),
-                FlashMessage::ERROR,
-                $storeFlashMessageInSession,
-            );
-            $messageQueue->addMessage($flashMessage);
+        if ($storeFlashMessageInSession) {
+            $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
+            $messageQueue = $flashMessageService->getMessageQueueByIdentifier();
+            foreach ($messages as $message) {
+                $flashMessage = GeneralUtility::makeInstance(
+                    FlashMessage::class,
+                    $message,
+                    $languageService->getLL('passwordNotChanged'),
+                    FlashMessage::ERROR,
+                    $storeFlashMessageInSession
+                );
+                $messageQueue->addMessage($flashMessage);
+            }
         }
 
         // if password not valid return empty password
         return '';
-    }
-
-    private function getLanguage(): LanguageService
-    {
-        return $GLOBALS['LANG'];
-    }
-
-    private function getBackendUser(): BackendUserAuthentication
-    {
-        return $GLOBALS['BE_USER'];
     }
 }

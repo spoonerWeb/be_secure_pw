@@ -10,15 +10,12 @@ stages:
 .test: &testing
   stage: test
   image: composer:2
-  only:
-    - branches
   variables:
     TYPO3_PATH_WEB: "$PWD/.Build/Web"
     TYPO3_PATH_ROOT: "$PWD/.Build/Web"
     COMPOSER_CACHE_DIR: "/cache/composer"
   before_script:
     - composer config minimum-stability ${COMPOSER_STABILITY}
-    - composer config platform ${PHP_VERSION}
     - composer remove nimut/testing-framework
     - composer remove typo3/cms-core
     - rm composer.lock
@@ -26,7 +23,7 @@ stages:
     - composer require ${TYPO3_VERSION} --update-with-dependencies
     - composer require --dev nimut/testing-framework:${NIMUT_TESTFRAMEWORK_VERSION} -w
   script:
-    - .Build/bin/phpunit -c Configuration/.Build/Tests/UnitTests.xml
+    - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
   allow_failure: true
 
 test:php-code-sniffer:
