@@ -22,6 +22,10 @@
       "role": "Developer"
     }
   ],
+  "support": {
+    "issues": "https://git.spooner.io/spooner/be_secure_pw/issues",
+    "source": "https://git.spooner.io/spooner/be_secure_pw"
+  },
   "replace": {
     "typo3-ter/be-secure-pw": "*"
   },
