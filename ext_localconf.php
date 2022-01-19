@@ -39,7 +39,7 @@ $boot = function () {
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1642630971] = [
         'nodeName' => 'forcePasswordChangeButton',
         'priority' => 40,
-        'class' => \SpoonerWeb\BeSecurePw\Form\Element\ForcePasswordChangeButton::class
+        'class' => \SpoonerWeb\BeSecurePw\Form\Element\ForcePasswordChangeButton::class,
     ];
 };
 

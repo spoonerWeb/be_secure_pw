@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SpoonerWeb\BeSecurePw\Database\Event;
@@ -22,10 +23,8 @@ use TYPO3\CMS\Recordlist\Event\ModifyRecordListRecordActionsEvent;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
 class AddForceResetPasswordLinkEvent
 {
-
     public static string $passwordChangeCommand = 'force_password_change';
 
     public function __invoke(ModifyRecordListRecordActionsEvent $event): void
@@ -35,7 +34,7 @@ class AddForceResetPasswordLinkEvent
             $url = (string)$uriBuilder->buildUriFromRoutePath(
                 '/user/force_password_change',
                 [
-                    self::$passwordChangeCommand => $event->getRecord()['uid']
+                    self::$passwordChangeCommand => $event->getRecord()['uid'],
                 ]
             );
 

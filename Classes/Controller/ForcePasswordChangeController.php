@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 namespace SpoonerWeb\BeSecurePw\Controller;
 
@@ -23,10 +24,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
 class ForcePasswordChangeController
 {
-
     public function forceAction(ServerRequestInterface $request)
     {
         $dataHandler = GeneralUtility::makeInstance(DataHandler::class);

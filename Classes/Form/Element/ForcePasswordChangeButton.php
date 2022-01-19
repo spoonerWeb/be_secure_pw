@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 namespace SpoonerWeb\BeSecurePw\Form\Element;
 
@@ -20,10 +21,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
 class ForcePasswordChangeButton extends AbstractFormElement
 {
-
     public function render()
     {
         $fieldInformationResult = $this->renderFieldInformation();
@@ -39,7 +38,7 @@ class ForcePasswordChangeButton extends AbstractFormElement
         $uri = (string)$uriBuilder->buildUriFromRoutePath(
             '/user/force_password_change',
             [
-                AddForceResetPasswordLinkEvent::$passwordChangeCommand => $this->data['databaseRow']['uid']
+                AddForceResetPasswordLinkEvent::$passwordChangeCommand => $this->data['databaseRow']['uid'],
             ]
         );
 
