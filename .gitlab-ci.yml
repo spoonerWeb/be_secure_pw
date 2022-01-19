@@ -12,7 +12,7 @@ stages:
   image: php:$PHP_VERSION
   before_script:
     - apt-get update && apt-get install -y bash
-    - bash ./.Build/docker_install.sh > /dev/null
+    - bash ./.Build/Tests/docker_install.sh > /dev/null
     - composer install --ignore-platform-reqs
     - composer require typo3/minimal:$TYPO3_VERSION typo3/cms-lowlevel:$TYPO3_VERSION nimut/testing-framework:$TESTFW_VERSION -W
   script:
