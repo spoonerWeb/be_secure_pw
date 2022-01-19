@@ -34,6 +34,7 @@ stages:
     PHP_VERSION: '8.0'
     TYPO3_VERSION: '^11.5'
     TESTFW_VERSION: '^6.0'
+  allow_failure: true
 
 "PHP CS Fixer":
   stage: test
