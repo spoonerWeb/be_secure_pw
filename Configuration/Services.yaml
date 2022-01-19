@@ -6,3 +6,8 @@ services:
 
   SpoonerWeb\BeSecurePw\:
     resource: '../Classes/*'
+
+  SpoonerWeb\BeSecurePw\Database\Event\AddForceResetPasswordLinkEvent:
+    tags:
+      - name: event.listener
+        identifier: 'addForceResetPasswordLink'

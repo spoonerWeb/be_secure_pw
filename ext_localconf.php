@@ -35,6 +35,12 @@ $boot = function () {
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_userauth.php']['postUserLookUp'][] =
             \SpoonerWeb\BeSecurePw\Hook\RestrictModulesHook::class . '->postUserLookUp';
     }
+
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1642630971] = [
+        'nodeName' => 'forcePasswordChangeButton',
+        'priority' => 40,
+        'class' => \SpoonerWeb\BeSecurePw\Form\Element\ForcePasswordChangeButton::class
+    ];
 };
 
 $boot();

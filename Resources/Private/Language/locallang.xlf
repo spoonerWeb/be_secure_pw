@@ -46,6 +46,9 @@
 			<trans-unit id="samePassword" resname="samePassword" >
 				<source>Your new password was the same as your old one. Your password was not updated though.</source>
 			</trans-unit>
+			<trans-unit id="forcePasswordChange" resname="samePassword" >
+				<source>Force password change for user</source>
+			</trans-unit>
 			<trans-unit id="passwordNotChanged" resname="passwordNotChanged" >
 				<source>Password was not changed!</source>
 			</trans-unit>
@@ -61,8 +64,17 @@
 			<trans-unit id="pawnedPassword.message" resname="pawnedPassword.message" >
 				<source>Your password was found in data breaches %s times. Please use another one.</source>
 			</trans-unit>
+			<trans-unit id="forcedPasswordChange.title" resname="pawnedPassword.title" >
+				<source>Forced password change active!</source>
+			</trans-unit>
+			<trans-unit id="forcedPasswordChange.message" resname="pawnedPassword.message" >
+				<source>User with UID %s needs to change the password on next login</source>
+			</trans-unit>
 			<trans-unit id="be_users.tx_besecurepw_lastpwchange" resname="be_users.tx_besecurepw_lastpwchange" >
 				<source>Last password change</source>
+			</trans-unit>
+			<trans-unit id="be_users.tx_besecurepw_forcepasswordchange" resname="be_users.tx_besecurepw_forcepasswordchange" >
+				<source>Force password change</source>
 			</trans-unit>
 		</body>
 	</file>
