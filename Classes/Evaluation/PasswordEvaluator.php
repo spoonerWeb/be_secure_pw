@@ -87,14 +87,15 @@ class PasswordEvaluator implements SingletonInterface
 
         $messages = [];
         // check for password length
-        $passwordLength = (int)$extConf['passwordLength'];
-        if ($extConf['passwordLength'] && $passwordLength && strlen($value) < $extConf['passwordLength']) {
+        $passwordLength = $extConf['passwordLength'] ?? 0;
+        $passwordLengthValue = (int)$passwordLength;
+        if ($passwordLengthValue && strlen($value) < $passwordLengthValue) {
             /* password too short */
-            $set = false;
-            $logger->error(
-                sprintf($languageService->getLL('shortPassword'), $passwordLength)
-            );
-            $messages[] = sprintf($languageService->getLL('shortPassword'), $passwordLength);
+            $set = 0;
+
+            $passwordToShortString = $languageService->getLL('shortPassword') ?? '';
+            $logger->error(sprintf($passwordToShortString, $passwordLengthValue));
+            $messages[] = sprintf($passwordToShortString, $passwordLengthValue);
         }
 
         $counter = 0;
@@ -108,7 +109,8 @@ class PasswordEvaluator implements SingletonInterface
         ];
 
         foreach ($checks as $index => $pattern) {
-            if ($extConf[$index]) {
+            $checkActive = $extConf[$index] ?? false;
+            if ($checkActive) {
                 if (preg_match($pattern, $value) > 0) {
                     $counter++;
                 } else {
@@ -117,18 +119,21 @@ class PasswordEvaluator implements SingletonInterface
             }
         }
 
-        if ($counter < $extConf['patterns']) {
+        $patterns = $extConf['patterns'] ?? 0;
+        if ($counter < $patterns) {
             /* password does not fit all conventions */
-            $ignoredPatterns = $extConf['patterns'] - $counter;
+            $ignoredPatterns = $patterns - $counter;
 
             $additional = '';
             $set = false;
 
             if (is_array($notUsed) && !empty($notUsed)) {
                 if (count($notUsed) > 1) {
-                    $additional = sprintf($languageService->getLL('notUsedConventions'), implode(', ', $notUsed));
+                    $notUsedConventions = $languageService->getLL('notUsedConventions') ?? '';
+                    $additional = sprintf($notUsedConventions, implode(', ', $notUsed));
                 } else {
-                    $additional = sprintf($languageService->getLL('notUsedConvention'), $notUsed[0]);
+                    $notUsedConvention = $languageService->getLL('notUsedConvention') ?? '';
+                    $additional = sprintf($notUsedConvention, $notUsed[0] ?? '');
                 }
             }
 

@@ -49,7 +49,7 @@ class UserSetupHook
 
         // Check if password is valid
         $passwordEvaluator = GeneralUtility::makeInstance(PasswordEvaluator::class);
-        $set = false;
+        $set = 0;
         $password = $passwordEvaluator->evaluateFieldValue($params['be_user_data']['password'], '', $set);
 
         // Prevent same password as before
