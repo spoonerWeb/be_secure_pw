@@ -42,21 +42,21 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     // If you only want to process one/some TYPO3 extension(s), you can specify its path(s) here.
     // If you use the option --config change __DIR__ to getcwd()
-    // $parameters->set(Option::PATHS, [
-    //    __DIR__ . '/packages/acme_demo/',
-    // ]);
+    $parameters->set(Option::PATHS, [
+       getcwd() . '../',
+    ]);
 
     // If you use the option --config change __DIR__ to getcwd()
     $parameters->set(Option::SKIP, [
         // @see https://github.com/sabbelasichon/typo3-rector/issues/2536
-        __DIR__ . '/**/Configuration/ExtensionBuilder/*',
+        getcwd() . '/**/Configuration/ExtensionBuilder/*',
         // We skip those directories on purpose as there might be node_modules or similar
         // that include typescript which would result in false positive processing
-        __DIR__ . '/**/Resources/**/node_modules/*',
-        __DIR__ . '/**/Resources/**/NodeModules/*',
-        __DIR__ . '/**/Resources/**/BowerComponents/*',
-        __DIR__ . '/**/Resources/**/bower_components/*',
-        __DIR__ . '/**/Resources/**/build/*',
+        getcwd() . '/**/Resources/**/node_modules/*',
+        getcwd() . '/**/Resources/**/NodeModules/*',
+        getcwd() . '/**/Resources/**/BowerComponents/*',
+        getcwd() . '/**/Resources/**/bower_components/*',
+        getcwd() . '/**/Resources/**/build/*',
     ]);
 
     // This is used by the class \Ssch\TYPO3Rector\Rector\PostRector\FullQualifiedNamePostRector to force FQN in this paths and files
@@ -66,16 +66,16 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'ext_localconf.php',
         'ext_tables.php',
         'ClassAliasMap.php',
-        __DIR__ . '/**/Configuration/*.php',
-        __DIR__ . '/**/Configuration/**/*.php',
+        getcwd() . '/**/Configuration/*.php',
+        getcwd() . '/**/Configuration/**/*.php',
     ]);
 
     // If you have trouble that rector cannot run because some TYPO3 constants are not defined add an additional constants file
     // @see https://github.com/sabbelasichon/typo3-rector/blob/master/typo3.constants.php
     // @see https://github.com/rectorphp/rector/blob/main/docs/static_reflection_and_autoload.md#include-files
-    // $parameters->set(Option::BOOTSTRAP_FILES, [
-    //    __DIR__ . '/typo3.constants.php'
-    // ]);
+    $parameters->set(Option::BOOTSTRAP_FILES, [
+       getcwd() . '/../vendor/autoload.php'
+    ]);
 
     // get services (needed for register a single rule)
     $services = $containerConfigurator->services();
@@ -104,7 +104,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // Add some general TYPO3 rules
     $services->set(ConvertImplicitVariablesToExplicitGlobalsRector::class);
     $services->set(ExtEmConfRector::class);
-    $services->set(ExtensionComposerRector::class);
+    // $services->set(ExtensionComposerRector::class);
 
     // Do you want to modernize your TypoScript include statements for files and move from <INCLUDE /> to @import use the FileIncludeToImportStatementVisitor
     // $services->set(FileIncludeToImportStatementTypoScriptRector::class);

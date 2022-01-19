@@ -32,7 +32,8 @@
     "typo3/cms-beuser": "^11.5"
   },
   "require-dev": {
-    "nimut/testing-framework": "^6.0"
+    "nimut/testing-framework": "^6.0",
+    "rector/rector": "^0.12"
   },
   "autoload": {
     "psr-4": {
@@ -40,7 +41,9 @@
     }
   },
   "scripts": {
-    "test:unit": "XDEBUG_MODE=coverage phpunit -c .Build/Tests/phpunit.xml"
+    "test:unit": "XDEBUG_MODE=coverage phpunit -c .Build/Tests/phpunit.xml",
+    "test:rector": "rector process -n -c .Build/Tests/rector.php",
+    "run:rector": "rector process -c .Build/Tests/rector.php"
   },
   "config": {
     "vendor-dir": ".Build/vendor"
