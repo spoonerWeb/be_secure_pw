@@ -1,6 +1,6 @@
 # TYPO3 extension be_secure_pw
 
-[![Latest Stable Version](https://poser.pugx.org/spooner-web/be_secure_pw/v/stable)](https://packagist.org/packages/spooner-web/be_secure_pw) [![Total Downloads](https://poser.pugx.org/spooner-web/be_secure_pw/downloads)](https://packagist.org/packages/spooner-web/be_secure_pw)[![Monthly
+[![Latest Stable Version](https://poser.pugx.org/spooner-web/be_secure_pw/v/stable)](https://packagist.org/packages/spooner-web/be_secure_pw) [![Total Downloads](https://poser.pugx.org/spooner-web/be_secure_pw/downloads)](https://packagist.org/packages/spooner-web/be_secure_pw) [![Monthly
 Downloads](https://poser.pugx.org/spooner-web/be_secure_pw/d/monthly)](https://packagist.org/packages/spooner-web/be_secure_pw) [![Daily Downloads](https://poser.pugx.org/spooner-web/be_secure_pw/d/daily)](https://packagist.org/packages/spooner-web/be_secure_pw)
 
 ## tldr
