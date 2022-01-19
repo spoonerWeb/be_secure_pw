@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SpoonerWeb\BeSecurePw\Hook;
@@ -17,8 +18,8 @@ namespace SpoonerWeb\BeSecurePw\Hook;
  */
 
 use SpoonerWeb\BeSecurePw\Utilities\PasswordExpirationUtility;
-use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Authentication\AbstractUserAuthentication;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\SingletonInterface;
 
 /**
@@ -37,7 +38,6 @@ class RestrictModulesHook implements SingletonInterface
      *
      * @param array $params
      * @param \TYPO3\CMS\Core\Page\PageRenderer $pageRenderer
-     * @return void
      */
     public function addRefreshJavaScript(array $params, PageRenderer $pageRenderer)
     {

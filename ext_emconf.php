@@ -7,7 +7,6 @@
  * Only the data in the array - everything else is removed by next
  * writing. "version" and "dependencies" must not be touched!
  */
-
 $EM_CONF[$_EXTKEY] = [
     'title' => 'Make BE user password really secure',
     'description' => 'You can set password conventions to force secure passwords for BE users.',
@@ -23,5 +22,5 @@ $EM_CONF[$_EXTKEY] = [
         ],
         'conflicts' => [],
         'suggests' => [],
-    ]
+    ],
 ];

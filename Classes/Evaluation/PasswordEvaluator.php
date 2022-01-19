@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SpoonerWeb\BeSecurePw\Evaluation;
@@ -18,12 +19,12 @@ namespace SpoonerWeb\BeSecurePw\Evaluation;
 
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
+use TYPO3\CMS\Core\Localization\LanguageService;
+use TYPO3\CMS\Core\Log\LogManager;
+use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Log\LogManager;
-use TYPO3\CMS\Core\Localization\LanguageService;
-use TYPO3\CMS\Core\Messaging\FlashMessage;
-use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
 
 /**
  * Class PasswordEvaluator
@@ -53,8 +54,8 @@ class PasswordEvaluator
      *
      * @param string $value The value that has to be checked.
      * @param string $is_in Is-In String
-     * @param integer $set Determines if the field can be set (value correct) or not
-     * @param boolean $storeFlashMessageInSession Used only for phpunit issues
+     * @param int $set Determines if the field can be set (value correct) or not
+     * @param bool $storeFlashMessageInSession Used only for phpunit issues
      * @return string The new value of the field
      * @throws \TYPO3\CMS\Core\Crypto\PasswordHashing\InvalidPasswordHashException
      */

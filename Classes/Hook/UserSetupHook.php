@@ -15,12 +15,12 @@ namespace SpoonerWeb\BeSecurePw\Hook;
  * The TYPO3 project - inspiring people to share!
  */
 
+use SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator;
 use SpoonerWeb\BeSecurePw\Utilities\PasswordExpirationUtility;
 use TYPO3\CMS\Core\Messaging;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
-use TYPO3\CMS\Setup\Controller\SetupModuleController;
-use SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Setup\Controller\SetupModuleController;
 
 /**
  * Class UserSetupHook
@@ -77,9 +77,6 @@ class UserSetupHook
         }
     }
 
-    /**
-     * @return void
-     */
     private function getLanguageLabels()
     {
         // get the languages from ext

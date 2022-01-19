@@ -10,7 +10,7 @@ $tempColumns = [
             'eval' => 'datetime',
             'renderType' => 'inputDateTime',
             'default' => 0,
-        ]
+        ],
     ],
 ];
 

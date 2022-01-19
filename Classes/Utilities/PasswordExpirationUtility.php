@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SpoonerWeb\BeSecurePw\Utilities;
@@ -70,13 +71,13 @@ class PasswordExpirationUtility
             $validUntil = strtotime('- ' . $validUntilConfiguration);
         }
 
-        return (
+        return
             (
                 $validUntilConfiguration !== ''
                 &&
                 ($lastPwChange === 0 || $lastPwChange < $validUntil)
             )
             || $lastLogin === 0
-        );
+        ;
     }
 }

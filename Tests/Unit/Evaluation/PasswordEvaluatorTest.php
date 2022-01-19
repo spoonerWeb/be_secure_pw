@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SpoonerWeb\BeSecurePw\Tests\Unit\Evaluator;
@@ -29,11 +30,8 @@ class PasswordEvaluatorTest extends UnitTestCase
     /**
      * @var \SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator
      */
-    protected $subject = null;
+    protected $subject;
 
-    /**
-     * @return void
-     */
     public function setUp(): void
     {
         $this->subject = new PasswordEvaluator();
@@ -41,11 +39,10 @@ class PasswordEvaluatorTest extends UnitTestCase
 
     /**
      * @test
-     * @return void
      */
     public function classCanBeInstantiated()
     {
-        static::assertInstanceOf(
+        self::assertInstanceOf(
             PasswordEvaluator::class,
             $this->subject
         );
@@ -56,7 +53,7 @@ class PasswordEvaluatorTest extends UnitTestCase
      */
     public function returnFieldJavaScriptReturnsDefaultString()
     {
-        static::assertEquals(
+        self::assertEquals(
             'return value;',
             $this->subject->returnFieldJS()
         );
@@ -73,9 +70,9 @@ class PasswordEvaluatorTest extends UnitTestCase
      */
     public function checkForValidPassword(array $configuration, string $password)
     {
-        $set = true;
+        $set = 1;
         $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['be_secure_pw'] = $configuration;
-        static::assertEquals(
+        self::assertEquals(
             $password,
             $this->subject->evaluateFieldValue($password, '', $set)
         );
@@ -89,29 +86,29 @@ class PasswordEvaluatorTest extends UnitTestCase
         return [
             'passwordContainingFourLowerCharactersWithoutConfigurationIsValid' => [
                 [],
-                'test'
+                'test',
             ],
             'passwordContainingTwelveLowerCharactersWithConfigOfMinimumEightCharactersIsValid' => [
                 [
-                    'passwordLength' => 8
+                    'passwordLength' => 8,
                 ],
-                'testpassword'
+                'testpassword',
             ],
             'passwordContainingTwelveLowerCharactersWithConfigOfMinimumEightCharactersAndLowerCharactersIsValid' => [
                 [
                     'passwordLength' => 8,
-                    'lowercaseChar' => true
+                    'lowercaseChar' => true,
                 ],
-                'testpassword'
+                'testpassword',
             ],
             // @codingStandardsIgnoreLine
             'passwordContainingTwelveUpperAndLowerCharactersWithConfigOfMinimumEightCharactersAndCapitalCharactersIsValid' => [
                 [
                     'passwordLength' => 8,
                     'capitalChar' => true,
-                    'patterns' => 1
+                    'patterns' => 1,
                 ],
-                'testPassword'
+                'testPassword',
             ],
             // @codingStandardsIgnoreLine
             'passwordContainingTwelveUpperAndLowerCharactersWithConfigOfMinimumEightCharactersDigitsOrCapitalCharactersIsValid' => [
@@ -119,9 +116,9 @@ class PasswordEvaluatorTest extends UnitTestCase
                     'passwordLength' => 8,
                     'capitalChar' => true,
                     'digit' => true,
-                    'patterns' => 1
+                    'patterns' => 1,
                 ],
-                'testPassword'
+                'testPassword',
             ],
             // @codingStandardsIgnoreLine
             'passwordContainingUpperLowerDigitsAndSpecialCharactersWith22CharactersWithHardestConfigAndMinimumTwelveCharactersIsValid' => [
@@ -131,10 +128,10 @@ class PasswordEvaluatorTest extends UnitTestCase
                     'lowercaseChar' => true,
                     'digit' => true,
                     'specialChar' => true,
-                    'patterns' => 4
+                    'patterns' => 4,
                 ],
-                'Ycb&T8bdHUCP[zD6HqB7pM'
-            ]
+                'Ycb&T8bdHUCP[zD6HqB7pM',
+            ],
         ];
     }
 
@@ -149,9 +146,9 @@ class PasswordEvaluatorTest extends UnitTestCase
      */
     public function checkForInvalidPassword(array $configuration, string $password)
     {
-        $set = true;
+        $set = 1;
         $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['be_secure_pw'] = $configuration;
-        static::assertEquals(
+        self::assertEquals(
             '',
             $this->subject->evaluateFieldValue($password, '', $set, false)
         );
@@ -165,22 +162,22 @@ class PasswordEvaluatorTest extends UnitTestCase
         return [
             'emptyPasswordWithoutConfigurationIsInvalid' => [
                 [],
-                ''
+                '',
             ],
             'passwordContainingFourLowerCharactersWithConfigOfMinimumEightCharactersIsInvalid' => [
                 [
-                    'passwordLength' => 8
+                    'passwordLength' => 8,
                 ],
-                'test'
+                'test',
             ],
             // @codingStandardsIgnoreLine
             'passwordContainingTwelveLowerCharactersWithConfigOfMinimumEightCharactersAndCapitalCharactersIsInvalid' => [
                 [
                     'passwordLength' => 8,
                     'capitalChar' => true,
-                    'patterns' => 1
+                    'patterns' => 1,
                 ],
-                'testpassword'
+                'testpassword',
             ],
             // @codingStandardsIgnoreLine
             'passwordContainingTwelveUpperAndLowerCharactersWithConfigOfMinimumEightCharactersDigitsAndCapitalCharactersIsInvalid' => [
@@ -188,9 +185,9 @@ class PasswordEvaluatorTest extends UnitTestCase
                     'passwordLength' => 8,
                     'capitalChar' => true,
                     'digit' => true,
-                    'patterns' => 2
+                    'patterns' => 2,
                 ],
-                'testPassword'
+                'testPassword',
             ],
         ];
     }
