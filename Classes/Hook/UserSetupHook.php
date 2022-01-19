@@ -17,8 +17,8 @@ namespace SpoonerWeb\BeSecurePw\Hook;
 
 use SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator;
 use SpoonerWeb\BeSecurePw\Utilities\PasswordExpirationUtility;
-use TYPO3\CMS\Core\Messaging;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
+use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Setup\Controller\SetupModuleController;
 
@@ -58,7 +58,7 @@ class UserSetupHook
             $params['be_user_data']['password2'] = '';
             $this->getLanguageLabels();
             /** @var \TYPO3\CMS\Core\Messaging\FlashMessageQueue $messageQueue */
-            $flashMessageService = GeneralUtility::makeInstance(Messaging\FlashMessageService::class);
+            $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
             $messageQueue = $flashMessageService->getMessageQueueByIdentifier();
             $messageQueue->addMessage(
                 new FlashMessage(
