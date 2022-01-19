@@ -42,10 +42,12 @@
   "scripts": {
     "test:unit": "XDEBUG_MODE=coverage phpunit -c .Build/Tests/phpunit.xml"
   },
+  "config": {
+    "vendor-dir": ".Build/vendor"
+  },
   "extra": {
     "typo3/cms": {
       "web-dir": ".Build/web",
-      "vendor-dir": ".Build/vendor",
       "extension-key": "be_secure_pw"
     }
   }
