@@ -15,7 +15,6 @@ namespace SpoonerWeb\BeSecurePw\Hook;
  * The TYPO3 project - inspiring people to share!
  */
 
-use SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator;
 use SpoonerWeb\BeSecurePw\Utilities\PasswordExpirationUtility;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
@@ -47,11 +46,6 @@ class UserSetupHook
             return;
         }
 
-        // Check if password is valid
-        $passwordEvaluator = GeneralUtility::makeInstance(PasswordEvaluator::class);
-        $set = 0;
-        $password = $passwordEvaluator->evaluateFieldValue($params['be_user_data']['password'], '', $set);
-
         // Prevent same password as before
         if ($params['be_user_data']['password'] === $params['be_user_data']['passwordCurrent']) {
             $params['be_user_data']['password'] = '';
@@ -71,8 +65,7 @@ class UserSetupHook
         }
 
         // Password is not valid, so reset the new passwords to prevent save
-        if ($password === '' && $set === false) {
-            $params['be_user_data']['password'] = '';
+        if ($params['be_user_data']['password'] === '') {
             $params['be_user_data']['password2'] = '';
         }
     }
