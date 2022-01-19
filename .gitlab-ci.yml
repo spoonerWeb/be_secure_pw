@@ -52,7 +52,7 @@ stages:
   before_script:
     - composer install --ignore-platform-reqs
   script:
-    - .Build/vendor/bin/rector process -c .Build/Tests/rector.php
+    - composer test:rector
 
 "Publish new version to TER":
   stage: release
