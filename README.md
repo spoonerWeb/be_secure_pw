@@ -44,3 +44,9 @@ TYPO3 Backend in the EM interface.
 * [Send issues](https://git.spooner.io/spooner/be_secure_pw/issues) (bugs, suggestions, features)
 * [Donate via PayPal](https://paypal.me/Tomalo/50)
 * Send code and create Merge Requests in [GitLab](https://git.spooner.io/spooner/be_secure_pw)
+
+## Credits
+
+* Lightwerk GmbH and its customer who wants such a solution for password
+* Torben Hansen for the code of PawnedPasswordService
+* All other contributors
