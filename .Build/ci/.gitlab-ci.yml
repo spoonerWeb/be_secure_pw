@@ -7,21 +7,14 @@ stages:
   - test
   - release
 
-.test: &testing
+test:unit:
   stage: test
   image: composer:2
   variables:
     TYPO3_PATH_WEB: "$PWD/.Build/Web"
     TYPO3_PATH_ROOT: "$PWD/.Build/Web"
-    COMPOSER_CACHE_DIR: "/cache/composer"
   before_script:
-    - composer config minimum-stability ${COMPOSER_STABILITY}
-    - composer remove nimut/testing-framework
-    - composer remove typo3/cms-core
-    - rm composer.lock
-    - rm -Rf .Build/vendor/
-    - composer require ${TYPO3_VERSION} --update-with-dependencies
-    - composer require --dev nimut/testing-framework:${NIMUT_TESTFRAMEWORK_VERSION} -w
+    - composer install --ignore-platform-reqs
   script:
     - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
   allow_failure: true
@@ -35,22 +28,6 @@ test:php-code-sniffer:
     reports:
       junit:
         - .Build/php-cs-fixer.xml
-
-test:php74:typo3_11:
-  <<: *testing
-  variables:
-    PHP_VERSION: "7.4"
-    TYPO3_VERSION: typo3/cms-core:^11.5
-    NIMUT_TESTFRAMEWORK_VERSION: ^6
-    COMPOSER_STABILITY: stable
-
-test:php80:typo3_11:
-  <<: *testing
-  variables:
-    PHP_VERSION: "8.0"
-    TYPO3_VERSION: typo3/cms-core:^11.5
-    NIMUT_TESTFRAMEWORK_VERSION: ^6
-    COMPOSER_STABILITY: stable
 
 "Publish new version to TER":
   stage: release

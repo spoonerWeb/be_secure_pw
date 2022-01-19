@@ -31,10 +31,8 @@
     "typo3/cms-setup": "^11.5",
     "typo3/cms-beuser": "^11.5"
   },
-  "config": {
-    "platform": {
-      "php": "7.4.26"
-    }
+  "require-dev": {
+    "nimut/testing-framework": "^6.0"
   },
   "autoload": {
     "psr-4": {
