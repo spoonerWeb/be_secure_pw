@@ -1,8 +1,9 @@
 <?php
+
 namespace SpoonerWeb\BeSecurePw\Hook;
 
 /**
- * This file is part of the TYPO3 CMS project.
+ * This file is part of the be_secure_pw project.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -14,13 +15,12 @@ namespace SpoonerWeb\BeSecurePw\Hook;
  * The TYPO3 project - inspiring people to share!
  */
 
-use SpoonerWeb\BeSecurePw\Utilities\PasswordExpirationUtility;
-use TYPO3\CMS\Core\Messaging;
-use TYPO3\CMS\Core\Utility;
-use TYPO3\CMS\Setup\Controller\SetupModuleController;
 use SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator;
+use SpoonerWeb\BeSecurePw\Utilities\PasswordExpirationUtility;
+use TYPO3\CMS\Core\Messaging\FlashMessage;
+use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Backend\Template\DocumentTemplate;
+use TYPO3\CMS\Setup\Controller\SetupModuleController;
 
 /**
  * Class UserSetupHook
@@ -29,7 +29,6 @@ use TYPO3\CMS\Backend\Template\DocumentTemplate;
  */
 class UserSetupHook
 {
-
     /**
      * checks if the password is not the same as the previous one
      *
@@ -50,7 +49,7 @@ class UserSetupHook
 
         // Check if password is valid
         $passwordEvaluator = GeneralUtility::makeInstance(PasswordEvaluator::class);
-        $set = false;
+        $set = 0;
         $password = $passwordEvaluator->evaluateFieldValue($params['be_user_data']['password'], '', $set);
 
         // Prevent same password as before
@@ -59,15 +58,13 @@ class UserSetupHook
             $params['be_user_data']['password2'] = '';
             $this->getLanguageLabels();
             /** @var \TYPO3\CMS\Core\Messaging\FlashMessageQueue $messageQueue */
-            $messageQueue = Utility\GeneralUtility::makeInstance(
-                Messaging\FlashMessageQueue::class,
-                'core.template.flashMessages'
-            );
+            $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
+            $messageQueue = $flashMessageService->getMessageQueueByIdentifier();
             $messageQueue->addMessage(
-                new Messaging\FlashMessage(
+                new FlashMessage(
                     $GLOBALS['LANG']->getLL('samePassword'),
                     '',
-                    Messaging\FlashMessage::WARNING,
+                    FlashMessage::WARNING,
                     true
                 )
             );
@@ -80,16 +77,13 @@ class UserSetupHook
         }
     }
 
-    /**
-     * @return void
-     */
     private function getLanguageLabels()
     {
         // get the languages from ext
         if (empty($GLOBALS['LANG'])) {
-            $GLOBALS['LANG'] = Utility\GeneralUtility::makeInstance('language');
+            $GLOBALS['LANG'] = GeneralUtility::makeInstance('language');
             $GLOBALS['LANG']->init($GLOBALS['BE_USER']->uc['lang']);
         }
-        $GLOBALS['LANG']->includeLLFile('EXT:be_secure_pw/Resources/Private/Language/locallang.xml');
+        $GLOBALS['LANG']->includeLLFile('EXT:be_secure_pw/Resources/Private/Language/locallang.xlf');
     }
 }

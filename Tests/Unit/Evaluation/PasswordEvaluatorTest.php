@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 namespace SpoonerWeb\BeSecurePw\Tests\Unit\Evaluator;
 
 /**
- * This file is part of the TYPO3 CMS project.
+ * This file is part of the be_secure_pw project.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -14,35 +17,46 @@ namespace SpoonerWeb\BeSecurePw\Tests\Unit\Evaluator;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Nimut\TestingFramework\TestCase\UnitTestCase;
+use SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Test case.
  *
  * @author Thomas Löffler <loeffler@spooner-web.de>
  */
-class PasswordEvaluatorTest extends \Nimut\TestingFramework\TestCase\UnitTestCase
+class PasswordEvaluatorTest extends UnitTestCase
 {
-
     /**
      * @var \SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator
      */
-    protected $subject = null;
+    protected $subject;
 
-    /**
-     * @return void
-     */
-    public function setUp()
+    public function setUp(): void
     {
-        $this->subject = new \SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator();
+        $languageServiceFactory = self::getMockBuilder(LanguageServiceFactory::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $backendUser = self::getMockBuilder(BackendUserAuthentication::class)
+            ->getMock();
+
+        $this->subject = GeneralUtility::makeInstance(
+            PasswordEvaluator::class,
+            $languageServiceFactory,
+            $backendUser
+        );
     }
 
     /**
      * @test
-     * @return void
      */
     public function classCanBeInstantiated()
     {
-        static::assertInstanceOf(
-            \SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator::class,
+        self::assertInstanceOf(
+            PasswordEvaluator::class,
             $this->subject
         );
     }
@@ -52,7 +66,7 @@ class PasswordEvaluatorTest extends \Nimut\TestingFramework\TestCase\UnitTestCas
      */
     public function returnFieldJavaScriptReturnsDefaultString()
     {
-        static::assertEquals(
+        self::assertEquals(
             'return value;',
             $this->subject->returnFieldJS()
         );
@@ -69,9 +83,9 @@ class PasswordEvaluatorTest extends \Nimut\TestingFramework\TestCase\UnitTestCas
      */
     public function checkForValidPassword(array $configuration, string $password)
     {
-        $set = true;
+        $set = 1;
         $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['be_secure_pw'] = $configuration;
-        static::assertEquals(
+        self::assertEquals(
             $password,
             $this->subject->evaluateFieldValue($password, '', $set)
         );
@@ -85,29 +99,29 @@ class PasswordEvaluatorTest extends \Nimut\TestingFramework\TestCase\UnitTestCas
         return [
             'passwordContainingFourLowerCharactersWithoutConfigurationIsValid' => [
                 [],
-                'test'
+                'test',
             ],
             'passwordContainingTwelveLowerCharactersWithConfigOfMinimumEightCharactersIsValid' => [
                 [
-                    'passwordLength' => 8
+                    'passwordLength' => 8,
                 ],
-                'testpassword'
+                'testpassword',
             ],
             'passwordContainingTwelveLowerCharactersWithConfigOfMinimumEightCharactersAndLowerCharactersIsValid' => [
                 [
                     'passwordLength' => 8,
-                    'lowercaseChar' => true
+                    'lowercaseChar' => true,
                 ],
-                'testpassword'
+                'testpassword',
             ],
             // @codingStandardsIgnoreLine
             'passwordContainingTwelveUpperAndLowerCharactersWithConfigOfMinimumEightCharactersAndCapitalCharactersIsValid' => [
                 [
                     'passwordLength' => 8,
                     'capitalChar' => true,
-                    'patterns' => 1
+                    'patterns' => 1,
                 ],
-                'testPassword'
+                'testPassword',
             ],
             // @codingStandardsIgnoreLine
             'passwordContainingTwelveUpperAndLowerCharactersWithConfigOfMinimumEightCharactersDigitsOrCapitalCharactersIsValid' => [
@@ -115,9 +129,9 @@ class PasswordEvaluatorTest extends \Nimut\TestingFramework\TestCase\UnitTestCas
                     'passwordLength' => 8,
                     'capitalChar' => true,
                     'digit' => true,
-                    'patterns' => 1
+                    'patterns' => 1,
                 ],
-                'testPassword'
+                'testPassword',
             ],
             // @codingStandardsIgnoreLine
             'passwordContainingUpperLowerDigitsAndSpecialCharactersWith22CharactersWithHardestConfigAndMinimumTwelveCharactersIsValid' => [
@@ -127,10 +141,10 @@ class PasswordEvaluatorTest extends \Nimut\TestingFramework\TestCase\UnitTestCas
                     'lowercaseChar' => true,
                     'digit' => true,
                     'specialChar' => true,
-                    'patterns' => 4
+                    'patterns' => 4,
                 ],
-                'Ycb&T8bdHUCP[zD6HqB7pM'
-            ]
+                'Ycb&T8bdHUCP[zD6HqB7pM',
+            ],
         ];
     }
 
@@ -145,9 +159,9 @@ class PasswordEvaluatorTest extends \Nimut\TestingFramework\TestCase\UnitTestCas
      */
     public function checkForInvalidPassword(array $configuration, string $password)
     {
-        $set = true;
+        $set = 1;
         $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['be_secure_pw'] = $configuration;
-        static::assertEquals(
+        self::assertEquals(
             '',
             $this->subject->evaluateFieldValue($password, '', $set, false)
         );
@@ -161,22 +175,22 @@ class PasswordEvaluatorTest extends \Nimut\TestingFramework\TestCase\UnitTestCas
         return [
             'emptyPasswordWithoutConfigurationIsInvalid' => [
                 [],
-                ''
+                '',
             ],
             'passwordContainingFourLowerCharactersWithConfigOfMinimumEightCharactersIsInvalid' => [
                 [
-                    'passwordLength' => 8
+                    'passwordLength' => 8,
                 ],
-                'test'
+                'test',
             ],
             // @codingStandardsIgnoreLine
             'passwordContainingTwelveLowerCharactersWithConfigOfMinimumEightCharactersAndCapitalCharactersIsInvalid' => [
                 [
                     'passwordLength' => 8,
                     'capitalChar' => true,
-                    'patterns' => 1
+                    'patterns' => 1,
                 ],
-                'testpassword'
+                'testpassword',
             ],
             // @codingStandardsIgnoreLine
             'passwordContainingTwelveUpperAndLowerCharactersWithConfigOfMinimumEightCharactersDigitsAndCapitalCharactersIsInvalid' => [
@@ -184,9 +198,9 @@ class PasswordEvaluatorTest extends \Nimut\TestingFramework\TestCase\UnitTestCas
                     'passwordLength' => 8,
                     'capitalChar' => true,
                     'digit' => true,
-                    'patterns' => 2
+                    'patterns' => 2,
                 ],
-                'testPassword'
+                'testPassword',
             ],
         ];
     }

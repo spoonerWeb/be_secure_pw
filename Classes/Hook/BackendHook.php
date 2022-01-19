@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 namespace SpoonerWeb\BeSecurePw\Hook;
 
 /**
- * This file is part of the TYPO3 CMS project.
+ * This file is part of the be_secure_pw project.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -15,10 +18,11 @@ namespace SpoonerWeb\BeSecurePw\Hook;
  */
 
 use SpoonerWeb\BeSecurePw\Utilities\PasswordExpirationUtility;
-use TYPO3\CMS\Core\Page\PageRenderer;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Backend\Controller\BackendController;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Messaging\FlashMessage;
+use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class BackendHook
@@ -33,13 +37,6 @@ class BackendHook
     public static $insertModuleRefreshJS = false;
 
     /**
-     * reference back to the backend
-     *
-     * @var \TYPO3\CMS\Backend\Controller\BackendController
-     */
-    protected $backendReference;
-
-    /**
      * constructPostProcess
      *
      * @param array $config
@@ -51,42 +48,19 @@ class BackendHook
             return;
         }
 
-        // let the popup pop up :)
-        $ll = 'LLL:EXT:be_secure_pw/Resources/Private/Language/locallang_reminder.xml:';
-        $generatedLabels = [
-            'passwordReminderWindow_title' => $GLOBALS['LANG']->sL(
-                $ll . 'passwordReminderWindow_title'
-            ),
-            'passwordReminderWindow_message' => $GLOBALS['LANG']->sL(
-                $ll . 'passwordReminderWindow_message'
-            ),
-            'passwordReminderWindow_confirmation' => $GLOBALS['LANG']->sL(
-                $ll . 'passwordReminderWindow_confirmation'
-            ),
-            'passwordReminderWindow_button_changePassword' => $GLOBALS['LANG']->sL(
-                $ll . 'passwordReminderWindow_button_changePassword'
-            ),
-            'passwordReminderWindow_button_postpone' => $GLOBALS['LANG']->sL(
-                $ll . 'passwordReminderWindow_button_postpone'
-            ),
-        ];
+        $GLOBALS['LANG']->includeLLFile('EXT:be_secure_pw/Resources/Private/Language/locallang.xlf');
 
-        // get configuration of a secure password
-        $extConf = \SpoonerWeb\BeSecurePw\Configuration\ExtensionConfiguration::getExtensionConfig();
-
-        $labelsForJS = 'TYPO3.lang.beSecurePw = ' . json_encode($generatedLabels) . ';';
-
-        /** @var PageRenderer $pageRenderer */
-        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-        $pageRenderer->addJsInlineCode('labels', $labelsForJS);
-        $pageRenderer->loadRequireJsModule(
-            'TYPO3/CMS/BeSecurePw/Reminder',
-            'function(reminder){
-                reminder.initModal(' . (!empty($extConf['forcePasswordChange']) ? 'true' : 'false') . ');
-            }'
+        $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
+        $messageQueue = $flashMessageService->getMessageQueueByIdentifier();
+        $messageQueue->addMessage(
+            new FlashMessage(
+                $GLOBALS['LANG']->getLL('needPasswordChange.message'),
+                $GLOBALS['LANG']->getLL('needPasswordChange.title'),
+                FlashMessage::INFO,
+                true
+            )
         );
     }
-
 
     /**
      * looks for a password change and sets the field "tx_besecurepw_lastpwchange" with an actual timestamp
@@ -103,7 +77,7 @@ class BackendHook
             // only do that, if the record was edited from the user himself
             if ((int)$id === (int)$GLOBALS['BE_USER']->user['uid']
                 && empty($GLOBALS['BE_USER']->user['ses_backuserid'])) {
-                $incomingFieldArray['tx_besecurepw_lastpwchange'] = time() + date('Z');
+                $incomingFieldArray['tx_besecurepw_lastpwchange'] = time() + (int)date('Z');
             }
 
             // trigger reload of the backend, if it was previously locked down

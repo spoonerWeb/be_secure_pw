@@ -7,28 +7,20 @@
  * Only the data in the array - everything else is removed by next
  * writing. "version" and "dependencies" must not be touched!
  */
-
 $EM_CONF[$_EXTKEY] = [
     'title' => 'Make BE user password really secure',
     'description' => 'You can set password conventions to force secure passwords for BE users.',
     'category' => 'be',
-    'shy' => 0,
     'version' => '9.1.1-dev',
-    'priority' => '',
-    'loadOrder' => '',
-    'module' => '',
     'state' => 'stable',
-    'createDirs' => '',
-    'modify_tables' => '',
     'author' => 'Thomas Loeffler',
     'author_email' => 'loeffler@spooner-web.de',
     'author_company' => '',
     'constraints' => [
         'depends' => [
-            'php' => '7.2',
-            'typo3' => '9.5.7 - 10.99.99',
+            'typo3' => '11.5.0-11.5.99',
         ],
         'conflicts' => [],
         'suggests' => [],
-    ]
+    ],
 ];

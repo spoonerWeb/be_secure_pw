@@ -1,26 +1,30 @@
-  # cat=basic/enable/60; type=string; label= Period to remind the user (after login) for setting a new password. Please use english (e.g. "14 days")
-validUntil = 14 days
-
-  # cat=basic/enable/60; type=boolean; label= Force changing the password: This disables all modules except user_setup to force a change of the password when the validUntil period is over or the checkbox in the be_user record  is set
+  # cat=basic/enable/10; type=boolean; label= Force changing the password: This disables all modules except user_setup to force a change of the password when the validUntil period is over or the checkbox in the be_user record  is set
 forcePasswordChange = 0
 
-  # cat=basic/enable/60; type=boolean; label= Disable 'forcePasswordChange' functionality for admin users.
-ignorePasswordChangeForAdmins = 0
+  # cat=basic/enable/20; type=boolean; label= Disable 'forcePasswordChange' functionality for admin users.
+ignorePasswordChangeForAdmins = 1
 
-  # cat=basic/enable/60; type=int [5-20]; label= Length of the password: Here you can set the minimal length of the BE user password. If nothing is set, default is 8.
-passwordLength = 8
+  # cat=basic/enable/30; type=int [8-20]; label= Length of the password: Here you can set the minimal length of the BE user password. If nothing is set, default is 10.
+passwordLength = 10
 
-  # cat=basic/enable/60; type=boolean; label= Lowercase characters: The password must contain at least one lowercase character (a-z).
+  # cat=basic/enable/40; type=string; label= Period to remind the user (after login) for setting a new password. Please use english (e.g. "14 days")
+validUntil = 14 days
+
+  # cat=patterns/enable/10; type=int [2-4]; label= Fitting patterns: How many patterns must fit to make the password secure
+patterns = 2
+
+  # cat=patterns/enable/20; type=boolean; label= Lowercase characters: The password must contain at least one lowercase character (a-z).
 lowercaseChar = 1
 
-  # cat=basic/enable/60; type=boolean; label= Capital characters: The password must contain at least one capital character (A-Z).
+  # cat=patterns/enable/30; type=boolean; label= Capital characters: The password must contain at least one capital character (A-Z).
 capitalChar = 1
 
-  # cat=basic/enable/60; type=boolean; label= Digits: The password must contain at least one digit (0-9).
+  # cat=patterns/enable/40; type=boolean; label= Digits: The password must contain at least one digit (0-9).
 digit = 1
 
-  # cat=basic/enable/60; type=boolean; label= Special characters: The password must contain at least one special character (!$%&/=?,.).
+  # cat=patterns/enable/50; type=boolean; label= Special characters: The password must contain at least one special character (!$%&/=?,.).
 specialChar = 1
 
-  # cat=basic/enable/60; type=int [2-4]; label= Fitting patterns: How many patterns from above must fit to make the password secure
-patterns = 2
+  # cat=special/enable/10; type=boolean; label= Pawned password: The hashed password will be checked agains the pawnedpassword database
+checkPawnedPasswordApi = 0
+

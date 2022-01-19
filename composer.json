@@ -26,24 +26,31 @@
     "typo3-ter/be-secure-pw": "*"
   },
   "require": {
-    "php": "^7.2",
-    "typo3/cms-core": "^9.5 || ^10.0",
-    "typo3/cms-setup": "^9.5 || ^10.0",
-    "typo3/cms-beuser": "^9.5 || ^10.0"
+    "php": ">= 7.4, < 8.1",
+    "typo3/cms-core": "^11.5",
+    "typo3/cms-setup": "^11.5",
+    "typo3/cms-beuser": "^11.5"
+  },
+  "require-dev": {
+    "nimut/testing-framework": "^6.0",
+    "rector/rector": "^0.12"
   },
   "autoload": {
     "psr-4": {
       "SpoonerWeb\\BeSecurePw\\": "Classes/"
     }
   },
+  "scripts": {
+    "test:unit": "XDEBUG_MODE=coverage phpunit -c .Build/Tests/phpunit.xml",
+    "test:rector": "rector process -n -c .Build/Tests/rector.php",
+    "run:rector": "rector process -c .Build/Tests/rector.php"
+  },
   "config": {
-    "vendor-dir": ".Build/vendor/",
-    "bin-dir": ".Build/bin/"
+    "vendor-dir": ".Build/vendor"
   },
   "extra": {
     "typo3/cms": {
-      "cms-package-dir": "{$vendor-dir}/typo3/cms",
-      "web-dir": ".Build/Web",
+      "web-dir": ".Build/web",
       "extension-key": "be_secure_pw"
     }
   }

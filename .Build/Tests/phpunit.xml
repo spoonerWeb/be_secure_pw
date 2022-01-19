@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="true" backupStaticAttributes="false" bootstrap="../vendor/nimut/testing-framework/res/Configuration/UnitTestsBootstrap.php" colors="false" convertErrorsToExceptions="false" convertWarningsToExceptions="true" forceCoversAnnotation="false" processIsolation="false" stopOnError="false" stopOnFailure="false" stopOnIncomplete="false" stopOnSkipped="false" verbose="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage processUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">../../Classes/</directory>
+    </include>
+    <report>
+      <text outputFile="php://stdout" showUncoveredFiles="false"/>
+    </report>
+  </coverage>
+  <testsuites>
+    <testsuite name="Base tests">
+      <directory>../../Tests/Unit</directory>
+    </testsuite>
+  </testsuites>
+  <logging>
+    <junit outputFile="../unittest-report.xml"/>
+  </logging>
+</phpunit>

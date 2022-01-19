@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 namespace SpoonerWeb\BeSecurePw\Hook;
 
 /**
- * This file is part of the TYPO3 CMS project.
+ * This file is part of the be_secure_pw project.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -13,9 +16,11 @@ namespace SpoonerWeb\BeSecurePw\Hook;
  *
  * The TYPO3 project - inspiring people to share!
  */
+
 use SpoonerWeb\BeSecurePw\Utilities\PasswordExpirationUtility;
-use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Authentication\AbstractUserAuthentication;
+use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\SingletonInterface;
 
 /**
  * Class BackendHook
@@ -23,7 +28,7 @@ use TYPO3\CMS\Core\Authentication\AbstractUserAuthentication;
  * @author Andreas Kießling <andreas.kiessling@web.de>
  * @author Christian Plattner <Christian.Plattner@world-direct.at>
  */
-class RestrictModulesHook implements \TYPO3\CMS\Core\SingletonInterface
+class RestrictModulesHook implements SingletonInterface
 {
     /**
      * Insert JavaScript code to refresh the module menu, if the password was updated and
@@ -33,7 +38,6 @@ class RestrictModulesHook implements \TYPO3\CMS\Core\SingletonInterface
      *
      * @param array $params
      * @param \TYPO3\CMS\Core\Page\PageRenderer $pageRenderer
-     * @return void
      */
     public function addRefreshJavaScript(array $params, PageRenderer $pageRenderer)
     {

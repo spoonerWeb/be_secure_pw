@@ -1,0 +1,75 @@
+cache:
+  key: "$CI_COMMIT_REF_NAME-$CI_JOB_STAGE"
+  paths:
+    - /cache/composer
+
+stages:
+  - test
+  - release
+
+.unit_tests: &unit_tests
+  stage: test
+  image: php:$PHP_VERSION
+  before_script:
+    - apt-get update && apt-get install -y bash
+    - bash ./.Build/Tests/docker_install.sh > /dev/null
+    - composer install --ignore-platform-reqs
+    - composer require typo3/minimal:$TYPO3_VERSION typo3/cms-lowlevel:$TYPO3_VERSION nimut/testing-framework:$TESTFW_VERSION -W
+  script:
+    - composer test:unit
+  artifacts:
+    reports:
+      junit: build/*-report.xml
+
+"Unit Tests with PHP 7.4":
+  <<: *unit_tests
+  variables:
+    PHP_VERSION: '7.4'
+    TYPO3_VERSION: '^11.5'
+    TESTFW_VERSION: '^6.0'
+
+"Unit Tests with PHP 8.0":
+  <<: *unit_tests
+  variables:
+    PHP_VERSION: '8.0'
+    TYPO3_VERSION: '^11.5'
+    TESTFW_VERSION: '^6.0'
+
+"PHP CS Fixer":
+  stage: test
+  image: ekreative/php-cs-fixer:3
+  script:
+    - php-cs-fixer fix --dry-run --config=.Build/Tests/php-cs-fixer.php --diff --format junit > .Build/php-cs-fixer.xml
+  artifacts:
+    reports:
+      junit:
+        - .Build/php-cs-fixer.xml
+
+"PHP Rector":
+  stage: test
+  image: composer:2
+  before_script:
+    - composer install --ignore-platform-reqs
+  script:
+    - composer test:rector
+
+"Publish new version to TER":
+  stage: release
+  image: composer:2
+  variables:
+    TYPO3_EXTENSION_KEY: "be_secure_pw"
+  only:
+    - tags
+  before_script:
+    - composer global require typo3/tailor
+  script:
+    - >
+      if [ -n "$CI_COMMIT_TAG" ] && [ -n "$TYPO3_API_TOKEN" ] && [ -n "$TYPO3_EXTENSION_KEY" ]; then
+        echo -e "Preparing upload of release ${CI_COMMIT_TAG} to TER\n"
+        # Cleanup before we upload
+        git reset --hard HEAD && git clean -fx
+        # Upload
+        TAG_MESSAGE=`git tag -n10 -l $CI_COMMIT_TAG | sed 's/^[0-9.]*[ ]*//g'`
+        echo "Uploading release ${CI_COMMIT_TAG} to TER"
+        /tmp/vendor/bin/tailor ter:publish --comment "$TAG_MESSAGE" "$CI_COMMIT_TAG" "$TYPO3_EXTENSION_KEY"
+      fi;
