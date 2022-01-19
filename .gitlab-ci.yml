@@ -7,17 +7,33 @@ stages:
   - test
   - release
 
-test:unit:
+.unit_tests: &unit_tests
   stage: test
-  image: composer:2
-  variables:
-    TYPO3_PATH_WEB: "$PWD/.Build/Web"
-    TYPO3_PATH_ROOT: "$PWD/.Build/Web"
+  image: php:$PHP_VERSION
   before_script:
+    - apt-get update && apt-get install -y bash
+    - bash ./.Build/docker_install.sh > /dev/null
     - composer install --ignore-platform-reqs
+    - composer require typo3/minimal:$TYPO3_VERSION typo3/cms-lowlevel:$TYPO3_VERSION nimut/testing-framework:$TESTFW_VERSION -W
   script:
-    - .Build/bin/phpunit -c .Build/Tests/UnitTests.xml
-  allow_failure: true
+    - XDEBUG_MODE=coverage vendor/bin/phpunit -c ./.Build/Tests/phpunit.xml
+  artifacts:
+    reports:
+      junit: build/*-report.xml
+
+"Unit Tests with PHP 7.4":
+  <<: *unit_tests
+  variables:
+    PHP_VERSION: '7.4'
+    TYPO3_VERSION: '^11.5'
+    TESTFW_VERSION: '^6.0'
+
+"Unit Tests with PHP 8.0":
+  <<: *unit_tests
+  variables:
+    PHP_VERSION: '8.0'
+    TYPO3_VERSION: '^11.5'
+    TESTFW_VERSION: '^6.0'
 
 test:php-code-sniffer:
   stage: test
