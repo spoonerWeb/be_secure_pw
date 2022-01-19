@@ -4,7 +4,7 @@
   "description": "You can set password conventions to force secure passwords for BE users.",
   "homepage": "https://git.spooner.io/spooner/be_secure_pw",
   "license": [
-    "GPL-2.0+"
+    "GPL-2.0-or-later"
   ],
   "keywords": [
     "TYPO3",
