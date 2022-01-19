@@ -16,7 +16,7 @@ stages:
     - composer install --ignore-platform-reqs
     - composer require typo3/minimal:$TYPO3_VERSION typo3/cms-lowlevel:$TYPO3_VERSION nimut/testing-framework:$TESTFW_VERSION -W
   script:
-    - XDEBUG_MODE=coverage vendor/bin/phpunit -c ./.Build/Tests/phpunit.xml
+    - composer test:unit
   artifacts:
     reports:
       junit: build/*-report.xml
