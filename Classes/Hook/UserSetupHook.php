@@ -1,10 +1,9 @@
 <?php
+
 namespace SpoonerWeb\BeSecurePw\Hook;
 
-use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
-use TYPO3\CMS\Core\Messaging\FlashMessage;
 /**
- * This file is part of the TYPO3 CMS project.
+ * This file is part of the be_secure_pw project.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -18,11 +17,10 @@ use TYPO3\CMS\Core\Messaging\FlashMessage;
 
 use SpoonerWeb\BeSecurePw\Utilities\PasswordExpirationUtility;
 use TYPO3\CMS\Core\Messaging;
-use TYPO3\CMS\Core\Utility;
+use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Setup\Controller\SetupModuleController;
 use SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Backend\Template\DocumentTemplate;
 
 /**
  * Class UserSetupHook
@@ -31,7 +29,6 @@ use TYPO3\CMS\Backend\Template\DocumentTemplate;
  */
 class UserSetupHook
 {
-
     /**
      * checks if the password is not the same as the previous one
      *

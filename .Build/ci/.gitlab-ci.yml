@@ -3,16 +3,13 @@ cache:
   paths:
     - /cache/composer
 
-before_script:
-  - apk add git --update
-
 stages:
   - test
   - release
 
 .test: &testing
   stage: test
-  image: php:$DOCKER_TAG
+  image: composer:2
   only:
     - branches
   variables:
@@ -20,26 +17,32 @@ stages:
     TYPO3_PATH_ROOT: "$PWD/.Build/Web"
     COMPOSER_CACHE_DIR: "/cache/composer"
   before_script:
-    - apk add git --update
-    - php -r "copy('https://getcomposer.org/composer.phar', 'composer.phar');"
-    - php composer.phar config minimum-stability ${COMPOSER_STABILITY}
-    - php composer.phar config cache-dir /cache/composer
-    - php composer.phar remove --dev nimut/testing-framework
-    - php composer.phar remove typo3/cms-core
+    - composer config minimum-stability ${COMPOSER_STABILITY}
+    - composer config platform ${PHP_VERSION}
+    - composer remove nimut/testing-framework
+    - composer remove typo3/cms-core
     - rm composer.lock
     - rm -Rf .Build/vendor/
-    - php composer.phar require ${TYPO3_VERSION} --update-with-dependencies
-    - php composer.phar require --dev nimut/testing-framework:${NIMUT_TESTFRAMEWORK_VERSION} --update-with-dependencies
-    - php composer.phar require --dev squizlabs/php_codesniffer
+    - composer require ${TYPO3_VERSION} --update-with-dependencies
+    - composer require --dev nimut/testing-framework:${NIMUT_TESTFRAMEWORK_VERSION} -w
   script:
     - .Build/bin/phpunit -c Configuration/.Build/Tests/UnitTests.xml
-    - .Build/bin/phpcs --standard=PSR2 --extensions=php *
   allow_failure: true
+
+test:php-code-sniffer:
+  stage: test
+  image: ekreative/php-cs-fixer:3
+  script:
+    - php-cs-fixer fix --dry-run --config=.Build/Tests/php-cs-fixer.php --diff --format junit > .Build/php-cs-fixer.xml
+  artifacts:
+    reports:
+      junit:
+        - .Build/php-cs-fixer.xml
 
 test:php74:typo3_11:
   <<: *testing
   variables:
-    DOCKER_TAG: "7.4"
+    PHP_VERSION: "7.4"
     TYPO3_VERSION: typo3/cms-core:^11.5
     NIMUT_TESTFRAMEWORK_VERSION: ^6
     COMPOSER_STABILITY: stable
@@ -47,7 +50,7 @@ test:php74:typo3_11:
 test:php80:typo3_11:
   <<: *testing
   variables:
-    DOCKER_TAG: "8.0"
+    PHP_VERSION: "8.0"
     TYPO3_VERSION: typo3/cms-core:^11.5
     NIMUT_TESTFRAMEWORK_VERSION: ^6
     COMPOSER_STABILITY: stable

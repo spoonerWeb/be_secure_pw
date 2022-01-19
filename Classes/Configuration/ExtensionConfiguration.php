@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 namespace SpoonerWeb\BeSecurePw\Configuration;
 
 /*
@@ -21,7 +23,6 @@ namespace SpoonerWeb\BeSecurePw\Configuration;
  */
 class ExtensionConfiguration
 {
-
     public static function getExtensionConfig(): ?array
     {
         return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class)

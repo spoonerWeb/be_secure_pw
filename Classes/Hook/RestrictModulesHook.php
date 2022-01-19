@@ -1,9 +1,10 @@
 <?php
+declare(strict_types=1);
+
 namespace SpoonerWeb\BeSecurePw\Hook;
 
-use TYPO3\CMS\Core\SingletonInterface;
 /**
- * This file is part of the TYPO3 CMS project.
+ * This file is part of the be_secure_pw project.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -14,9 +15,11 @@ use TYPO3\CMS\Core\SingletonInterface;
  *
  * The TYPO3 project - inspiring people to share!
  */
+
 use SpoonerWeb\BeSecurePw\Utilities\PasswordExpirationUtility;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Authentication\AbstractUserAuthentication;
+use TYPO3\CMS\Core\SingletonInterface;
 
 /**
  * Class BackendHook

@@ -1,4 +1,5 @@
 <?php
+
 $tempColumns = [
     'tx_besecurepw_lastpwchange' => [
         'exclude' => 0,

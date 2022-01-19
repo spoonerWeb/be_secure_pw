@@ -1,10 +1,10 @@
 <?php
+declare(strict_types=1);
+
 namespace SpoonerWeb\BeSecurePw\Tests\Unit\Evaluator;
 
-use Nimut\TestingFramework\TestCase\UnitTestCase;
-use SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator;
 /**
- * This file is part of the TYPO3 CMS project.
+ * This file is part of the be_secure_pw project.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -15,6 +15,10 @@ use SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator;
  *
  * The TYPO3 project - inspiring people to share!
  */
+
+use Nimut\TestingFramework\TestCase\UnitTestCase;
+use SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator;
+
 /**
  * Test case.
  *
@@ -22,7 +26,6 @@ use SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator;
  */
 class PasswordEvaluatorTest extends UnitTestCase
 {
-
     /**
      * @var \SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator
      */
@@ -31,7 +34,7 @@ class PasswordEvaluatorTest extends UnitTestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->subject = new PasswordEvaluator();
     }

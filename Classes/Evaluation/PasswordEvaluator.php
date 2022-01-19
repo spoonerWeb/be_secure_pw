@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace SpoonerWeb\BeSecurePw\Evaluation;
 
 /**
@@ -30,10 +32,10 @@ use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
  */
 class PasswordEvaluator
 {
-    const PATTERN_LOWER_CHAR = '/[a-z]/';
-    const PATTERN_CAPITAL_CHAR = '/[A-Z]/';
-    const PATTERN_DIGIT = '/[0-9]/';
-    const PATTERN_SPECIAL_CHAR = '/[^0-9a-z]/i';
+    public const PATTERN_LOWER_CHAR = '/[a-z]/';
+    public const PATTERN_CAPITAL_CHAR = '/[A-Z]/';
+    public const PATTERN_DIGIT = '/[0-9]/';
+    public const PATTERN_SPECIAL_CHAR = '/[^0-9a-z]/i';
 
     /**
      * This function just return the field value as it is. No transforming,
@@ -62,7 +64,6 @@ class PasswordEvaluator
         int &$set,
         bool $storeFlashMessageInSession = true
     ): string {
-
         $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('be_secure_pw');
 
         /** @var \TYPO3\CMS\Core\Log\Logger $logger */
