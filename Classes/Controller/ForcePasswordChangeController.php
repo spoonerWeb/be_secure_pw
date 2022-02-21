@@ -1,6 +1,6 @@
 <?php
-
 declare(strict_types=1);
+
 namespace SpoonerWeb\BeSecurePw\Controller;
 
 use Psr\Http\Message\ServerRequestInterface;
