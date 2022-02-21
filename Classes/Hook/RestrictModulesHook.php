@@ -54,7 +54,7 @@ class RestrictModulesHook implements SingletonInterface
      */
     public function postUserLookUp(array $params, AbstractUserAuthentication $pObj)
     {
-        if (PasswordExpirationUtility::isBeUserPasswordExpired()) {
+        if ($GLOBALS['BE_USER'] && PasswordExpirationUtility::isBeUserPasswordExpired()) {
             // remove admin rights, because otherwise we can't restrict access to the modules
             $GLOBALS['BE_USER']->user['admin'] = 0;
             // this grants the user access to the modules
