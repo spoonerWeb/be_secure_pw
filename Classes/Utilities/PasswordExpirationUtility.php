@@ -45,7 +45,7 @@ class PasswordExpirationUtility
         }
 
         // exit, if cli user is found
-        if (\str_starts_with($GLOBALS['BE_USER']->user['username'], '_cli')) {
+        if (strpos($GLOBALS['BE_USER']->user['username'], '_cli') === 0) {
             return false;
         }
 
