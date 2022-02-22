@@ -38,13 +38,17 @@ class PasswordExpirationUtility
      */
     public static function isBeUserPasswordExpired(): bool
     {
+        if (!$GLOBALS['BE_USER'] || !$GLOBALS['BE_USER']->user) {
+            return false;
+        }
+
         // If ses_backuserid is set, an admin switched to that user. He should not be forced to change the password
         if ($GLOBALS['BE_USER']->getOriginalUserIdWhenInSwitchUserMode()) {
             return false;
         }
 
         // exit, if cli user is found
-        if (strpos($GLOBALS['BE_USER']->user['username'], '_cli') === 0) {
+        if ($GLOBALS['BE_USER']->user['username'] === null || strpos($GLOBALS['BE_USER']->user['username'], '_cli') === 0) {
             return false;
         }
 
