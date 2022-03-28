@@ -41,7 +41,7 @@ stages:
   before_script:
     - composer install --ignore-platform-reqs
   script:
-    - composer exec php-cs-fixer fix -n --diff --format junit > php-cs-fixer.xml
+    - composer exec "php-cs-fixer fix -n --diff --format junit > php-cs-fixer.xml"
   artifacts:
     reports:
       junit:
