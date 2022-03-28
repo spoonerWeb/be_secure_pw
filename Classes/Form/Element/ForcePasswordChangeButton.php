@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SpoonerWeb\BeSecurePw\Form\Element;
@@ -23,7 +24,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class ForcePasswordChangeButton extends AbstractFormElement
 {
-    public function render()
+    /**
+     * @return array<string>
+     * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
+     */
+    public function render(): array
     {
         $fieldInformationResult = $this->renderFieldInformation();
         $fieldInformationHtml = $fieldInformationResult['html'];

@@ -1,8 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SpoonerWeb\BeSecurePw\Controller;
 
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SpoonerWeb\BeSecurePw\Database\Event\AddForceResetPasswordLinkEvent;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
@@ -26,7 +28,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class ForcePasswordChangeController
 {
-    public function forceAction(ServerRequestInterface $request)
+    public function forceAction(ServerRequestInterface $request): ResponseInterface
     {
         $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
         $userUid = (int)$request->getQueryParams()[AddForceResetPasswordLinkEvent::$passwordChangeCommand];

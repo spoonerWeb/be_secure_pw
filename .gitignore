@@ -1,7 +1,7 @@
-.idea/
-Thumbs.db
-*~
-.Build/Web
-.Build/bin
-.Build/vendor
+/.idea/
+/.Build/
+/.ddev/
+/config/
+/var/
 /composer.lock
+/*.cache

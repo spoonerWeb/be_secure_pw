@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SpoonerWeb\BeSecurePw\Tests\Unit\Evaluator;
@@ -30,7 +31,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 class PasswordEvaluatorTest extends UnitTestCase
 {
     /**
-     * @var \SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator
+     * @var PasswordEvaluator
      */
     protected $subject;
 
@@ -54,7 +55,7 @@ class PasswordEvaluatorTest extends UnitTestCase
     /**
      * @test
      */
-    public function classCanBeInstantiated()
+    public function classCanBeInstantiated(): void
     {
         self::assertInstanceOf(
             PasswordEvaluator::class,
@@ -65,7 +66,7 @@ class PasswordEvaluatorTest extends UnitTestCase
     /**
      * @test
      */
-    public function returnFieldJavaScriptReturnsDefaultString()
+    public function returnFieldJavaScriptReturnsDefaultString(): void
     {
         self::assertEquals(
             'return value;',
@@ -78,11 +79,11 @@ class PasswordEvaluatorTest extends UnitTestCase
      * If password is valid, the password will be returned.
      *
      * @test
-     * @param array $configuration
+     * @param array<array> $configuration
      * @param string $password
      * @dataProvider validPasswordDataProvider
      */
-    public function checkForValidPassword(array $configuration, string $password)
+    public function checkForValidPassword(array $configuration, string $password): void
     {
         $set = 1;
         $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['be_secure_pw'] = $configuration;
@@ -93,9 +94,9 @@ class PasswordEvaluatorTest extends UnitTestCase
     }
 
     /**
-     * @return array
+     * @return array<array>
      */
-    public function validPasswordDataProvider()
+    public function validPasswordDataProvider(): array
     {
         return [
             'passwordContainingFourLowerCharactersWithoutConfigurationIsValid' => [
@@ -154,11 +155,11 @@ class PasswordEvaluatorTest extends UnitTestCase
      * If the password is invalid an empty string will be returned.
      *
      * @test
-     * @param array $configuration
+     * @param array<array> $configuration
      * @param string $password
      * @dataProvider invalidPasswordDataProvider
      */
-    public function checkForInvalidPassword(array $configuration, string $password)
+    public function checkForInvalidPassword(array $configuration, string $password): void
     {
         $set = 1;
         $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['be_secure_pw'] = $configuration;
@@ -169,9 +170,9 @@ class PasswordEvaluatorTest extends UnitTestCase
     }
 
     /**
-     * @return array
+     * @return array<array>
      */
-    public function invalidPasswordDataProvider()
+    public function invalidPasswordDataProvider(): array
     {
         return [
             'emptyPasswordWithoutConfigurationIsInvalid' => [

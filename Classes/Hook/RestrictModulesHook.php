@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SpoonerWeb\BeSecurePw\Hook;
@@ -35,10 +36,10 @@ class RestrictModulesHook implements SingletonInterface
      *
      * PageRenderer::executePostRenderHook
      *
-     * @param array $params
-     * @param \TYPO3\CMS\Core\Page\PageRenderer $pageRenderer
+     * @param array<string> $params
+     * @param PageRenderer $pageRenderer
      */
-    public function addRefreshJavaScript(array $params, PageRenderer $pageRenderer)
+    public function addRefreshJavaScript(array $params, PageRenderer $pageRenderer): void
     {
         if (BackendHook::$insertModuleRefreshJS) {
             $params['jsFooterLibs'] .= '<script>top.location.reload();</script>';
@@ -48,10 +49,10 @@ class RestrictModulesHook implements SingletonInterface
     /**
      * If the password is expired, only load the necessary modules to change the password
      *
-     * @param array $params
-     * @param \TYPO3\CMS\Core\Authentication\AbstractUserAuthentication $pObj
+     * @param array<array> $params
+     * @param AbstractUserAuthentication $pObj
      */
-    public function postUserLookUp(array $params, AbstractUserAuthentication $pObj)
+    public function postUserLookUp(array $params, AbstractUserAuthentication $pObj): void
     {
         if ($GLOBALS['BE_USER'] && PasswordExpirationUtility::isBeUserPasswordExpired()) {
             // remove admin rights, because otherwise we can't restrict access to the modules

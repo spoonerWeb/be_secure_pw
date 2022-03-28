@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SpoonerWeb\BeSecurePw\Hook;
@@ -39,9 +40,9 @@ class BackendHook
      * constructPostProcess
      *
      * @param array $config
-     * @param \TYPO3\CMS\Backend\Controller\BackendController $backendReference
+     * @param BackendController $backendReference
      */
-    public function constructPostProcess(array $config, BackendController $backendReference)
+    public function constructPostProcess(array $config, BackendController $backendReference): void
     {
         if (!PasswordExpirationUtility::isBeUserPasswordExpired()) {
             return;
@@ -67,10 +68,9 @@ class BackendHook
      * @param array $incomingFieldArray
      * @param string $table
      * @param int $id
-     * @param \TYPO3\CMS\Core\DataHandling\DataHandler $parentObj
+     * @param DataHandler $parentObj
      */
-    // @codingStandardsIgnoreLine
-    public function processDatamap_preProcessFieldArray(&$incomingFieldArray, $table, $id, DataHandler $parentObj)
+    public function processDatamap_preProcessFieldArray(array &$incomingFieldArray, string $table, int $id, DataHandler $parentObj)
     {
         if ($table === 'be_users' && !empty($incomingFieldArray['password'])) {
             // only do that, if the record was edited from the user himself

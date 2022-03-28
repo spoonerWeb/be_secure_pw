@@ -1,12 +1,13 @@
 <?php
 
 use SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator;
-use SpoonerWeb\BeSecurePw\Hook\UserSetupHook;
-use SpoonerWeb\BeSecurePw\Hook\BackendHook;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
-use SpoonerWeb\BeSecurePw\Hook\RestrictModulesHook;
 use SpoonerWeb\BeSecurePw\Form\Element\ForcePasswordChangeButton;
+use SpoonerWeb\BeSecurePw\Hook\BackendHook;
+use SpoonerWeb\BeSecurePw\Hook\RestrictModulesHook;
+use SpoonerWeb\BeSecurePw\Hook\UserSetupHook;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 defined('TYPO3') || die('Access denied.');
 
 $boot = function () {

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SpoonerWeb\BeSecurePw\Evaluation;
@@ -15,11 +16,13 @@ namespace SpoonerWeb\BeSecurePw\Evaluation;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
 use SpoonerWeb\BeSecurePw\Service\PawnedPasswordService;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
+use TYPO3\CMS\Core\Log\Logger;
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
@@ -66,8 +69,8 @@ class PasswordEvaluator implements SingletonInterface
      * @param int $set Determines if the field can be set (value correct) or not
      * @param bool $storeFlashMessageInSession Used only for phpunit issues
      * @return string The new value of the field
-     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException
-     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public function evaluateFieldValue(
         string $value,
@@ -77,7 +80,7 @@ class PasswordEvaluator implements SingletonInterface
     ): string {
         $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('be_secure_pw');
 
-        /** @var \TYPO3\CMS\Core\Log\Logger $logger */
+        /** @var Logger $logger */
         $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
 
         $languageService = $this->languageServiceFactory->create($this->backendUser->uc['lang'] ?? 'default');
@@ -93,7 +96,7 @@ class PasswordEvaluator implements SingletonInterface
             /* password too short */
             $set = 0;
 
-            $passwordToShortString = $languageService->getLL('shortPassword') ?? '';
+            $passwordToShortString = $languageService->getLL('shortPassword') ?: '';
             $logger->error(sprintf($passwordToShortString, $passwordLengthValue));
             $messages[] = sprintf($passwordToShortString, $passwordLengthValue);
         }
@@ -129,10 +132,10 @@ class PasswordEvaluator implements SingletonInterface
 
             if (is_array($notUsed) && !empty($notUsed)) {
                 if (count($notUsed) > 1) {
-                    $notUsedConventions = $languageService->getLL('notUsedConventions') ?? '';
+                    $notUsedConventions = $languageService->getLL('notUsedConventions') ?: '';
                     $additional = sprintf($notUsedConventions, implode(', ', $notUsed));
                 } else {
-                    $notUsedConvention = $languageService->getLL('notUsedConvention') ?? '';
+                    $notUsedConvention = $languageService->getLL('notUsedConvention') ?: '';
                     $additional = sprintf($notUsedConvention, $notUsed[0] ?? '');
                 }
             }

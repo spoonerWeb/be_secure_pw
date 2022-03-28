@@ -12,7 +12,7 @@ stages:
   image: php:$PHP_VERSION
   before_script:
     - apt-get update && apt-get install -y bash
-    - bash ./.Build/Tests/docker_install.sh > /dev/null
+    - bash ./docker_install.sh > /dev/null
     - composer install --ignore-platform-reqs
     - composer require typo3/minimal:$TYPO3_VERSION typo3/cms-lowlevel:$TYPO3_VERSION typo3/testing-framework:$TESTFW_VERSION -W
   script:
@@ -46,11 +46,19 @@ stages:
   stage: test
   image: ekreative/php-cs-fixer:3
   script:
-    - php-cs-fixer fix --dry-run --config=.Build/Tests/php-cs-fixer.php --diff --format junit > .Build/php-cs-fixer.xml
+    - php-cs-fixer fix --dry-run --diff --format junit > .Build/php-cs-fixer.xml
   artifacts:
     reports:
       junit:
         - .Build/php-cs-fixer.xml
+
+"PHPstan":
+  stage: test
+  image: composer:2
+  before_script:
+    - composer install --ignore-platform-reqs
+  script:
+    - composer exec phpstan
 
 "PHP Rector":
   stage: test

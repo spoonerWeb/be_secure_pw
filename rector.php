@@ -62,15 +62,15 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ]);
 
     // This is used by the class \Ssch\TYPO3Rector\Rector\PostRector\FullQualifiedNamePostRector to force FQN in this paths and files
-    $parameters->set(Typo3Option::PATHS_FULL_QUALIFIED_NAMESPACES, [
-        # If you are targeting TYPO3 Version 11 use can now use Short namespace
-        # @see namespace https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/ExtensionArchitecture/ConfigurationFiles/Index.html
-        'ext_localconf.php',
-        'ext_tables.php',
-        'ClassAliasMap.php',
-        getcwd() . '/**/Configuration/*.php',
-        getcwd() . '/**/Configuration/**/*.php',
-    ]);
+//    $parameters->set(Typo3Option::PATHS_FULL_QUALIFIED_NAMESPACES, [
+//        # If you are targeting TYPO3 Version 11 use can now use Short namespace
+//        # @see namespace https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/ExtensionArchitecture/ConfigurationFiles/Index.html
+//        'ext_localconf.php',
+//        'ext_tables.php',
+//        'ClassAliasMap.php',
+//        getcwd() . '/**/Configuration/*.php',
+//        getcwd() . '/**/Configuration/**/*.php',
+//    ]);
 
     // If you have trouble that rector cannot run because some TYPO3 constants are not defined add an additional constants file
     // @see https://github.com/sabbelasichon/typo3-rector/blob/master/typo3.constants.php

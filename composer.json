@@ -1,61 +1,64 @@
 {
-  "name": "spooner-web/be_secure_pw",
-  "type": "typo3-cms-extension",
-  "description": "You can set password conventions to force secure passwords for BE users.",
-  "homepage": "https://git.spooner.io/spooner/be_secure_pw",
-  "license": [
-    "GPL-2.0-or-later"
-  ],
-  "keywords": [
-    "TYPO3",
-    "extension",
-    "security",
-    "password",
-    "pattern",
-    "reminder"
-  ],
-  "authors": [
-    {
-      "name": "Thomas Löffler",
-      "email": "loeffler@spooner-web.de",
-      "homepage": "https://spooner-web.de",
-      "role": "Developer"
-    }
-  ],
-  "support": {
-    "issues": "https://git.spooner.io/spooner/be_secure_pw/issues",
-    "source": "https://git.spooner.io/spooner/be_secure_pw"
-  },
-  "replace": {
-    "typo3-ter/be-secure-pw": "*"
-  },
-  "require": {
-    "php": ">= 7.4, < 8.2",
-    "typo3/cms-core": "^11.5",
-    "typo3/cms-setup": "^11.5",
-    "typo3/cms-beuser": "^11.5"
-  },
-  "require-dev": {
-    "typo3/testing-framework": "^6.0",
-    "rector/rector": "^0.12"
-  },
-  "autoload": {
-    "psr-4": {
-      "SpoonerWeb\\BeSecurePw\\": "Classes/"
-    }
-  },
-  "scripts": {
-    "test:unit": "XDEBUG_MODE=coverage phpunit -c .Build/Tests/phpunit.xml",
-    "test:rector": "rector process -n -c .Build/Tests/rector.php",
-    "run:rector": "rector process -c .Build/Tests/rector.php"
-  },
-  "config": {
-    "vendor-dir": ".Build/vendor"
-  },
-  "extra": {
-    "typo3/cms": {
-      "web-dir": ".Build/web",
-      "extension-key": "be_secure_pw"
-    }
-  }
+	"name": "spooner-web/be_secure_pw",
+	"type": "typo3-cms-extension",
+	"description": "You can set password conventions to force secure passwords for BE users.",
+	"homepage": "https://git.spooner.io/spooner/be_secure_pw",
+	"license": [
+		"GPL-2.0-or-later"
+	],
+	"keywords": [
+		"TYPO3",
+		"extension",
+		"security",
+		"password",
+		"pattern",
+		"reminder"
+	],
+	"authors": [
+		{
+			"name": "Thomas Löffler",
+			"email": "loeffler@spooner-web.de",
+			"homepage": "https://spooner-web.de",
+			"role": "Developer"
+		}
+	],
+	"support": {
+		"issues": "https://git.spooner.io/spooner/be_secure_pw/issues",
+		"source": "https://git.spooner.io/spooner/be_secure_pw"
+	},
+	"replace": {
+		"typo3-ter/be-secure-pw": "*"
+	},
+	"require": {
+		"php": ">= 7.4, < 8.2",
+		"typo3/cms-core": "^11.5",
+		"typo3/cms-setup": "^11.5",
+		"typo3/cms-beuser": "^11.5"
+	},
+	"require-dev": {
+		"typo3/testing-framework": "^6.0",
+		"rector/rector": "^0.12",
+		"saschaegerer/phpstan-typo3": "^1.1",
+		"phpstan/extension-installer": "^1.1",
+		"typo3/coding-standards": "^0.5.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"SpoonerWeb\\BeSecurePw\\": "Classes/"
+		}
+	},
+	"scripts": {
+		"test:unit": "XDEBUG_MODE=coverage phpunit",
+		"test:rector": "rector process -n",
+		"run:rector": "rector process"
+	},
+	"config": {
+		"vendor-dir": ".Build/vendor"
+	},
+	"extra": {
+		"typo3/cms": {
+			"web-dir": ".Build/web",
+			"extension-key": "be_secure_pw"
+		}
+	}
 }
