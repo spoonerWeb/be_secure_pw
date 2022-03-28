@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpoonerWeb\BeSecurePw\Form\Element;
 
+use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use SpoonerWeb\BeSecurePw\Database\Event\AddForceResetPasswordLinkEvent;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
@@ -26,7 +27,7 @@ class ForcePasswordChangeButton extends AbstractFormElement
 {
     /**
      * @return array<string>
-     * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
+     * @throws RouteNotFoundException
      */
     public function render(): array
     {
