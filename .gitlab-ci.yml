@@ -14,7 +14,7 @@ stages:
     - apt-get update && apt-get install -y bash
     - bash ./.Build/Tests/docker_install.sh > /dev/null
     - composer install --ignore-platform-reqs
-    - composer require typo3/minimal:$TYPO3_VERSION typo3/cms-lowlevel:$TYPO3_VERSION nimut/testing-framework:$TESTFW_VERSION -W
+    - composer require typo3/minimal:$TYPO3_VERSION typo3/cms-lowlevel:$TYPO3_VERSION typo3/testing-framework:$TESTFW_VERSION -W
   script:
     - composer test:unit
   artifacts:
@@ -32,6 +32,13 @@ stages:
   <<: *unit_tests
   variables:
     PHP_VERSION: '8.0'
+    TYPO3_VERSION: '^11.5'
+    TESTFW_VERSION: '^6.0'
+
+"Unit Tests with PHP 8.1":
+  <<: *unit_tests
+  variables:
+    PHP_VERSION: '8.1'
     TYPO3_VERSION: '^11.5'
     TESTFW_VERSION: '^6.0'
 

@@ -16,11 +16,11 @@ namespace SpoonerWeb\BeSecurePw\Tests\Unit\Evaluator;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Nimut\TestingFramework\TestCase\UnitTestCase;
 use SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Test case.
@@ -47,6 +47,8 @@ class PasswordEvaluatorTest extends UnitTestCase
             $languageServiceFactory,
             $backendUser
         );
+
+        $this->resetSingletonInstances = true;
     }
 
     /**
