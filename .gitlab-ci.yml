@@ -14,7 +14,6 @@ stages:
     - apt-get update && apt-get install -y bash
     - bash ./docker_install.sh > /dev/null
     - composer install --ignore-platform-reqs
-    - composer require typo3/minimal:$TYPO3_VERSION typo3/cms-lowlevel:$TYPO3_VERSION typo3/testing-framework:$TESTFW_VERSION -W
   script:
     - composer test:unit
   artifacts:
@@ -25,32 +24,26 @@ stages:
   <<: *unit_tests
   variables:
     PHP_VERSION: '7.4'
-    TYPO3_VERSION: '^11.5'
-    TESTFW_VERSION: '^6.0'
 
 "Unit Tests with PHP 8.0":
   <<: *unit_tests
   variables:
     PHP_VERSION: '8.0'
-    TYPO3_VERSION: '^11.5'
-    TESTFW_VERSION: '^6.0'
 
 "Unit Tests with PHP 8.1":
   <<: *unit_tests
   variables:
     PHP_VERSION: '8.1'
-    TYPO3_VERSION: '^11.5'
-    TESTFW_VERSION: '^6.0'
 
 "PHP CS Fixer":
   stage: test
   image: ekreative/php-cs-fixer:3
   script:
-    - composer exec php-cs-fixer fix -n --diff --format junit > .Build/php-cs-fixer.xml
+    - composer exec php-cs-fixer fix -n --diff --format junit > php-cs-fixer.xml
   artifacts:
     reports:
       junit:
-        - .Build/php-cs-fixer.xml
+        - php-cs-fixer.xml
 
 "PHPstan":
   stage: test

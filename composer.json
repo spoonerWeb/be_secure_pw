@@ -53,7 +53,12 @@
 		"run:rector": "rector process"
 	},
 	"config": {
-		"vendor-dir": ".Build/vendor"
+		"vendor-dir": ".Build/vendor",
+		"allow-plugins": {
+			"typo3/class-alias-loader": true,
+			"typo3/cms-composer-installers": true,
+			"phpstan/extension-installer": true
+		}
 	},
 	"extra": {
 		"typo3/cms": {
