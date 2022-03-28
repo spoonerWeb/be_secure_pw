@@ -19,6 +19,7 @@ namespace SpoonerWeb\BeSecurePw\Hook;
 
 use SpoonerWeb\BeSecurePw\Utilities\PasswordExpirationUtility;
 use TYPO3\CMS\Core\Authentication\AbstractUserAuthentication;
+use TYPO3\CMS\Core\Http\Request;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\SingletonInterface;
 
@@ -41,8 +42,8 @@ class RestrictModulesHook implements SingletonInterface
      */
     public function addRefreshJavaScript(array $params, PageRenderer $pageRenderer): void
     {
-        if (BackendHook::$insertModuleRefreshJS) {
-            $params['jsFooterLibs'] .= '<script>top.location.reload();</script>';
+        if ($this->getRequest()->getHeader('x-besecurepw-refreshpage')) {
+            $params['jsFooterLibs'] .= '<script>setTimeout(function () { top.location.reload(); }, 3000);</script>';
         }
     }
 
@@ -66,5 +67,10 @@ class RestrictModulesHook implements SingletonInterface
             // but the access is removed due to missing usergroup
             $GLOBALS['BE_USER']->user['workspace_perms'] = 3;
         }
+    }
+
+    private function getRequest(): Request
+    {
+        return $GLOBALS['TYPO3_REQUEST'];
     }
 }

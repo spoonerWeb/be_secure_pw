@@ -20,6 +20,7 @@ namespace SpoonerWeb\BeSecurePw\Hook;
 use SpoonerWeb\BeSecurePw\Utilities\PasswordExpirationUtility;
 use TYPO3\CMS\Backend\Controller\BackendController;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Http\Request;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -31,11 +32,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class BackendHook
 {
-    /**
-     * @var bool
-     */
-    public static $insertModuleRefreshJS = false;
-
     /**
      * constructPostProcess
      *
@@ -67,10 +63,10 @@ class BackendHook
      *
      * @param array $incomingFieldArray
      * @param string $table
-     * @param int $id
+     * @param int|string $id
      * @param DataHandler $parentObj
      */
-    public function processDatamap_preProcessFieldArray(array &$incomingFieldArray, string $table, int $id, DataHandler $parentObj)
+    public function processDatamap_preProcessFieldArray(array &$incomingFieldArray, string $table, $id, DataHandler $parentObj)
     {
         if ($table === 'be_users' && !empty($incomingFieldArray['password'])) {
             // only do that, if the record was edited from the user himself
@@ -81,8 +77,13 @@ class BackendHook
 
             // trigger reload of the backend, if it was previously locked down
             if (PasswordExpirationUtility::isBeUserPasswordExpired()) {
-                static::$insertModuleRefreshJS = true;
+                $GLOBALS['TYPO3_REQUEST'] = $this->getRequest()->withAddedHeader('x-besecurepw-refreshpage', '1');
             }
         }
+    }
+
+    private function getRequest(): Request
+    {
+        return $GLOBALS['TYPO3_REQUEST'];
     }
 }

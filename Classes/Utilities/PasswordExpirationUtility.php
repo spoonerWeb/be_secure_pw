@@ -64,7 +64,7 @@ class PasswordExpirationUtility
         $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('be_secure_pw');
 
         // check if user passwords of admins do not expire
-        if ($extConf['ignorePasswordChangeForAdmins'] && $GLOBALS['BE_USER']->isAdmin()) {
+        if ($extConf['ignorePasswordChangeForAdmins'] && $GLOBALS['BE_USER']->user['admin'] === 1) {
             return false;
         }
 
