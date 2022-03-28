@@ -37,7 +37,9 @@ stages:
 
 "PHP CS Fixer":
   stage: test
-  image: ekreative/php-cs-fixer:3
+  image: composer:2
+  before_script:
+    - composer install --ignore-platform-reqs
   script:
     - composer exec php-cs-fixer fix -n --diff --format junit > php-cs-fixer.xml
   artifacts:
