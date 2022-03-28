@@ -1,26 +1,33 @@
 <?php
 
+use SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator;
+use SpoonerWeb\BeSecurePw\Hook\UserSetupHook;
+use SpoonerWeb\BeSecurePw\Hook\BackendHook;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use SpoonerWeb\BeSecurePw\Hook\RestrictModulesHook;
+use SpoonerWeb\BeSecurePw\Form\Element\ForcePasswordChangeButton;
 defined('TYPO3') || die('Access denied.');
 
 $boot = function () {
 
     // here we register "PasswordEvaluator"
     // for editing by tca form
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals'][\SpoonerWeb\BeSecurePw\Evaluation\PasswordEvaluator::class] = '';
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals'][PasswordEvaluator::class] = '';
 
     // Information in user setup module
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/setup/mod/index.php']['modifyUserDataBeforeSave']['be_secure_pw'] =
-        \SpoonerWeb\BeSecurePw\Hook\UserSetupHook::class . '->modifyUserDataBeforeSave';
+        UserSetupHook::class . '->modifyUserDataBeforeSave';
 
     // password reminder
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/backend.php']['constructPostProcess']['be_secure_pw'] =
-        \SpoonerWeb\BeSecurePw\Hook\BackendHook::class . '->constructPostProcess';
+        BackendHook::class . '->constructPostProcess';
 
     // Set timestamp for last password change
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass']['be_secure_pw'] =
-        \SpoonerWeb\BeSecurePw\Hook\BackendHook::class;
+        BackendHook::class;
 
-    $extConf = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class)
+    $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)
         ->get('be_secure_pw');
 
     // execution of is hook only needed in backend, but it is in the abstract class and could also be executed
@@ -30,16 +37,16 @@ $boot = function () {
         && (int)$GLOBALS['TYPO3_CONF_VARS']['BE']['adminOnly'] === 0
     ) {
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_pagerenderer.php']['render-postProcess'][] =
-            \SpoonerWeb\BeSecurePw\Hook\RestrictModulesHook::class . '->addRefreshJavaScript';
+            RestrictModulesHook::class . '->addRefreshJavaScript';
 
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_userauth.php']['postUserLookUp'][] =
-            \SpoonerWeb\BeSecurePw\Hook\RestrictModulesHook::class . '->postUserLookUp';
+            RestrictModulesHook::class . '->postUserLookUp';
     }
 
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1642630971] = [
         'nodeName' => 'forcePasswordChangeButton',
         'priority' => 40,
-        'class' => \SpoonerWeb\BeSecurePw\Form\Element\ForcePasswordChangeButton::class,
+        'class' => ForcePasswordChangeButton::class,
     ];
 };
 
