@@ -30,9 +30,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // this will not import root namespace classes, like \DateTime or \Exception
     $parameters->set(Option::IMPORT_SHORT_CLASSES, false);
 
-    // this will not import classes used in PHP DocBlocks, like in /** @var \Some\Class */
-    $parameters->set(Option::IMPORT_DOC_BLOCKS, false);
-
     // Define your target version which you want to support
     $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_72);
 
