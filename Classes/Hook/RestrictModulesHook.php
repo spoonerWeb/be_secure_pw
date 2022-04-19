@@ -18,6 +18,7 @@ namespace SpoonerWeb\BeSecurePw\Hook;
  */
 
 use SpoonerWeb\BeSecurePw\Utilities\PasswordExpirationUtility;
+use TYPO3\CMS\Backend\Controller\BackendController;
 use TYPO3\CMS\Core\Authentication\AbstractUserAuthentication;
 use TYPO3\CMS\Core\Http\Request;
 use TYPO3\CMS\Core\Page\PageRenderer;
@@ -66,6 +67,21 @@ class RestrictModulesHook implements SingletonInterface
             // allow access to live and workspace, if the user is currently in a workspace,
             // but the access is removed due to missing usergroup
             $GLOBALS['BE_USER']->user['workspace_perms'] = 3;
+        }
+    }
+
+    /**
+     * If the password is expired, set startModule to user_setup to ensure
+     * there is no redirect to a blocked module and user can change their password
+     *
+     * @param array $params
+     * @param BackendController $backendController
+     */
+    public function renderPreProcess(array $params, BackendController $backendController): void
+    {
+        if ($GLOBALS['BE_USER'] && PasswordExpirationUtility::isBeUserPasswordExpired()) {
+            // Ensure startModule is always accessible to restricted user
+            $GLOBALS['BE_USER']->uc['startModuleOnFirstLogin'] = 'user_setup';
         }
     }
 
