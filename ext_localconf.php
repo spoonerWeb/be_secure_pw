@@ -24,6 +24,10 @@ $boot = function () {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/backend.php']['constructPostProcess']['be_secure_pw'] =
         BackendHook::class . '->constructPostProcess';
 
+    // Ensure startModule is accessible
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/backend.php']['renderPreProcess'][] =
+        RestrictModulesHook::class . '->renderPreProcess';
+
     // Set timestamp for last password change
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass']['be_secure_pw'] =
         BackendHook::class;
