@@ -16,11 +16,11 @@ namespace SpoonerWeb\BeSecurePw\Hook;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
 use SpoonerWeb\BeSecurePw\Utilities\PasswordExpirationUtility;
 use TYPO3\CMS\Backend\Controller\BackendController;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Http\Request;
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -52,7 +52,7 @@ class BackendHook
             new FlashMessage(
                 $GLOBALS['LANG']->getLL('needPasswordChange.message'),
                 $GLOBALS['LANG']->getLL('needPasswordChange.title'),
-                FlashMessage::INFO,
+                AbstractMessage::INFO,
                 true
             )
         );

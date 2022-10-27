@@ -10,6 +10,7 @@ use SpoonerWeb\BeSecurePw\Database\Event\AddForceResetPasswordLinkEvent;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Http\RedirectResponse;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -51,7 +52,7 @@ class ForcePasswordChangeController
             new FlashMessage(
                 sprintf($languageService->getLL('forcedPasswordChange.message'), $userUid),
                 $languageService->getLL('forcedPasswordChange.title'),
-                FlashMessage::INFO,
+                AbstractMessage::INFO,
                 true
             )
         );
