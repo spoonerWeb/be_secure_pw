@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
+use Rector\Config\RectorConfig;
 use Rector\Core\Configuration\Option;
 use Rector\Core\ValueObject\PhpVersion;
-use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
+use Rector\PostRector\Rector\NameImportingPostRector;
 use Ssch\TYPO3Rector\Configuration\Typo3Option;
 use Ssch\TYPO3Rector\FileProcessor\Composer\Rector\ExtensionComposerRector;
 use Ssch\TYPO3Rector\FileProcessor\TypoScript\Rector\ExtbasePersistenceTypoScriptRector;
@@ -14,41 +15,43 @@ use Ssch\TYPO3Rector\Rector\General\ExtEmConfRector;
 use Ssch\TYPO3Rector\Rector\v9\v0\InjectAnnotationRector;
 use Ssch\TYPO3Rector\Set\Typo3LevelSetList;
 
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator->parameters();
-
-    $containerConfigurator->import(Typo3LevelSetList::UP_TO_TYPO3_11);
+return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->sets([
+        Typo3LevelSetList::UP_TO_TYPO3_11,
+    ]);
 
     // In order to have a better analysis from phpstan we teach it here some more things
-    $parameters->set(Option::PHPSTAN_FOR_RECTOR_PATH, Typo3Option::PHPSTAN_FOR_RECTOR_PATH);
+    $rectorConfig->phpstanConfig(Typo3Option::PHPSTAN_FOR_RECTOR_PATH);
 
     // FQN classes are not imported by default. If you don't do it manually after every Rector run, enable it by:
-    $parameters->set(Option::AUTO_IMPORT_NAMES, true);
+    $rectorConfig->importNames();
 
     // this will not import root namespace classes, like \DateTime or \Exception
+    $parameters = $rectorConfig->parameters();
     $parameters->set(Option::IMPORT_SHORT_CLASSES, false);
 
-    // this will not import classes used in PHP DocBlocks, like in /** @var \Some\Class */
-    $parameters->set(Option::IMPORT_DOC_BLOCKS, false);
-
     // Define your target version which you want to support
-    $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_72);
+    $rectorConfig->phpVersion(PhpVersion::PHP_74);
 
     // If you have an editorconfig and changed files should keep their format enable it here
     // $parameters->set(Option::ENABLE_EDITORCONFIG, true);
 
     // If you only want to process one/some TYPO3 extension(s), you can specify its path(s) here.
     // If you use the option --config change __DIR__ to getcwd()
-    $parameters->set(Option::PATHS, [
-       getcwd() . '/Classes',
-       getcwd() . '/Configuration',
-       getcwd() . '/Tests',
+    // $rectorConfig->paths([
+    //    __DIR__ . '/packages/acme_demo/',
+    // ]);
+
+    // If you only want to process one/some TYPO3 extension(s), you can specify its path(s) here.
+    // If you use the option --config change __DIR__ to getcwd()
+    $rectorConfig->paths([
+        getcwd() . '/Classes',
+        getcwd() . '/Configuration',
+        getcwd() . '/Tests',
     ]);
 
     // If you use the option --config change __DIR__ to getcwd()
-    $parameters->set(Option::SKIP, [
+    $rectorConfig->skip([
         // @see https://github.com/sabbelasichon/typo3-rector/issues/2536
         getcwd() . '/**/Configuration/ExtensionBuilder/*',
         // We skip those directories on purpose as there might be node_modules or similar
@@ -58,55 +61,56 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         getcwd() . '/**/Resources/**/BowerComponents/*',
         getcwd() . '/**/Resources/**/bower_components/*',
         getcwd() . '/**/Resources/**/build/*',
+        getcwd() . '/vendor/*',
+        getcwd() . '/Build/*',
+        getcwd() . '/public/*',
+        getcwd() . '/.github/*',
+        getcwd() . '/.Build/*',
+        NameImportingPostRector::class => [
+            'ext_localconf.php',
+            'ext_tables.php',
+            'ClassAliasMap.php',
+            __DIR__ . '/**/Configuration/*.php',
+            __DIR__ . '/**/Configuration/**/*.php',
+        ]
     ]);
-
-    // This is used by the class \Ssch\TYPO3Rector\Rector\PostRector\FullQualifiedNamePostRector to force FQN in this paths and files
-//    $parameters->set(Typo3Option::PATHS_FULL_QUALIFIED_NAMESPACES, [
-//        # If you are targeting TYPO3 Version 11 use can now use Short namespace
-//        # @see namespace https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/ExtensionArchitecture/ConfigurationFiles/Index.html
-//        'ext_localconf.php',
-//        'ext_tables.php',
-//        'ClassAliasMap.php',
-//        getcwd() . '/**/Configuration/*.php',
-//        getcwd() . '/**/Configuration/**/*.php',
-//    ]);
 
     // If you have trouble that rector cannot run because some TYPO3 constants are not defined add an additional constants file
     // @see https://github.com/sabbelasichon/typo3-rector/blob/master/typo3.constants.php
     // @see https://github.com/rectorphp/rector/blob/main/docs/static_reflection_and_autoload.md#include-files
-    $parameters->set(Option::BOOTSTRAP_FILES, [
-       getcwd() . '/.Build/vendor/autoload.php',
-    ]);
-
-    // get services (needed for register a single rule)
-    $services = $containerConfigurator->services();
+    // $parameters->set(Option::BOOTSTRAP_FILES, [
+    //    __DIR__ . '/typo3.constants.php'
+    // ]);
 
     // register a single rule
-    // $services->set(InjectAnnotationRector::class);
+    // $rectorConfig->rule(InjectAnnotationRector::class);
 
     /**
      * Useful rule from RectorPHP itself to transform i.e. GeneralUtility::makeInstance('TYPO3\CMS\Core\Log\LogManager')
      * to GeneralUtility::makeInstance(\TYPO3\CMS\Core\Log\LogManager::class) calls.
      * But be warned, sometimes it produces false positives (edge cases), so watch out
      */
-    // $services->set(StringClassNameToClassConstantRector::class);
+    // $rectorConfig->rule(StringClassNameToClassConstantRector::class);
 
     // Optional non-php file functionalities:
     // @see https://github.com/sabbelasichon/typo3-rector/blob/main/docs/beyond_php_file_processors.md
 
     // Adapt your composer.json dependencies to the latest available version for the defined SetList
-    // $containerConfigurator->import(Typo3SetList::COMPOSER_PACKAGES_104_CORE);
-    // $containerConfigurator->import(Typo3SetList::COMPOSER_PACKAGES_104_EXTENSIONS);
+    // $rectorConfig->sets([
+    //    Typo3SetList::COMPOSER_PACKAGES_104_CORE
+    //    Typo3SetList::COMPOSER_PACKAGES_104_EXTENSIONS,
+    // );
 
     // Rewrite your extbase persistence class mapping from typoscript into php according to official docs.
     // This processor will create a summarized file with all of the typoscript rewrites combined into a single file.
     // The filename can be passed as argument, "Configuration_Extbase_Persistence_Classes.php" is default.
-    // $services->set(ExtbasePersistenceTypoScriptRector::class);
+    // $rectorConfig->ruleWithConfiguration(ExtbasePersistenceTypoScriptRector::class, []);
     // Add some general TYPO3 rules
-    $services->set(ConvertImplicitVariablesToExplicitGlobalsRector::class);
-    $services->set(ExtEmConfRector::class);
-    // $services->set(ExtensionComposerRector::class);
+    $rectorConfig->rule(ConvertImplicitVariablesToExplicitGlobalsRector::class);
+    $rectorConfig->ruleWithConfiguration(ExtEmConfRector::class, [
+        ExtEmConfRector::ADDITIONAL_VALUES_TO_BE_REMOVED => []
+    ]);
 
     // Do you want to modernize your TypoScript include statements for files and move from <INCLUDE /> to @import use the FileIncludeToImportStatementVisitor
-    // $services->set(FileIncludeToImportStatementTypoScriptRector::class);
+    // $rectorConfig->rule(FileIncludeToImportStatementTypoScriptRector::class);
 };
