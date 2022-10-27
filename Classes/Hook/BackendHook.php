@@ -66,7 +66,7 @@ class BackendHook
      * @param int|string $id
      * @param DataHandler $parentObj
      */
-    public function processDatamap_preProcessFieldArray(array &$incomingFieldArray, string $table, $id, DataHandler $parentObj)
+    public function processDatamap_postProcessFieldArray($status, string $table, $id, array &$incomingFieldArray, DataHandler $parentObj)
     {
         if ($table === 'be_users' && !empty($incomingFieldArray['password'])) {
             // only do that, if the record was edited from the user himself
