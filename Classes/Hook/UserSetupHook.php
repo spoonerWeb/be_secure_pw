@@ -18,6 +18,7 @@ namespace SpoonerWeb\BeSecurePw\Hook;
  */
 use SpoonerWeb\BeSecurePw\Utilities\PasswordExpirationUtility;
 use TYPO3\CMS\Core\Localization\LanguageService;
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
@@ -61,7 +62,7 @@ class UserSetupHook
                 new FlashMessage(
                     $GLOBALS['LANG']->getLL('samePassword'),
                     '',
-                    FlashMessage::WARNING,
+                    AbstractMessage::WARNING,
                     true
                 )
             );
