@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace SpoonerWeb\BeSecurePw\Form\Element;
 
-use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use SpoonerWeb\BeSecurePw\Database\Event\AddForceResetPasswordLinkEvent;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
+use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
