@@ -51,7 +51,7 @@ class UserSetupHook
         }
 
         // Prevent same password as before
-        if ($params['be_user_data']['password'] === $params['be_user_data']['passwordCurrent']) {
+        if ($params['be_user_data']['password'] === ($params['be_user_data']['passwordCurrent'] ?? '')) {
             $params['be_user_data']['password'] = '';
             $params['be_user_data']['password2'] = '';
             $this->getLanguageLabels();
