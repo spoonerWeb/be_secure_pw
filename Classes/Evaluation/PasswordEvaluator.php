@@ -24,6 +24,7 @@ use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Log\Logger;
 use TYPO3\CMS\Core\Log\LogManager;
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -163,7 +164,7 @@ class PasswordEvaluator implements SingletonInterface
                         FlashMessage::class,
                         sprintf($languageService->getLL('pawnedPassword.message'), $amountOfTimesFoundInDatabase),
                         $languageService->getLL('pawnedPassword.title'),
-                        FlashMessage::ERROR,
+                        AbstractMessage::ERROR,
                         $storeFlashMessageInSession
                     );
                     $messageQueue->addMessage($flashMessage);
@@ -182,7 +183,7 @@ class PasswordEvaluator implements SingletonInterface
                     FlashMessage::class,
                     $message,
                     $languageService->getLL('passwordNotChanged'),
-                    FlashMessage::ERROR,
+                    AbstractMessage::ERROR,
                     $storeFlashMessageInSession
                 );
                 $messageQueue->addMessage($flashMessage);

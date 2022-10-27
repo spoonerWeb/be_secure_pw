@@ -11,7 +11,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 defined('TYPO3') || die('Access denied.');
 
 $boot = function () {
-
     // here we register "PasswordEvaluator"
     // for editing by tca form
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals'][PasswordEvaluator::class] = '';
