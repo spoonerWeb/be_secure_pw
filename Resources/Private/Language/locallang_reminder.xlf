@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file t3:id="1642515510" source-language="en" datatype="plaintext" original="messages" date="2022-01-18T14:18:30Z" product-name="be_secure_pw">
+	<file id="1642515510" source-language="en" datatype="plaintext" original="messages" date="2022-01-18T14:18:30Z" product-name="be_secure_pw">
 		<header/>
 		<body>
 			<trans-unit id="passwordReminderWindow_title" resname="passwordReminderWindow_title" >
