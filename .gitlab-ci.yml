@@ -38,6 +38,8 @@ stages:
 "PHP CS Fixer":
   stage: test
   image: composer:2
+  variables:
+    PHP_CS_FIXER_IGNORE_ENV: 1
   before_script:
     - composer install --ignore-platform-reqs
   script:
