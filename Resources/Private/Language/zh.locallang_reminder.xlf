@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file id="1642515510" source-language="en" datatype="plaintext" original="messages" date="2022-01-18T14:18:30Z" product-name="be_secure_pw" target-language="zh-CN">
+    <header/>
+    <body>
+      <trans-unit id="passwordReminderWindow_title" resname="passwordReminderWindow_title">
+        <source>Password reminder</source>
+        <target state="needs-translation">Password reminder</target>
+      </trans-unit>
+      <trans-unit id="passwordReminderWindow_message" resname="passwordReminderWindow_message">
+        <source>It is time to change your password. For security reasons it is important to change your password in a fixed period.</source>
+        <target state="needs-translation">It is time to change your password. For security reasons it is important to change your password in a fixed period.</target>
+      </trans-unit>
+      <trans-unit id="passwordReminderWindow_confirmation" resname="passwordReminderWindow_confirmation">
+        <source>Do you want to set a new password now?</source>
+        <target state="needs-translation">Do you want to set a new password now?</target>
+      </trans-unit>
+      <trans-unit id="passwordReminderWindow_button_changePassword" resname="passwordReminderWindow_button_changePassword">
+        <source>Go to user settings</source>
+        <target state="needs-translation">Go to user settings</target>
+      </trans-unit>
+      <trans-unit id="passwordReminderWindow_button_postpone" resname="passwordReminderWindow_button_postpone">
+        <source>Remind me on next login</source>
+        <target state="needs-translation">Remind me on next login</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
