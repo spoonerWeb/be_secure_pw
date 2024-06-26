@@ -3,25 +3,25 @@
   <file id="1642515510" source-language="en" datatype="plaintext" original="messages" date="2022-01-18T14:18:30Z" product-name="be_secure_pw" target-language="da">
     <header/>
     <body>
-      <trans-unit id="passwordReminderWindow_title" resname="passwordReminderWindow_title">
+      <trans-unit id="passwordReminderWindow_title" resname="passwordReminderWindow_title" approved="yes">
         <source>Password reminder</source>
-        <target state="needs-translation">Password reminder</target>
+        <target state="final">Adgangskode påmindelse</target>
       </trans-unit>
-      <trans-unit id="passwordReminderWindow_message" resname="passwordReminderWindow_message">
+      <trans-unit id="passwordReminderWindow_message" resname="passwordReminderWindow_message" approved="yes">
         <source>It is time to change your password. For security reasons it is important to change your password in a fixed period.</source>
-        <target state="needs-translation">It is time to change your password. For security reasons it is important to change your password in a fixed period.</target>
+        <target state="final">Det er tid til at ændre din adgangskode. Af sikkerhedsmæssige årsager er det vigtigt at ændre din adgangskode i en fastsat periode.</target>
       </trans-unit>
-      <trans-unit id="passwordReminderWindow_confirmation" resname="passwordReminderWindow_confirmation">
+      <trans-unit id="passwordReminderWindow_confirmation" resname="passwordReminderWindow_confirmation" approved="yes">
         <source>Do you want to set a new password now?</source>
-        <target state="needs-translation">Do you want to set a new password now?</target>
+        <target state="final">Vil du angive en ny adgangskode nu?</target>
       </trans-unit>
-      <trans-unit id="passwordReminderWindow_button_changePassword" resname="passwordReminderWindow_button_changePassword">
+      <trans-unit id="passwordReminderWindow_button_changePassword" resname="passwordReminderWindow_button_changePassword" approved="yes">
         <source>Go to user settings</source>
-        <target state="needs-translation">Go to user settings</target>
+        <target state="final">Gå til brugerindstillinger</target>
       </trans-unit>
-      <trans-unit id="passwordReminderWindow_button_postpone" resname="passwordReminderWindow_button_postpone">
+      <trans-unit id="passwordReminderWindow_button_postpone" resname="passwordReminderWindow_button_postpone" approved="yes">
         <source>Remind me on next login</source>
-        <target state="needs-translation">Remind me on next login</target>
+        <target state="final">Påmind mig ved næste login</target>
       </trans-unit>
     </body>
   </file>
