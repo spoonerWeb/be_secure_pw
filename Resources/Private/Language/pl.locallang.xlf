@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file id="1642515484" source-language="en" datatype="plaintext" original="messages" date="2022-01-18T14:18:04Z" product-name="be_secure_pw" target-language="pl">
+    <header/>
+    <body>
+      <trans-unit id="beSecurePw.header" resname="beSecurePw.header">
+        <source>Password settings</source>
+        <target state="needs-translation">Password settings</target>
+      </trans-unit>
+      <trans-unit id="beSecurePw.description" resname="beSecurePw.description" xml:space="preserve">
+				<source>There are the following parameters set for setting a new password:&lt;br /&gt;
+- Password length must be a minimum of &lt;b&gt;%s&lt;/b&gt; chars&lt;br /&gt;
+- Active checks in password: &lt;b&gt;%s&lt;/b&gt;&lt;br /&gt;
+- Amount of checks which have to be successful: &lt;b&gt;%s&lt;/b&gt;&lt;br /&gt;
+			</source>
+			<target state="needs-translation">There are the following parameters set for setting a new password:&lt;br /&gt;
+- Password length must be a minimum of &lt;b&gt;%s&lt;/b&gt; chars&lt;br /&gt;
+- Active checks in password: &lt;b&gt;%s&lt;/b&gt;&lt;br /&gt;
+- Amount of checks which have to be successful: &lt;b&gt;%s&lt;/b&gt;&lt;br /&gt;
+			</target></trans-unit>
+      <trans-unit id="lowercaseChar" resname="lowercaseChar">
+        <source>lowercase chars</source>
+        <target state="needs-translation">lowercase chars</target>
+      </trans-unit>
+      <trans-unit id="capitalChar" resname="capitalChar">
+        <source>capital chars</source>
+        <target state="needs-translation">capital chars</target>
+      </trans-unit>
+      <trans-unit id="digit" resname="digit">
+        <source>digits</source>
+        <target state="needs-translation">digits</target>
+      </trans-unit>
+      <trans-unit id="specialChar" resname="specialChar">
+        <source>special chars</source>
+        <target state="needs-translation">special chars</target>
+      </trans-unit>
+      <trans-unit id="shortPassword" resname="shortPassword">
+        <source>The password is too short! Please use at least %s characters.</source>
+        <target state="needs-translation">The password is too short! Please use at least %s characters.</target>
+      </trans-unit>
+      <trans-unit id="passwordConvention" resname="passwordConvention">
+        <source>%s password convention was ignored!</source>
+        <target state="needs-translation">%s password convention was ignored!</target>
+      </trans-unit>
+      <trans-unit id="passwordConventions" resname="passwordConventions">
+        <source>%s password conventions were ignored!</source>
+        <target state="needs-translation">%s password conventions were ignored!</target>
+      </trans-unit>
+      <trans-unit id="messageTitle" resname="messageTitle">
+        <source>Attempt to modify password</source>
+        <target state="needs-translation">Attempt to modify password</target>
+      </trans-unit>
+      <trans-unit id="notUsedConvention" resname="notUsedConvention">
+        <source> Not used convention is %s</source>
+        <target state="needs-translation"> Not used convention is %s</target>
+      </trans-unit>
+      <trans-unit id="notUsedConventions" resname="notUsedConventions">
+        <source> Not used conventions are %s</source>
+        <target state="needs-translation"> Not used conventions are %s</target>
+      </trans-unit>
+      <trans-unit id="samePassword" resname="samePassword">
+        <source>Your new password was the same as your old one. Your password was not updated though.</source>
+        <target state="needs-translation">Your new password was the same as your old one. Your password was not updated though.</target>
+      </trans-unit>
+      <trans-unit id="forcePasswordChange" resname="samePassword">
+        <source>Force password change for user</source>
+        <target state="needs-translation">Force password change for user</target>
+      </trans-unit>
+      <trans-unit id="passwordNotChanged" resname="passwordNotChanged">
+        <source>Password was not changed!</source>
+        <target state="needs-translation">Password was not changed!</target>
+      </trans-unit>
+      <trans-unit id="needPasswordChange.title" resname="needPasswordChange.title">
+        <source>Your password has expired!</source>
+        <target state="needs-translation">Your password has expired!</target>
+      </trans-unit>
+      <trans-unit id="needPasswordChange.message" resname="needPasswordChange.message">
+        <source>You need to set a new password within the password requirements.</source>
+        <target state="needs-translation">You need to set a new password within the password requirements.</target>
+      </trans-unit>
+      <trans-unit id="pawnedPassword.title" resname="pawnedPassword.title">
+        <source>Your password has been found in the pawned password database!</source>
+        <target state="needs-translation">Your password has been found in the pawned password database!</target>
+      </trans-unit>
+      <trans-unit id="pawnedPassword.message" resname="pawnedPassword.message">
+        <source>Your password was found in data breaches %s times. Please use another one.</source>
+        <target state="needs-translation">Your password was found in data breaches %s times. Please use another one.</target>
+      </trans-unit>
+      <trans-unit id="forcedPasswordChange.title" resname="pawnedPassword.title">
+        <source>Forced password change active!</source>
+        <target state="needs-translation">Forced password change active!</target>
+      </trans-unit>
+      <trans-unit id="forcedPasswordChange.message" resname="pawnedPassword.message">
+        <source>User with UID %s needs to change the password on next login</source>
+        <target state="needs-translation">User with UID %s needs to change the password on next login</target>
+      </trans-unit>
+      <trans-unit id="be_users.tx_besecurepw_lastpwchange" resname="be_users.tx_besecurepw_lastpwchange">
+        <source>Last password change</source>
+        <target state="needs-translation">Last password change</target>
+      </trans-unit>
+      <trans-unit id="be_users.tx_besecurepw_forcepasswordchange" resname="be_users.tx_besecurepw_forcepasswordchange">
+        <source>Force password change</source>
+        <target state="needs-translation">Force password change</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
